@@ -1,6 +1,6 @@
 # blog
 nodejs
-<a href="../../../../www.wupopo.club">线上地址</a>
+<a href="../../../../../../www.wupopo.club">线上地址</a>
 
 # 基于express的博客搭建
 后端框架用的是express
