@@ -37,14 +37,49 @@ body{
 #banner{
     overflow: hidden;
     height: 20em;
+    position: relative;
+    line-height: 20em;
+    padding: 0;
 }
 #banner .img{
+    position: relative;
+    height: 20em;
+}
+#banner>.img>.active{
+    display: block;
+}
+#banner .img img{
+    position: absolute;
+    border-radius: 8px;
     width: 100%;
     height: 20em;
 }
-#banner .img>img{
+#banner>.banner_btn{
+    display: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: 45%;
     width: 100%;
-    height: 20em;
+    height: 30px;
+    position: absolute;
 }
+#banner>.banner_btn>div{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 30px;
+    font-size: 25px;
+}
+#banner>.banner_btn>.btn_left{
+    color: white;
+    float: left;
+}
+#banner>.banner_btn>.btn_right{
+    float: right;
+    color: white;
+}
+
+
 
 
