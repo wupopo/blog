@@ -5,8 +5,8 @@ nodejs
 后端框架用的是express
 
 # 安装
-下载代码后，在根目录下运行
-$npm install 
+下载代码后，在根目录下运行<br>
+<code>$npm install </code>
 安装依赖
 
 # 数据库配置
