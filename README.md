@@ -6,7 +6,7 @@ nodejs
 
 # 安装
 下载代码后，在根目录下运行<br>
-<code>$npm install </code>
+<code>$npm install </code><br>
 安装依赖
 
 # 数据库配置
