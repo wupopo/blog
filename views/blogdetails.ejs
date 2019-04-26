@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title> <%= htmlT %></title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="bookmark" href="/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../js/common.js"></script>
+    <link rel="stylesheet" href="../css/blogdetails.css">
+    <script src="../js/blogdetails.js"></script>
+
+    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
+    <script type="text/javascript">
+        window.onload=function(){
+
+            $('body').removeClass('is-loading');
+        }
+        $youziku.load("body", "d34dc0f0eb524f069f1e7bcf1a39f691", "jdzhonyuanjian");
+        /*$youziku.load("#id1,.class1,h1", "d34dc0f0eb524f069f1e7bcf1a39f691", "jdzhonyuanjian");*/
+        /*．．．*/
+        $youziku.draw();
+    </script>
+</head>
+<body class="is-loading">
+<div class="curtain">
+    <div class="loader">
+        loading...
+    </div>
+</div>
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img style="width: 100px" src="/img/wubo.png" alt=""></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="navbtn"><a href="/">主页</a></li>
+                <li class="navbtn"><a href="/blog">博客</a></li>
+                <li class="navbtn"><a href="/Vlog">Vlog</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="navbtn"><a class=" msg" href="<%=url%>"><%=info%></a></li>
+                <li class="navbtn" style="<%=style1%>"><a href="/registered">注册</a></li>
+                <li class="navbtn" style="<%=style%>"><a  id="exit">退出</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">联系我 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://weibo.com/92wubo/home">微博</a></li>
+                        <li><a href="https://www.zhihu.com/people/wu-bo-4-60/activities">知乎</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container-fluid" id="content">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" id="app">
+            <div class="panel panel-default" id="artHeader">
+                <div class="panel-heading"><img style="width: 30px" src="../img/art.png" alt="">当前文章：《<%=atitle%> 》
+                    <span id="deletebtn" style="<%=del%>" class="glyphicon glyphicon-trash" title="删除此文章"></span>
+                </div>
+                <div class="panel-body">
+                    <div class="blog">
+                        <%-blog.content%>
+                    </div>
+                    <div class="likeP " style="height: 30px;line-height: 30px;">
+                        <span style="float: left">时间：<%=blog.time%>,<span >作者：<a href="../home/<%=blog.sendername%>"><%=blog.sname%></a></span></span>
+                    <div class="likeBtn glyphicon glyphicon-heart" id="<%=htn%>"><i class="Lnum"><%=hot%></i></div>
+                    </div>
+					
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="sendinp">
+                <div class="panel-heading"><img style="width: 30px" src="../img/coms.png" alt="">发表评论</div>
+                <div class="panel-body">
+                    <textarea class="commInp" placeholder="快来发表你的评论吧"></textarea>
+                    <div class="btnarea">
+                        <button class="commBtn">发表</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading"><img style="width: 30px" src="../img/list.png" alt="">评论列表</div>
+                <div class="panel-body" style=" background-color: #f6f4f3;">
+                    <p class="noComm">还没有用户评论哟，那就你来吧。嘻嘻</p>
+                    <ul class="commlis" id="appcom">
+                        <!--<li class="maincomm">
+                           <div class="comheader">
+                               <img src="../img/demoimg.png" alt="" class="userimg">
+                               <a href="../home/test0000" class="userinfo">测试号:</a>
+                               <i class="time">2019-4-20  14:25</i>
+                           </div>
+                            <div class="commbody">
+                                你好啊哈哈哈哈哈
+                            </div>
+                            <div class="commfooter">
+                               <div class="readReply">查看回复</div>
+                                <div class="Reply">回复</div>
+                            </div>
+                        </li>-->
+                    </ul>
+                    <input type="button" id="commMore" style="display: none" value="加载更多">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+</div>
+<div class="tips"></div>
+
+<div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">查看回复</h4>
+            </div>
+            <div class="modal-body" id="replypanel">
+                <div class="maincomm" style="background-color: #fbfbfb">
+                    <div class="comheader">
+                        <!--<img src="../img/demoimg.png" alt="" class="userimg">
+                        <a href="../home/test0000" class="userinfo">测试号:</a>
+                        <i class="time">2019-4-20  14:25</i>-->
+                    </div>
+                    <div class="commbody">
+                        <!-- 你好啊哈哈哈哈哈你好啊哈哈哈哈哈你好啊哈哈哈哈哈你好啊哈哈哈哈哈你好啊哈哈哈哈哈你好啊哈哈哈哈哈你好啊哈哈哈哈哈你好啊哈哈哈哈哈
+                         你好啊哈哈哈哈哈你好啊哈哈哈哈哈你好啊哈哈哈哈哈-->
+                    </div>
+                </div>
+                <p class="replytip">暂时没有回复呢！</p>
+                <ul class="replylist">
+
+                    <!--<li class="mainreply">
+                        <div class="comheader">
+                            <img src="../img/demoimg.png" alt="" class="userimg">
+                            <a href="../home/test0000" class="userinfo">测试号:</a>
+                            <i class="time">2019-4-20  14:25</i>
+                        </div>
+                        <div class="commbody">
+                            你好啊哈哈哈哈哈
+                        </div>
+                        <div class="commfooter">
+                            <div class="readReply">查看回复</div>
+                            <div class="Reply">回复</div>
+                        </div>
+                    </li>-->
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!--回复输入框-->
+
+</body>
+</html>
