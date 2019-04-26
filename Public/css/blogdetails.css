@@ -1,0 +1,274 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+li,ul{
+    display: block;
+}
+#artHeader>.panel-heading{
+    background-color: #f0f0f0;
+    color: #606060;
+}
+#artHeader{
+    border-radius: 4px 4px 0 0;
+
+}
+#sendinp{
+    border-radius: 0;
+}
+#sendinp>.panel-heading{
+     background-color: #ffffff;
+     color: #606060;
+ }
+#commList>.panel-heading{
+    background-color: #ffffff;
+    color: #606060;
+}
+.panel{
+    border: none;
+    margin-bottom:0;
+}
+#deletebtn{
+    float: right;
+    color: red;
+    cursor: pointer;
+    line-height: 30px;
+}
+.blogP{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.article{
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+}
+.blog{
+    padding: 10px;
+    white-space: pre-line;
+    resize: none;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #dbdbdb;
+}
+.likeP{
+    margin: 0;
+    padding-right: 50px;
+    width: 100%;
+    height: 2em;
+}
+#liked{
+    color: red;
+}
+#unlike{
+   color: #cecece;
+}
+.likeBtn{
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    float: right;
+    width: 1em;
+    height: 1em;
+    font-size: 1.5em;
+    line-height: 1.2em;
+}
+.Lnum{
+    font-size: 12px;
+    color: #3d3d3d;
+}
+
+.commP{
+    margin-top: 10px;
+    padding:5px;
+    border: 1px solid #dbdbdb;
+    width: auto;
+    height: 12em;
+    border-radius: 5px;
+}
+.commT{
+    margin: 0;
+    padding: 0;
+    display: block;
+    height: 2em;
+    line-height: 2em;
+
+}
+.commInp{
+    resize:none;
+    width: 100%;
+    height: 7em;
+    outline:none;
+    border-radius: 4px;
+}
+.noComm{
+    display: none;
+    color: #00a0df;
+    text-align: center;
+}
+.btnarea{
+    height: 2em;
+}
+.commBtn{
+    width: 5em;
+    height: 100%;
+    color: white;
+    background-color: #00a0df;
+    float: right;
+    border: 1px solid #00a0df;
+    outline: none;
+    border-radius: 5px;
+}
+
+.commlis{
+    display: block;
+    width: 100%;
+}
+
+
+.maincomm{
+    border-radius: 5px;
+    margin-top: 5px;
+    background-color: white;
+
+}
+.comheader{
+    height: 40px;
+    line-height: 40px;
+    padding-top: 5px;
+}
+.userimg{
+    width: 30px;
+    height: 30px;
+    float: left;
+    border-radius: 50%;
+}
+.userinfo{
+    margin-left: 10px;
+    display: block;
+    height: 30px;
+    width: 150px;
+    line-height: 30px;
+    float: left;
+    color:#a0a0a0;
+    text-decoration: none;
+}
+.userinfo:link{
+    color: #a0a0a0;
+}
+.time{
+    float: right;
+    margin-right: 5px;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    color: #d5d5d5;
+}
+
+.commbody{
+    padding-top:10px;
+    padding-left:50px;
+    padding-bottom: 5px;
+}
+.commfooter{
+    height: 30px;
+    -webkit-user-select:none;
+
+    -moz-user-select:none;
+
+    -ms-user-select:none;
+
+    user-select:none;
+}
+.commfooter>div{
+    display: none;
+}
+.Reply,.readReply{
+    float: right;
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    color: #00a0df;
+}
+
+
+
+/*回复组件样式设置*/
+#replypanel{
+    height: 40em;
+    overflow-y: auto;
+}
+#myModal{
+    display: none;
+}
+.replylist{
+    padding-left: 30px;
+    margin-top: 5px;
+    display: block;
+    list-style: none;
+}
+.mainreply{
+    border: 2px solid #b2dba1;
+    margin-top: 5px;
+    border-radius: 4px;
+}
+
+.replytip{
+    display: none;
+}
+
+#reply_panel{
+    width: 100%;
+    display: none;
+}
+#reply_panel>textarea{
+    resize:none;
+    height: 50px;
+    outline:none;
+    border-radius: 4px;
+    border:none;
+    border-bottom:1px solid #ededed;
+    width: 100%;
+    font-size: 20px;
+}
+#reply_panel>p{
+    display: block;
+    width: 100%;
+    height: 30px;
+}
+#reply_panel>p>input{
+    float: right;
+    width: 60px;
+    height: 30px;
+    outline: none;
+    border: 1px solid greenyellow;
+    background-color: greenyellow;
+    border-radius: 4px;
+    color: #00a0df;
+    -webkit-user-select:none;
+
+    -moz-user-select:none;
+
+    -ms-user-select:none;
+
+    user-select:none;
+}
+
+#commMore{
+    width: 100%;
+    height: 30px;
+    border: none;
+    outline: none;
+    opacity: 0.8;
+    border-radius: 8px;
+}
+
+
+
+
+

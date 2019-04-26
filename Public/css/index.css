@@ -1,0 +1,37 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    overflow-x: hidden;
+}
+/*页面重构*/
+
+#content{
+    margin-top: -20px;
+    padding-top: 20px;
+}
+.container-fluid{
+    padding: 0;
+    margin: 0;
+}
+.panel-default>.panel-heading{
+    background-color: #626262;
+    color: white;
+}
+.ask>.panel-body{
+    padding: 0;
+    border: none;
+}
+.vid>.panel-body{
+    padding: 0;
+}
+.list-group-item{
+    background-color: rgba(255, 255, 255, 0);
+}
+.panel{
+    background-color: rgba(255, 255, 255, 0.92);
+
+}
+
+

@@ -1,0 +1,322 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+p{
+    margin: 0;
+}
+body{
+    overflow-x: hidden;
+}
+.container-fluid{
+    padding: 0;
+    margin: 0;
+}
+.panel-default>.panel-heading{
+    background-color: #575757;
+    color: white;
+}
+
+.seabtn{
+    margin-left: -5px;
+    height: 35px;
+    width: 50px;
+    background-color: #ffffff;
+    color: #9d7074;
+    border: 1px solid #d3d3d3;
+    border-radius: 2px;
+    font-size: 15px;
+}
+.seainp{
+    border: none;
+    border-bottom: 1px solid #7d7d7d;
+    color: #060606;
+    opacity: 0.3;
+    font-size: 20px;
+    height: 35px;
+}
+.list>.panel-body{
+    padding: 0;
+}
+.bloglist{
+    display: block;
+    border: 1px solid #999999;
+    border-radius: 5px;
+}
+.bloglist>li{
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    border-bottom:1px solid #999999 ;
+}
+.bloglist:nth-child(1){
+    border-bottom: none;
+}
+.bloglist>li>a{
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: black;
+}
+.bloglist>li>a>.btitle{
+    float: left;
+    width: 45%;
+    height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+.bloglist>li>a>.binfo{
+   float: right;
+    text-align: right;
+    color: #989898;
+    font-size: 12px;
+    width: 55%;
+}
+.sea{
+    padding-left: 20px;
+    float: left;
+}
+.sea>input{
+    outline: none;
+}
+#ide{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: none;
+    z-index: 100;
+}
+#ide .panel-body{
+    padding: 0;
+}
+.blogbtn input{
+    float: right;
+    width: 60px;
+    height: 30px;
+    border: none;
+    outline: none;
+    margin-right: 20px;
+    background-color: #00a0df;
+    border-radius: 5px;
+    color: white;
+}
+.Bbtn{
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    width: 50px;
+    color: #00a0df;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    position: fixed;
+    z-index: 99;
+    top: 80%;
+    right: 10px;
+    border: 1px solid #00a0df;
+    background-color: white;
+    border-radius: 50%;
+}
+.Up{
+    display: none;
+    cursor: pointer;
+    text-decoration: none;
+    width: 50px;
+    color: #00a0df;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    position: fixed;
+    z-index: 99;
+    top: 70%;
+    right: 10px;
+    border: 1px solid #00a0df;
+    background-color: white;
+    border-radius: 50%;
+}
+.Bbtn:active,.Up:active{
+    text-decoration: none;
+    color: #00a0df;
+}
+.Bbtn:visited,.Up:visited{
+    text-decoration: none;
+    color: #00a0df;
+}
+.Bbtn:hover,.Up:hover{
+    text-decoration: none;
+    color: #00a0df;
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
+}
+
+#closeIde{
+    cursor: pointer;
+    float: right;
+    margin-right: 10px;
+    color: red;
+    font-size: 18px;
+}
+
+.blogHeader{
+    margin-bottom: 10px;
+}
+#blogBarBlock{
+    margin-top: 20px;
+    float: left;
+
+}
+.blogBar{
+    padding: 0;
+    margin-top: 15px;
+    width: 100%;
+}
+.Bar{
+    width: 100%;
+    border-radius: 8px;
+}
+.senderInfo{
+    padding-left: 10px;
+    border-radius: 8px 8px 0 0;
+    height: 40px;
+    background-color: white;
+    line-height: 40px;
+}
+
+.senderInfo>img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    float: left;
+
+}
+.senderInfo>.sendername{
+    float: left;
+}
+.senderInfo>.title>a{
+  color: #a7a7a7;
+}
+.senderInfo>.title{
+    float: left;
+    display: block;
+    width: 180px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.senderInfo>.sendTime{
+    padding-right: 5px;
+    float: right;
+    color: #a3a3a3;
+}
+.blogCon{
+    width: 100%;
+    height: 100px;
+    background-color: white;
+}
+.blogBar>.blogCon>p{
+    padding: 0;
+    margin: 0;
+    display: block;
+    overflow-x: hidden;
+}
+.blogImg{
+    padding-left: 5px;
+    width: 20%;
+    height: 100px;
+    float: left;
+}
+.blogImg>img{
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+}
+.blogArt{
+    width: 80%;
+    height: 100px;
+    float: left;
+    overflow-y: hidden;
+    padding-top: 0;
+    color: #7e7e7e;
+    padding-left: 10px;
+}
+.blogBarFooter{
+    padding-left: 10px;
+    border-radius:  0 0 8px 8px;
+    height: 40px;
+    background-color: white;
+    line-height: 40px;
+}
+.blogBarFooter>.likeBtn{
+    cursor: pointer;
+    float: right;
+    height: 40px;
+    display: block;
+    line-height: 40px;
+    font-size: 18px;
+    padding-right: 5px;
+}
+.blogBarFooter>.likeBtn>.Lnum{
+ color: #bbbbbb;
+    font-size: 12px;
+}
+
+.like{
+    color: red;;
+}
+.unlike{
+    color: #a2a2a2;
+}
+
+#morebtn{
+    text-align: center;
+    clear: both;
+    height: 30px;
+    display: none;
+}
+#morebtn>input{
+    height: 30px;
+    width: 100%;
+    outline: none;
+    border: none;
+    opacity: 0.8;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.tipsinfo{
+    font-size: 28px;
+    color: white;
+}
+.tipsback{
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    width: 80px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #00a0df;
+    color: white;
+    border-radius: 8px;
+}
+
+#rightBar{
+    height: 300px;
+    background-color: rgb(255, 254, 252);
+    border-radius: 8px;
+    margin-top: 10px;
+    padding: 10px;
+}
+#rightBar>p{
+    display: block;
+    color: rgb(154, 154, 154);
+    font-size: 15px;
+    border-bottom: 1px solid #44c4d5;
+    height: 30px;
+    line-height: 30px;
+}

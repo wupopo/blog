@@ -1,0 +1,55 @@
+.panel-default>.panel-heading{
+    background-color: #575757;
+    color: white;
+}
+.login>.panel-body{
+    padding: 0;
+}
+.form1{
+    width: 100%;
+    display: block;
+}
+.container-fluid{
+    padding: 0;
+    margin: 0;
+}
+.form1 input{
+    border: 1px solid #a6a6a6;
+    outline: none;
+    border-radius: 8px;
+}
+.form1 label{
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+}
+#btn,#btn1{
+    width: 60px;
+    height: 30px;
+
+    background-color: #00a0df;
+}
+.backL{
+    border-radius: 8px;
+    background-color: #00a0df;
+    border: 1px solid  #00a0df;
+    outline: none;
+}
+.back{
+    display: none;
+}
+
+
+#content{
+    position: relative;
+    z-index: 1;
+}
+#excessive{
+    display: none;
+    position: absolute;
+    top:0;
+    z-index: 2;
+    width: 100%;
+    background-color: white;
+    text-align: center;
+}

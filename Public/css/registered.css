@@ -1,0 +1,28 @@
+.form1{
+    width: 100%;
+    display: block;
+}
+.container-fluid{
+    padding: 0;
+    margin: 0;
+}
+#form2 input{
+    border: 1px solid #a6a6a6;
+    outline: none;
+    border-radius: 8px;
+}
+#form2 p{
+    text-align: center;
+    color: red;
+    display: none;
+}
+#form2 label{
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+}
+#btn,#btn1{
+    width: 60px;
+    height: 30px;
+    background-color: #00a0df;
+}

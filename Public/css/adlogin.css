@@ -1,0 +1,67 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#ad_login{
+    position: absolute;
+    z-index: 1;
+    background-image: url("../img/chonglangyundong-008.jpg");
+    background-size: cover;
+}
+#login_describe{
+    padding-top: 100px;
+    height: 400px;
+}
+#login_describe h3,h1{
+    color: #53463f;
+}
+#login_form{
+    background-color: #f2f2f2;
+    height: 400px;
+    padding: 20px;
+    border-radius: 5px 5px 5px 5px;
+}
+#login_form h2{
+    text-align: center;
+}
+#login_form p{
+    text-align: center;
+}
+#login_form p input{
+    width: 200px;
+    height: 35px;
+}
+#login_form p>a{
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    background-color: #00a0df;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 80px;
+    font-size: 23px;
+    color: white;
+    border: 2px solid rgb(0, 97, 136);
+}
+#login_form p>a{
+    color: white;
+    text-decoration: none;
+}
+
+#prompt{
+    display: none;
+    position: fixed;
+    z-index: 2;
+    width: 280px;
+    height: 120px;
+    background-color: #e09d42;
+    top:200px;
+    left: 0;
+    right: 0;
+    margin:0 auto;
+    text-align: center;
+    line-height: 120px;
+    font-size: 20px;
+    border-radius: 5px 5px 5px 5px;
+}

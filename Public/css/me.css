@@ -1,0 +1,81 @@
+ul{
+    list-style: none;
+}
+.nav-person{
+    display: block;
+    width: 120px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    color: white;
+    text-decoration: none;
+}
+.nav-person:hover{
+    color: white;
+    text-decoration: none;
+}
+.nav-person:visited{
+    color: white;
+    text-decoration: none;
+}
+.nav-person:link{
+    color: white;
+    text-decoration: none;
+}
+#information{
+    height: 280px;
+}
+.infor{
+    float: right;
+    width: 60%;
+    height: 100px;
+}
+#information ul{
+    padding-top: 10px;
+    clear: both;
+    list-style: none;
+    display: block;
+    width: 100%;
+}
+#information ul li{
+    margin-top: 2px;
+    display: block;
+    width: 100%;
+    height: 50px;
+}
+#information ul li a{
+    padding-left: 20px;
+    display: block;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    background-color: #fff079;
+    color: #9e9e9e;
+    text-decoration: none;
+    border-radius: 5px 5px 5px 5px;
+}
+#PerInform>p{
+    margin-top: 1px;
+    display: block;
+}
+.errinf{
+	color: red;
+}
+#sure_change{
+    width: 100px;
+    height: 30px;
+    background-color: #00a0e9;
+    border: none;
+    color: white;
+    border-radius: 5px 5px 5px 5px;
+}
+#sure_upload{
+    margin-top: 20px;
+    width: 100px;
+    height: 30px;
+    background-color: #00a0e9;
+    border: none;
+    color: white;
+    border-radius: 5px 5px 5px 5px;
+}
+
