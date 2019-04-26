@@ -34,4 +34,17 @@ body{
 
 }
 
+#banner{
+    overflow: hidden;
+    height: 20em;
+}
+#banner .img{
+    width: 100%;
+    height: 20em;
+}
+#banner .img>img{
+    width: 100%;
+    height: 20em;
+}
+
 
