@@ -4,7 +4,7 @@
 var BlogSql={
     insertBlog:"INSERT into blog(title,sendername,time,content,likes,sname) VALUES(?,?,?,?,?,?)",
     deleteBlogById:"DELETE  FROM blog WHERE id=?",
-    deleteComments:'DELETE FROM comments WHERE blogid=?',
+    deleteComments:'DELETE FROM comment WHERE ancestors_id=?',
     updateBlogById:"UPDATE blog SET title=?, content? WHERE id?",
     getBlogInfoBySender:"SELECT title,id FROM blog WHERE sendername=?",
     selectBlogById:'SELECT * FROM blog WHERE id =?',
