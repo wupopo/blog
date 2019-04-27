@@ -323,7 +323,6 @@ $(function () {
         'code',
         'image',
         'justify',  // 对齐方式
-        'emoticon',  // 表情
         'foreColor' // 文字颜色
     ];
     editor.customConfig.showLinkImg = false;
