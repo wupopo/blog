@@ -63,8 +63,7 @@ module.exports = function (app) {
                     url: "/login",
                     style: "display: none;",
                     tips: data.tips,
-                    htitle: data.hotblog.title,
-                    hblog: data.hotblog.content,
+                    hblog: data.hotblog,
                     Vurl: data.Vurl
                 };
             } else {
@@ -74,8 +73,7 @@ module.exports = function (app) {
                     url: "/home/"+ req.session.userinfo.username,
                     style: "display: block;",
                     tips: data.tips,
-                    htitle: data.hotblog.title,
-                    hblog: data.hotblog.content,
+                    hblog: data.hotblog,
                     Vurl: data.Vurl
                 }
             }
