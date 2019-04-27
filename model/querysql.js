@@ -148,7 +148,7 @@ exports.deleblogbyid=function(data,callback){    //删除博客
                         console.log(err);
                         callback({code:400,data:[],msg:'操作失败'});
                     }else {
-                      /* query(blogSql.deleteComments,[data.blogid],function(err,comm){
+                       query(blogSql.deleteComments,[data.blogid],function(err,comm){
                            if(err){
                                console.log(err);
                                callback({code:400,data:[],msg:'操作失败'});
@@ -163,16 +163,7 @@ exports.deleblogbyid=function(data,callback){    //删除博客
                                });
                                callback({code:200,data:[],msg:"操作成功"});
                            }
-                       })*/
-                        operRecord({
-                            type:"delete_blog",
-                            role:'user',
-                            operator:data.username,
-                            content:null,
-                            object:data.blogid,
-                            time:time()
-                        });
-                        callback({code:200,data:[],msg:"操作成功"});
+                       })
                     }
                 })
             }
