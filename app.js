@@ -11,7 +11,7 @@ uploadfile(app);
 var cookieParser=require('cookie-parser');
 var routes=require("./routes/router.js");
 var controller=require("./controller/controller.js");
-var multer  = require('multer');
+/*var multer  = require('multer');*/
 //配置静态资源文件
 app.use(express.static("Public"));
 //配置模板引擎
@@ -30,7 +30,7 @@ io.on('connection', function(socket){
 var options={
     key:fs.readFileSync('./key/2_www.wupopo.club.key'),
     cert:fs.readFileSync('./key/1_www.wupopo.club_bundle.crt')
-}
+};
 var httpsServer = https.createServer(options,app);
 var httpServer = http.createServer(app);
 
