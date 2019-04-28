@@ -18,18 +18,12 @@
 
 
 
-    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
+  <!--  <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>-->
     <script type="text/javascript">
         window.onload=function(){
             $('body').removeClass('is-loading');
 
         }
-        $youziku.load("body", "66c13df1b1ea4ddbb90fe635702cbff1", "YouYuan");
-        /*$youziku.load("#id1,.class1,h1", "66c13df1b1ea4ddbb90fe635702cbff1", "YouYuan");*/
-        /*．．．*/
-        $youziku.draw();
-
-
     </script>
 </head>
 <body class="is-loading">
@@ -126,8 +120,8 @@
                         <div class="noticeHeader">
                             公示栏
                         </div>
-                        <div>
-                            <%=tips%>
+                        <div class="noticeBody">
+
                         </div>
                     </div>
 
@@ -135,18 +129,15 @@
                         <div class="vlogHeader">
                             最新一期的vLog
                         </div>
-                        <video src="<%=Vurl%>" controls="controls" style="width: 100%"></video>
+                        <video  controls="controls" style="width: 100%" class="vlogBody"></video>
                     </div>
 
                     <div id="recommend">
                         <div class="recHeader">
                             推荐阅读
                         </div>
-                        <ul>
-                            <li><a href="/blog/000074">博客页面的排版基本就这样了</a></li>
-                            <li><a href="">123456</a></li>
-                            <li><a href="">7896</a></li>
-                            <li><a href="">97546</a></li>
+                        <ul class="recBody">
+
                         </ul>
                     </div>
                 </div>
