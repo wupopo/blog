@@ -62,9 +62,7 @@ module.exports = function (app) {
                     style1: "display:block;",
                     url: "/login",
                     style: "display: none;",
-                    tips: data.tips,
                     hblog: data.hotblog,
-                    Vurl: data.Vurl
                 };
             } else {
                 ud = {
@@ -72,9 +70,7 @@ module.exports = function (app) {
                     style1: "display:none;",
                     url: "/home/"+ req.session.userinfo.username,
                     style: "display: block;",
-                    tips: data.tips,
                     hblog: data.hotblog,
-                    Vurl: data.Vurl
                 }
             }
             res.render('index', ud);
@@ -615,6 +611,16 @@ module.exports = function (app) {
         }
 
         controller.readit(req.query,function(data){
+            res.status(data.code).send(data);
+        })
+    })
+
+    app.post("/getSidebar",urlencodedParser,(req,res)=>{
+        if(req.headers.origin!='http://127.0.0.1:3000'&&req.headers.origin!='http://www.wupopo.club'){
+            res.status(403).send({code:403,data:[],msg:"Your origin does not conform to the rules"});
+            return
+        }
+        controller.getSidebar((data)=>{
             res.status(data.code).send(data);
         })
     })
