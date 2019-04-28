@@ -14,7 +14,18 @@ var unreadMsg = require('../model/unreadMsg.js');
 // 创建 application/x-www-form-urlencoded 编码解析
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
-exports.readit=(obj,callback)=>{
+exports.getSidebar=(callback)=>{
+    file.readdata('./data/admin/tips.json',(data)=>{
+        if(data==-1){
+            callback({code:403,data:[],msg:"error"});
+        }else {
+            let reslut=JSON.parse(data.toString());
+            callback({code:200,data:reslut,msg:"success"});
+        }
+    })
+};
+
+exports.readit=(obj,callback)=>{   //标记为已阅读
     if(obj.type=='all'){
         unreadMsg.readAll(obj.username,function(data){
             callback(data)
@@ -217,25 +228,16 @@ exports.retrieve = function (obj, callback) {   //找回密码控制器
 };
 
 exports.tips = function (callback) {  //主页的提示
-    file.readdata("./data/admin/tips.json", function (tip) {
-        if (tip == -1) {
-            callback(-1);
-            return;
-        }
-        var tips = JSON.parse(tip.toString());
         querysql.hotblog(function(data){
            if(data){
                var datas={
-                   tips:tips[0].tips,
-                   hotblog:data,
-                   Vurl:"video/2.mp4"
+                   hotblog:data
                };
                callback(datas);
            }else {
                callback({code:400,data:[],msg:'服务器错误'})
            }
         })
-    })
 };
 
 exports.sendcomms = function (datas, callback) {   //评论控制器
