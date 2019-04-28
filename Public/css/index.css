@@ -84,14 +84,14 @@ body{
 #hotArt{
     width: 100%;
     min-height: 300px;
-    background-color: #fffe7d;
+    background-color: #feffe7;
    margin-bottom: 10px;
     border-radius: 8px;
 }
 .hotHeader{
     width: 100%;
     height: 35px;
-    background-color: #00AA88;
+    background-color: #fdfffd;
     border-radius: 8px 8px 0 0;
 }
 .hotHeader>p{
@@ -103,7 +103,7 @@ body{
     line-height: 35px;
     padding: 0;
     margin: 0;
-    color: white;
+    color: #a3a3a3;
 }
 .artBody{
     width: 100%;

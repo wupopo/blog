@@ -189,4 +189,23 @@ $(function(){
 
 		})
 	}
+
+	$.ajax({
+		type:"POST",
+		url:"../getSidebar",
+		error:function(err){
+			alert(err.responeJSON.msg);
+		},
+		success:function(data){
+			$(".noticeBody").text(data.data[0].tips);
+			$(".vlogBody").attr("src",data.data[0].vlog);
+			let obj=data.data[0].recommended;
+			for (let key in obj) {
+				$(".recBody").append(`
+					<li><a href="`+obj[key]+`">`+key+`</a></li>
+			`);
+			}
+
+		}
+	});
 });
