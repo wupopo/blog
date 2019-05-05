@@ -132,30 +132,6 @@ body{
     color: #00A000;
 }
 
-#notice,#vlog,#recommend{
-    width: 100%;
-    background-color: white;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-.noticeHeader,.vlogHeader,.recHeader{
-    width: 100%;
-    height: 35px;
-  line-height: 35px;
-    border-bottom: 1px solid #979797;
-    color: #0b2e13;
-}
-#vlog>video{
-    margin-top: 5px;
-    outline: none;
-}
-#recommend>ul{
-    list-style: none;
-}
-#recommend>ul>li>a{
-    color: #00AA88;
-}
 
 
 
