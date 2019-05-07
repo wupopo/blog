@@ -1,16 +1,22 @@
 const express=require("express");
 const app=express();
 const fs = require('fs');
-const path=require('path');
+
 const http = require('http');
 const https = require('https');
-const crypto = require("crypto");
-const io = require('socket.io')(http);
+//uploadFile getKey
 const uploadfile=require("./model/uploadfile.js");
 uploadfile(app);
+const crypto = require("crypto");
+const io = require('socket.io')(http);
+
 const cookieParser=require('cookie-parser');
+//路由文件
 const routes=require("./routes/router.js");
-const controller=require("./controller/controller.js");
+routes(app);
+
+
+
 /*var multer  = require('multer');*/
 //配置静态资源文件
 app.use(express.static("Public"));
@@ -18,8 +24,9 @@ app.use(express.static("Public"));
 /*app.use(multer({ dest: './data/userimg'}).array('image'));*/
 app.set("view engine","ejs");
 app.use(cookieParser());
-routes(app);
-controller.requests(app);
+
+
+
 
 //数据实现更新方法
 /*
