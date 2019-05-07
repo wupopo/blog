@@ -11,29 +11,17 @@ var query = require("../model/querysql.js");
 var deleteQcloudfile = require("../model/deleteQcloudfile.js");
 var uploadBlogimg = require("../model/uploadBlogimg.js");
 var session = require('express-session');
-/*var storage = multer.diskStorage({
-    //确定图片存储的位置
-    destination: function (req, file, cb){
-        cb(null, './public/userimg');
+const Requests=require('../model/Requests.js');
+let getClientIp = function (req) {
+    return req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress || '';
+};
 
-    },
-//确定图片存储时的名字,注意，如果使用原名，可能会造成再次上传同一张图片的时候的冲突
-    filename: function (req, file, cb){
-        var type=path.extname(file.originalname);
 
-        controller.userimg(req.cookies.user.username+type,function(data){
-            if(data.code==400){
-                return;
-            }
 
-                cb(null, req.cookies.user.username+type);
 
-        });
-    }
-
-});
-//生成的专门处理上传的一个工具，可以传入storage、limits等配置
-var upload = multer({storage: storage});*/
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
@@ -320,6 +308,12 @@ module.exports = function (app) {
     });
 
     app.post('/loginad', urlencodedParser, function (req, res) {  //管理员登录请求处理
+        let ip = getClientIp(req).match(/\d+.\d+.\d+.\d+/);
+        ip = ip ? ip.join('.') : null;
+        console.log(ip);
+        Requests.baiduMap(ip,function (data) {
+           console.log(data);
+        });
         var data = {
             user: req.body,
             role: "admin"
