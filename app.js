@@ -1,16 +1,16 @@
-var express=require("express");
-var app=express();
-var fs = require('fs');
-var path=require('path');
-var http = require('http');
-var https = require('https');
-var crypto = require("crypto");
-var io = require('socket.io')(http);
-var uploadfile=require("./model/uploadfile.js");
+const express=require("express");
+const app=express();
+const fs = require('fs');
+const path=require('path');
+const http = require('http');
+const https = require('https');
+const crypto = require("crypto");
+const io = require('socket.io')(http);
+const uploadfile=require("./model/uploadfile.js");
 uploadfile(app);
-var cookieParser=require('cookie-parser');
-var routes=require("./routes/router.js");
-var controller=require("./controller/controller.js");
+const cookieParser=require('cookie-parser');
+const routes=require("./routes/router.js");
+const controller=require("./controller/controller.js");
 /*var multer  = require('multer');*/
 //配置静态资源文件
 app.use(express.static("Public"));
@@ -27,12 +27,12 @@ io.on('connection', function(socket){
     console.log('a user connected');
 });
 */
-var options={
+const options={
     key:fs.readFileSync('./key/2_www.wupopo.club.key'),
     cert:fs.readFileSync('./key/1_www.wupopo.club_bundle.crt')
 };
-var httpsServer = https.createServer(options,app);
-var httpServer = http.createServer(app);
+const httpsServer = https.createServer(options,app);
+const httpServer = http.createServer(app);
 
 httpsServer.listen(3001, function() {
     console.log('HTTPS Server is running on: https://localhost:%s', 3001);
