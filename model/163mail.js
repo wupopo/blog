@@ -22,7 +22,7 @@ exports.mail=function(obj,callback){
     let mailOptions = {
         from: serveremail.user, // sender address
         to: obj.tofrom, // list of receivers 接收者地址
-        subject: obj.title, // Subject line                      // 邮件标题
+        subject:obj.title, // Subject line                      // 邮件标题
         text: 'this is nodemailer test', // plain text body
         html: obj.content // html body   //邮件内容
     };
