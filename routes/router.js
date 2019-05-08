@@ -315,9 +315,13 @@ module.exports = function (app) {
            mail.mail({
                'tofrom':"1247740650@qq.com",
                'title':"管理员登录提醒",
-               'content':"后台页面有登录行为，登录者信息如下："+data
+               'content':"后台页面有登录行为，登录者信息如下<\/br>："+data
            },function (info) {
-               console.log(info)
+                if(info){
+                    console.log("后台登录邮件提醒正常")
+                }else {
+                    console.log("后台登录邮件提醒出错！")
+                    }
            })
         });
         var datas = {
