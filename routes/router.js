@@ -12,6 +12,7 @@ var deleteQcloudfile = require("../model/deleteQcloudfile.js");
 var uploadBlogimg = require("../model/uploadBlogimg.js");
 var session = require('express-session');
 const Requests=require('../model/Requests.js');
+const mail=require('../model/163mail.js');
 let getClientIp = function (req) {
     return req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress ||
@@ -310,15 +311,20 @@ module.exports = function (app) {
     app.post('/loginad', urlencodedParser, function (req, res) {  //管理员登录请求处理
         let ip = getClientIp(req).match(/\d+.\d+.\d+.\d+/);
         ip = ip ? ip.join('.') : null;
-        console.log(ip);
         Requests.baiduMap(ip,function (data) {
-           console.log(data);
+           mail.mail({
+               'tofrom':"1247740650@qq.com",
+               'title':"管理员登录提醒",
+               'content':"后台页面有登录行为，登录者信息如下："+data
+           },function (info) {
+               console.log(info)
+           })
         });
-        var data = {
+        var datas = {
             user: req.body,
             role: "admin"
         };
-        controller.loginC(data, function (reslut) {
+        controller.loginC(datas, function (reslut) {
             if (reslut == 'error') {
                 res.status(400).send({code: 400, data: [], msg: '用户名或密码错误'})
             } else if (reslut == "Serror") {
