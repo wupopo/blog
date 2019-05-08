@@ -14,7 +14,6 @@ exports.baiduMap = (ip, callback) => {
 
     }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log(body);
             callback(JSON.stringify(body));
         } else {
             console.log("error");

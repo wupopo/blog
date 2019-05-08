@@ -29,10 +29,9 @@ exports.mail=function(obj,callback){
 
     transporter.sendMail(mailOptions, (error, info) => { //发送邮件
         if (error) {
-            callback(error);
+            callback(false);
             return;
         }
-        console.log(info);//成功回调
         callback({
             info:info,
             reviewURL:nodemailer.getTestMessageUrl(info)
