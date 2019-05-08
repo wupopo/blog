@@ -11,16 +11,14 @@ var query = require("../model/querysql.js");
 var deleteQcloudfile = require("../model/deleteQcloudfile.js");
 var uploadBlogimg = require("../model/uploadBlogimg.js");
 var session = require('express-session');
-const Requests=require('../model/Requests.js');
-const mail=require('../model/163mail.js');
+const Requests = require('../model/Requests.js');
+const mail = require('../model/163mail.js');
 let getClientIp = function (req) {
     return req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress || '';
 };
-
-
 
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
@@ -309,21 +307,6 @@ module.exports = function (app) {
     });
 
     app.post('/loginad', urlencodedParser, function (req, res) {  //管理员登录请求处理
-        let ip = getClientIp(req).match(/\d+.\d+.\d+.\d+/);
-        ip = ip ? ip.join('.') : null;
-        Requests.baiduMap(ip,function (data) {
-           mail.mail({
-               'tofrom':"1247740650@qq.com",
-               'title':"管理员登录提醒",
-               'content':"后台页面有登录行为，登录者信息如下<\/br>："+data
-           },function (info) {
-                if(info){
-                    console.log("后台登录邮件提醒正常")
-                }else {
-                    console.log("后台登录邮件提醒出错！")
-                    }
-           })
-        });
         var datas = {
             user: req.body,
             role: "admin"
@@ -335,6 +318,25 @@ module.exports = function (app) {
                 res.status(400).send({code: 400, data: [], msg: '服务器错误！我们将尽快处理'})
             } else {
                 req.session.admininfo = reslut;
+
+                //登录提醒
+                let ip = getClientIp(req).match(/\d+.\d+.\d+.\d+/);
+                ip = ip ? ip.join('.') : null;
+                Requests.baiduMap(ip, function (data) {
+                    mail.mail({
+                        'tofrom': "1247740650@qq.com",
+                        'title': "管理员登录提醒",
+                        'content': "后台页面有登录行为，登录者信息如下<\/br>：" + data
+                    }, function (info) {
+                        if (info) {
+                            console.log("后台登录邮件提醒正常")
+                        } else {
+                            console.log("后台登录邮件提醒出错！")
+                        }
+                    })
+                });
+
+                //登录成功
                 res.status(200).send();
             }
         })
