@@ -28,7 +28,7 @@ $(function(){
         }
         var data={
             username:username,
-            password:newPwd
+            password:newPwd,
         }
         $.ajax({
             url:"/loginad",

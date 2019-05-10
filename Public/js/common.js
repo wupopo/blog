@@ -9,6 +9,7 @@ $(function(){
 
 	function htmlUp(){
 		$('.navbar').css({
+			backgroundColor: "#ffffff",
 			position:"fixed",
 			width:'100%',
 			top:"0"
@@ -16,7 +17,7 @@ $(function(){
 		var content=document.documentElement.scrollTop;
 		if(content<50){
 			$('.navbar').css({
-				backgroundColor: "#222",
+				backgroundColor: "#ffffff",
 				borderColor: " #080808",
 				position: "relative",
 				minHeight: "50px",
@@ -27,7 +28,7 @@ $(function(){
 	}
 	function  htmlDown(){
 		$('.navbar').css({
-			backgroundColor: "#222",
+			backgroundColor: "#ffffff",
 			borderColor: " #080808",
 			position: "relative",
 			minHeight: "50px",
@@ -81,12 +82,12 @@ $(function(){
 			$(".panel-default>.panel-heading").css({
 				backgroundColor:data.nav_color
 			});
-			if(data.background_img){
+			/*if(data.background_img){
 				$("#content").css({
 					backgroundImage:"url("+data.background_img+")",
 					minHeight: $(window).height()-50
 				});
-			}
+			}*/
 		}
 	})
 
