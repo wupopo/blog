@@ -75,11 +75,11 @@ body{
     font-size: 12px;
     width: 55%;
 }
-.sea{
+.seas{
     padding-left: 20px;
     float: left;
 }
-.sea>input{
+.seas>input{
     outline: none;
 }
 #ide{

@@ -47,17 +47,17 @@ $(function(){
 		if (e.wheelDelta) {  //第一步：先判断浏览器IE，谷歌滑轮事件
 			if (e.wheelDelta > 0) { //当滑轮向上滚动时
 
-				htmlUp()
+			/*	htmlUp()*/
 			}
 			if (e.wheelDelta < 0) { //当滑轮向下滚动时
-				htmlDown()
+				/*htmlDown()*/
 			}
 		} else if (e.detail) {  //Firefox滑轮事件
 			if (e.detail> 0) { //当滑轮向上滚动时
-				htmlUp()
+			/*	htmlUp()*/
 			}
 			if (e.detail< 0) { //当滑轮向下滚动时
-				htmlDown()
+				/*htmlDown()*/
 			}
 		}
 	}
