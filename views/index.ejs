@@ -30,7 +30,7 @@
         loading...
     </div>
 </div>
-<nav class="navbar navbar-inverse" style="background-color: white">
+<nav class="navbar navbar-inverse" style="position: fixed;top: 0;width: 100%">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -55,15 +55,6 @@
                 <li class="navbtn" style="<%=style1%>"><a href="/registered">注册</a></li>
                 <li class="navbtn" style="<%=style%>"><a  id="exit">退出</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">主页目录 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="">巫婆婆的告示牌</a></li>
-                        <li><a href="">热门文章</a></li>
-                        <li><a href="">巫婆婆的Vlog</a></li>
-                        <li><a href="">网友问答</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">联系我 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="https://weibo.com/92wubo/home">微博</a></li>
@@ -75,7 +66,9 @@
     </div><!-- /.container-fluid -->
 </nav>
 
+<div id="neck">
 
+</div>
 
 <div class="container-fluid" id="content">
     <div class="row">
@@ -84,15 +77,20 @@
             <div class="row">
                 <div class="col-md-9">
 
-                    <div id="banner">
-                        <div class="img">
-                            <img class="active_img" src="/img/big1.jpg" alt="">
-                            <img src="/img/big2.jpg" alt="" style="display: none">
-                            <img src="/img/big3.jpg" alt="" style="display: none">
+                    <div class="row">
+                        <div id="banner" class="col-sm-7">
+                            <div class="img">
+                                <img class="active_img" src="/img/big1.jpg" alt="">
+                                <img src="/img/big2.jpg" alt="" style="display: none">
+                                <img src="/img/big3.jpg" alt="" style="display: none">
+                            </div>
+                            <div class="banner_btn">
+                                <div class="btn_left glyphicon glyphicon-chevron-left"></div>
+                                <div class="btn_right glyphicon glyphicon-chevron-right"></div>
+                            </div>
                         </div>
-                        <div class="banner_btn">
-                            <div class="btn_left glyphicon glyphicon-chevron-left"></div>
-                            <div class="btn_right glyphicon glyphicon-chevron-right"></div>
+                        <div class="col-sm-5">
+                            <h1>123</h1>
                         </div>
                     </div>
 
