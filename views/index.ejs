@@ -18,7 +18,7 @@
 
 
     <script type="text/javascript">
-        window.onload=function(){
+        window.onload = function () {
             $('body').removeClass('is-loading');
 
         }
@@ -34,7 +34,8 @@
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -51,11 +52,12 @@
                 <li class="navbtn"><a href="/Vlog">Vlog</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="navbtn"><a class=" msg" href="<%=url%>"><%=info%></a></li>
-                <li class="navbtn" style="<%=style1%>"><a href="/registered">注册</a></li>
-                <li class="navbtn" style="<%=style%>"><a  id="exit">退出</a></li>
+                <li class="navbtn"><a class=" msg" href="<%= url %>"><%= info %></a></li>
+                <li class="navbtn" style="<%= style1 %>"><a href="/registered">注册</a></li>
+                <li class="navbtn" style="<%= style %>"><a id="exit">退出</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">联系我 <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">联系我 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="https://weibo.com/92wubo/home">微博</a></li>
                         <li><a href="https://www.zhihu.com/people/wu-bo-4-60/activities">知乎</a></li>
@@ -77,44 +79,60 @@
             <div class="row">
                 <div class="col-md-9">
 
-                    <div class="row">
+                    <div class="row" style="padding: 0 15px">
+                         <div class="col-sm-5" style="padding: 0">
+                            <div id="recommend">
+                                <div class="recHeader glyphicon glyphicon-link">
+                                    推荐阅读
+                                </div>
+                                <ul class="recBody">
+
+                                </ul>
+                            </div>
+                        </div>
                         <div id="banner" class="col-sm-7">
                             <div class="img">
-                                <img class="active_img" src="/img/big1.jpg" alt="">
-                                <img src="/img/big2.jpg" alt="" style="display: none">
-                                <img src="/img/big3.jpg" alt="" style="display: none">
+                                <img class="active_img" src="/img/haitan-002.jpg" alt="">
+                                <img src="/img/haitan-003.jpg" alt="" style="display: none">
+                                <img src="/img/haitan-006.jpg" alt="" style="display: none">
                             </div>
                             <div class="banner_btn">
                                 <div class="btn_left glyphicon glyphicon-chevron-left"></div>
                                 <div class="btn_right glyphicon glyphicon-chevron-right"></div>
                             </div>
                         </div>
-                        <div class="col-sm-5">
-                            <h1>123</h1>
-                        </div>
                     </div>
 
                     <div id="hotArt">
                         <div class="hotHeader">
-                            <p>热门文章</p>
+                            <img src="img/shulin-001.jpg" alt="" class="hotimg">
+                            <div class="atrinfo">
+                                <a href="/blog/<%= hblog.id %>"><h4><b><%= hblog.title %></b></h4></a>
+                                <p><b>发表时间：</b><%= hblog.time %></p>
+                                <p><b>作者：</b><a href="/home/<%= hblog.sendername %>"><%= hblog.sname %></a></p>
+                            </div>
                         </div>
                         <div class="artBody">
-                            <h3><%=hblog.title%></h3>
                             <div>
-                                <%-hblog.content%>
+                                <b>
+                                    <%- hblog.content %>
+                                </b>
                             </div>
                         </div>
                         <div class="artFooter">
-                            <a href="/blog/<%=hblog.id%>">去往原文章</a>
-                            <a href="/blog/<%=hblog.id%>#sendinp">评论</a>
-                            <i><%=hblog.time%></i>
+                            <a href="/blog/<%= hblog.id %>" class="readmore">阅读更多</a>
+                            <a href="/blog/<%= hblog.id %>#sendinp" class="commbtn">评论</a>
+                            <i></i>
                         </div>
                     </div>
 
                     <div id="about">
-                        <div class="aboutHeader">关于我啊</div>
+                        <div class="aboutHeader"><b>最近</b></div>
                         <div class="aboutBody">
-                            
+                            <b>嘻嘻嘻，我最近变懒惰了哦，待在电脑面前的少了。不过最近还是学了一点新的东西。python是真的舒服呢，
+                                最近发现了itchart这个模块，我不知道拼写错误没有，我准备用这个做一个后台页面登录提醒，只要有人一登录后台页面，就会给我发一条登录提醒;
+                                实现起来应该不是很难，因为我已经做了尝试，基本达到了预期效果，现在只是差真的应用起来了。
+                            </b>
                         </div>
                         <div class="aboutFooter"></div>
                     </div>
@@ -133,16 +151,7 @@
                         <div class="vlogHeader">
                             最新一期的vLog
                         </div>
-                        <video  controls="controls" style="width: 100%" class="vlogBody"></video>
-                    </div>
-
-                    <div id="recommend">
-                        <div class="recHeader glyphicon glyphicon-link">
-                            推荐阅读
-                        </div>
-                        <ul class="recBody">
-
-                        </ul>
+                        <video controls="controls" style="width: 100%" class="vlogBody"></video>
                     </div>
                 </div>
             </div>
@@ -151,6 +160,5 @@
     </div>
 
 </div>
-
 </body>
 </html>
