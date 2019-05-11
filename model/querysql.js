@@ -36,11 +36,29 @@ exports.querysea=function(str,callback){
 }
 
 exports.querypageconfig=function(name,callback){   //页面配置数据库查询
-    query(pageconfig.queryPageConfig,[name],function(err,data){
+    query(pageconfig.queryPageConfig,[name],function(err,config){
         if(err){
             callback(false)
         }else {
-            callback(data);
+            let blogid=config[0].hotblog_id;
+            blogid=Number(blogid);
+            query(blogSql.selectBlogById,[blogid],function (err,blog) {
+                if(err){
+                 console.log(err);
+                  callback({
+                   background_img:config[0].background_img,
+                   nav_color:config[0].nav_color,
+                   hotblog:{}
+               });
+                 return;
+                }
+               callback({
+                   background_img:config[0].background_img,
+                   nav_color:config[0].nav_color,
+                   hotblog:blog[0]
+               });
+            })
+
         }
     });
 }
@@ -514,10 +532,7 @@ exports.queryReg = function (req, res) {
     });
 };
 
-exports.webData = function (req, res) {
 
-
-};
 
 
 
