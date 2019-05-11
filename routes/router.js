@@ -277,7 +277,7 @@ module.exports = function (app) {
             if (!data) {
                 res.status(403).send({code: 403, data: [], msg: '页面配置获取失败'});
             } else {
-                res.status(200).send(data[0]);
+                res.status(200).send(data);
             }
         })
     });
