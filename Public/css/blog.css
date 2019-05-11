@@ -169,54 +169,80 @@ body{
 #blogBarBlock{
     margin-top: 20px;
     float: left;
-
+    width: 100%;
 }
 .blogBar{
     padding: 0;
     margin-top: 15px;
     width: 100%;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
 }
 .Bar{
     width: 100%;
     border-radius: 8px;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
 }
 .senderInfo{
     padding-left: 10px;
     border-radius: 8px 8px 0 0;
-    height: 40px;
-    background-color: white;
+    height: 150px;
     line-height: 40px;
+   background: linear-gradient(rgba(255, 255, 255, 0), white);
+    position: relative;
 }
 
 .senderInfo>img{
-    width: 30px;
-    height: 30px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     float: left;
-
+    position: absolute;
+    top:0
 }
-.senderInfo>.sendername{
-    float: left;
+.senderInfo>img:hover{
+    animation: jump 1s;
 }
-.senderInfo>.title>a{
+@keyframes jump {
+    0% {
+        top:0
+    }
+    25% {
+        top:-20px;
+    }
+    50% {
+        top:0
+    }
+    75% {
+        top:-10px;
+    }
+    100% {
+        top:0
+    }
+}
+.senderInfo p{
+    padding-left: 100px;
+    color: #7fa1bf;
+}
+.sendername{
+    color: #7fa1bf;
+}
+.senderInfo .title>a{
   color: #a7a7a7;
 }
-.senderInfo>.title{
-    float: left;
+.ti{
     display: block;
     width: 180px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.senderInfo>.sendTime{
-    padding-right: 5px;
-    float: right;
-    color: #a3a3a3;
-}
+
+
 .blogCon{
     width: 100%;
-    height: 100px;
     background-color: white;
 }
 .blogBar>.blogCon>p{
@@ -225,21 +251,11 @@ body{
     display: block;
     overflow-x: hidden;
 }
-.blogImg{
-    padding-left: 5px;
-    width: 20%;
-    height: 100px;
-    float: left;
-}
-.blogImg>img{
-    width: 100%;
-    height: 100px;
-    border-radius: 5px;
-}
+
+
 .blogArt{
     width: 80%;
-    height: 100px;
-    float: left;
+    max-height: 100px;
     overflow-y: hidden;
     padding-top: 0;
     color: #7e7e7e;
@@ -251,6 +267,24 @@ body{
     height: 40px;
     background-color: white;
     line-height: 40px;
+}
+.readAll{
+    display: block;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 8px;
+    border: 1px solid #0fbfbf;
+    float: left;
+    background-color: #0b8989;
+    color: white;
+    font-weight: bolder;
+    text-decoration: none;
+}
+.readAll:hover{
+     text-decoration: none;
+    color: white;
 }
 .blogBarFooter>.likeBtn{
     cursor: pointer;

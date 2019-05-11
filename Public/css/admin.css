@@ -817,22 +817,4 @@ ul{
 #sys{
 	padding: 10px;
 }
-.sys_left{
-	width: 40%;
-	height: 100%;
-	float: left;
-	border: 3px solid #9a9a9a;
-}
-.sys_left>h4{
-	display: block;
-	height: 5%;
-	margin: 0;
-	padding: 0;
-	background-color: #e5e5e5;
-	line-height: 20px;
-	border-bottom: 1px solid #9c9c9c;
-}
-.sys_right{
-	width: 60%;
-	float: left;
-}
+

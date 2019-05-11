@@ -94,7 +94,7 @@ body {
 
 #hotArt {
     width: 100%;
-    min-height: 300px;
+    min-height: 280px;
     background-color: #fefff9;
     margin-bottom: 10px;
     border-radius: 8px;
@@ -125,14 +125,20 @@ body {
 .atrinfo a:hover{
     color: #7f7f7f;
 }
-.hotHeader {
+.hotback{
+    background: -webkit-linear-gradient(rgba(252, 243, 246, 0), #ffffff); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(rgba(252, 243, 246, 0), white); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(rgba(252, 243, 246, 0), white); /* Firefox 3.6 - 15 */
+    background: linear-gradient(rgba(252, 243, 246, 0), #ffffff); /* 标准的语法 */
+    border-radius: 8px 8px 0 0;
+}
+#hotHeader {
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
     width: 100%;
     height: 150px;
-    background: -webkit-linear-gradient(#9dfcb1, white); /* Safari 5.1 - 6.0 */
-  background: -o-linear-gradient(#9dfcb1, white); /* Opera 11.1 - 12.0 */
-  background: -moz-linear-gradient(#9dfcb1, white); /* Firefox 3.6 - 15 */
-  background: linear-gradient(#9dfcb1, white); /* 标准的语法 */
-    border-radius: 8px 8px 0 0;
+     border-radius: 8px 8px 0 0;
 }
 
 .hotHeader > p {
