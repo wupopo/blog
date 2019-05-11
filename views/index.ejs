@@ -13,10 +13,6 @@
 
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/index.css">
-    <script src="../js/index.js"></script>
-    <script src="../js/common.js"></script>
-
-
     <script type="text/javascript">
         window.onload = function () {
             $('body').removeClass('is-loading');
@@ -80,7 +76,7 @@
                 <div class="col-md-9">
 
                     <div class="row" style="padding: 0 15px">
-                         <div class="col-sm-5" style="padding: 0">
+                        <div class="col-sm-5" style="padding: 0">
                             <div id="recommend">
                                 <div class="recHeader glyphicon glyphicon-link">
                                     推荐阅读
@@ -104,24 +100,26 @@
                     </div>
 
                     <div id="hotArt">
-                        <div class="hotHeader">
-                            <img src="img/shulin-001.jpg" alt="" class="hotimg">
-                            <div class="atrinfo">
-                                <a href="/blog/<%= hblog.id %>"><h4><b><%= hblog.title %></b></h4></a>
-                                <p><b>发表时间：</b><%= hblog.time %></p>
-                                <p><b>作者：</b><a href="/home/<%= hblog.sendername %>"><%= hblog.sname %></a></p>
+                        <div class="hotHeader" id="hotHeader">
+                            <div class="hotback" style="width: 100%;height: 150px">
+                                <img src="img/shulin-001.jpg" alt="" class="hotimg">
+                                <div class="atrinfo">
+                                    <a class="index_title"><h4><b></b></h4></a>
+                                    <p class="index_stime"><b>发表时间：</b></p>
+                                    <p><b>作者：</b><a class="index_sendername" ></a></p>
+                                </div>
                             </div>
                         </div>
                         <div class="artBody">
                             <div>
-                                <b>
-                                    <%- hblog.content %>
+                                <b class="blogcontent">
+
                                 </b>
                             </div>
                         </div>
                         <div class="artFooter">
-                            <a href="/blog/<%= hblog.id %>" class="readmore">阅读更多</a>
-                            <a href="/blog/<%= hblog.id %>#sendinp" class="commbtn">评论</a>
+                            <a   class="readmore">阅读更多</a>
+                            <a class="commbtn">评论</a>
                             <i></i>
                         </div>
                     </div>
@@ -160,5 +158,7 @@
     </div>
 
 </div>
+<script src="../js/index.js"></script>
+<script src="../js/common.js"></script>
 </body>
 </html>
