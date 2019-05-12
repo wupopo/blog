@@ -164,8 +164,58 @@
 
 
                 <div id="sys">
-
+                    <div class="sysNav">
+                        <ul>
+                            <li class="htmlCongfig" @click="githtmlconfig">页面配置</li>
+                            <li>页面配置</li>
+                            <li>页面配置</li>
+                        </ul>
+                    </div>
+                    <div class="sysPanel">
+                        <div class="HCpanel">
+                            <ul>
+                                <li class="gonggao">
+                                    <b>公告：</b><textarea class="GGV"></textarea><b>*直接输入公告内容</b>
+                                </li>
+                                <li>
+                                    <b>推荐：</b><textarea class="TJV"></textarea><b>*请输入推荐文章id，以"|"分隔</b>
+                                </li>
+                                <li>
+                                     <b>vlog：</b><textarea class="VLV"></textarea><b>*输入vlog地址</b>
+                                </li>
+                                <li>
+                                    <b>热门：</b><textarea class="RMV"></textarea><b>*输入热门文章id</b>
+                                </li>
+                                <li>
+                                    <input type="button" value="确认修改">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="nowCF" style="padding: 0">
+                            <div class="CFtop">
+                                <div class="CFbar">
+                                    <div class="nowtltle">当前公告</div>
+                                    <div class="nowcontent"></div>
+                                </div>
+                                <div class="CFbar">
+                                     <div class="nowtltle">推荐</div>
+                                      <div class="nowcontent"></div>
+                                </div>
+                            </div>
+                            <div class="CFbottm">
+                                 <div class="CFbar">
+                                      <div class="nowtltle">vlog</div>
+                                       <div class="nowcontent"></div>
+                                 </div>
+                                <div class="CFbar">
+                                     <div class="nowtltle">热门文章</div>
+                                      <div class="nowcontent"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div id="record">
 
                 </div>
@@ -196,12 +246,12 @@
                             </li>
                         </ul>
                         <ul id="content_blog">
-                            <li v-for="blog in titles">
-                                <a href="javascript:void (0)" class="blog_title">{{blog['article']['title']}}</a>
+                            <li >
+                                <a href="javascript:void (0)" class="blog_title"></a>
                                 <div class="right_blog">
-                                    <p >文章ID：<i class="artid">{{blog['id']}}</i></p>
-                                    <p class="author" style="color: #00AA88">{{blog['author']}}</p>
-                                    <p class="send_time">{{blog['article']['time']}}</p>
+                                    <p >文章ID：<i class="artid"></i></p>
+                                    <p class="author" style="color: #00AA88"></p>
+                                    <p class="send_time"></p>
                                 </div>
                             </li>
                         </ul>

@@ -3,5 +3,5 @@
  */
 
 module.exports={
-    queryPageConfig:"SELECT background_img,nav_color,hotblog_id FROM page_config WHERE html_name=?"
+    queryPageConfig:"SELECT * FROM config_page ORDER BY id DESC LIMIT 1"
 }

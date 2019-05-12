@@ -15,14 +15,9 @@ var unreadMsg = require('../model/unreadMsg.js');
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
 exports.getSidebar=(callback)=>{
-    file.readdata('./data/admin/tips.json',(data)=>{
-        if(data==-1){
-            callback({code:403,data:[],msg:"error"});
-        }else {
-            let reslut=JSON.parse(data.toString());
-            callback({code:200,data:reslut,msg:"success"});
-        }
-    })
+    querysql.querypageconfig(function (data) {
+        callback(data);
+    });
 };
 
 exports.readit=(obj,callback)=>{   //标记为已阅读

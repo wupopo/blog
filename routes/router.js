@@ -119,7 +119,7 @@ module.exports = function (app) {
                     }
                     res.render('blogdetails', {
                         del: del,
-                        htmlT: str.sname + "的文章",
+                        htmlT: str.title,
                         atitle: str.title,
                         blog: str,
                         hot: likearr.length,
@@ -132,7 +132,7 @@ module.exports = function (app) {
                 } else {
                     res.render('blogdetails', {
                         del: 'display:none;',
-                        htmlT: data[0].sname + "的文章",
+                        htmlT: str.title,
                         atitle: data[0].title,
                         blog: str,
                         hot: likearr.length,
@@ -646,7 +646,11 @@ module.exports = function (app) {
             return
         }
         controller.getSidebar((data) => {
-            res.status(data.code).send(data);
+           if(data){
+                res.status(200).send(data);
+           }else {
+                res.status(400).send({code:400,data:[],msg:"页面数据获取出错"});
+           }
         })
     })
 

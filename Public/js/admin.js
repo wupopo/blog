@@ -20,6 +20,21 @@ $(function () {
                 },
 
                 methods: {
+                    githtmlconfig:function(){
+                        $.ajax({
+                            type:"GET",
+                            url:"/pageConfig",
+                            data:{
+                                html_name:"index"
+                            },
+                            error:function (err) {
+                                tip(err.responseJson.msg);
+                            },
+                            success:function (data) {
+                                console.log(data);
+                            }
+                        });
+                    },
                     handleScroll:function(e){   //判断滚轮方向
                         var direction = e.deltaY>0?'down':'up';
                         var pro;
@@ -159,7 +174,7 @@ $(function () {
                                         var ele=document.getElementById("userblog");  //增加必须找到要增加标签的父级标签
                                         var add_son=document.createElement("li");   // 这是一个创建P标签的方法
                                         ele.appendChild(add_son);                  // 这是给父级标签添加一个孩子
-                                        add_son.innerHTML="<a href='/blog/"+data.blog[i].id+"'>"+data.blog[i].title+"</a>"
+                                        add_son.innerHTML="<a href='/blog/"+data.blog[i].id+"' target='_blank'>"+data.blog[i].title+"</a>"
                                     }
                                 }
 
@@ -293,6 +308,7 @@ $(function () {
                     setSeaPan: function () {
                         $("#SeaPanel").fadeIn(200);
                     },
+
 					webdatanav:function(){
 						let _this=this;
 						$.ajax({

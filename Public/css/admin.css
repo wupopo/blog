@@ -815,6 +815,107 @@ ul{
 
 
 #sys{
-	padding: 10px;
+	width: 100%;
+	height: 100%;
+	padding: 35px 0 0 0;
+	position: relative;
 }
-
+.sysNav{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 35px;
+	background: rgba(244, 245, 239, 0.88);
+}
+.sysNav>ul{
+	display: block;
+	list-style: none;
+	width: 100%;
+	height: 35px;
+}
+.sysNav>ul>li{
+	display: block;
+	float: left;
+	width: 80px;
+	height: 35px;
+	margin-left: 1px;
+	background: #0b8989;
+	text-align: center;
+	line-height: 35px;
+	cursor: pointer;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+	color: white;
+	font-weight: bolder;
+	border-radius: 4px;
+}
+.sysPanel{
+	width: 100%;
+	height: 100%;
+}
+.HCpanel,.nowCF{
+	width:50%;
+	height: 100%;
+	float: left;
+	background: white;
+	border-radius: 4px;
+	border: 1px solid #e6e6e6;
+	padding-top: 10px;
+}
+.HCpanel li{
+	display: block;
+	width: 100%;
+	color: #8a8a8a;
+	margin-top: 5px;
+}
+.HCpanel li textarea{
+	height: 80px;
+	width: 300px;
+	resize: none;
+	vertical-align:top;
+	border: 1px solid #e1e1e1;
+	outline: none;
+	border-radius: 8px;
+}
+.HCpanel li input{
+	float: right;
+	background: #0e90d2;
+	outline: none;
+	border: none;
+	border-radius: 4px;
+	width: 80px;
+	height: 35px;
+	color: white;
+	font-weight: bolder;
+}
+.CFtop,.CFbottm{
+	width: 100%;
+	height: 50%;
+	border-bottom: 1px solid #e1e1e1;
+}
+.CFtop>div,.CFbottm>div{
+	width: 50%;
+	height: 100%;
+	float: left;
+	border-left: 1px solid #e1e1e1;
+}
+.nowtltle{
+	width: 100%;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	color: #bdbdbd;
+	font-weight: bolder;
+	position: absolute;
+	top: 0;
+}
+.CFbar{
+	position: relative;
+	padding-top: 30px;
+}
+.nowcontent{
+	width: 100%;
+	height: 100%;
+}
