@@ -166,7 +166,7 @@
                 <div id="sys">
                     <div class="sysNav">
                         <ul>
-                            <li class="htmlCongfig" @click="githtmlconfig">页面配置</li>
+                            <li class="htmlCongfig" @click="getHtmlConfig">页面配置</li>
                             <li>页面配置</li>
                             <li>页面配置</li>
                         </ul>
@@ -187,7 +187,7 @@
                                     <b>热门：</b><textarea class="RMV"></textarea><b>*输入热门文章id</b>
                                 </li>
                                 <li>
-                                    <input type="button" value="确认修改">
+                                    <input type="button" value="确认修改" @click="pageconfigB">
                                 </li>
                             </ul>
                         </div>
@@ -195,21 +195,27 @@
                             <div class="CFtop">
                                 <div class="CFbar">
                                     <div class="nowtltle">当前公告</div>
-                                    <div class="nowcontent"></div>
+                                    <div class="nowcontent nowNotice"></div>
                                 </div>
                                 <div class="CFbar">
                                      <div class="nowtltle">推荐</div>
-                                      <div class="nowcontent"></div>
+                                      <div class="nowcontent ">
+                                          <ul class="nowRec"></ul>
+                                      </div>
                                 </div>
                             </div>
                             <div class="CFbottm">
                                  <div class="CFbar">
                                       <div class="nowtltle">vlog</div>
-                                       <div class="nowcontent"></div>
+                                       <div class="nowcontent">
+                                           <video class="nowVlog" src="" controls></video>
+                                       </div>
                                  </div>
                                 <div class="CFbar">
                                      <div class="nowtltle">热门文章</div>
-                                      <div class="nowcontent"></div>
+                                      <div class="nowcontent nowRm">
+
+                                      </div>
                                 </div>
                             </div>
                         </div>

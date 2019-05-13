@@ -2,378 +2,414 @@
  * Created by asus on 2018/12/8.
  */
 $(function () {
-	var pos=0;
-            var app = new Vue({
-                el: "#mainpage",
-                data: {
-                    uname:"",
-                    users: [],
-                    blog: [],
-					webdata:{}
-                },
-                mounted: function () {
-                    document.getElementById("uList").addEventListener('mousewheel',this.handleScroll,false);
-                        //// firefox
-                    document.getElementById("uList").addEventListener("DOMMouseScroll",this.handleScroll,false);
-                    this.uBtn();
+    var pos = 0;
+    var app = new Vue({
+        el: "#mainpage",
+        data: {
+            uname: "",
+            users: [],
+            blog: [],
+            webdata: {}
+        },
+        mounted: function () {
+            document.getElementById("uList").addEventListener('mousewheel', this.handleScroll, false);
+            //// firefox
+            document.getElementById("uList").addEventListener("DOMMouseScroll", this.handleScroll, false);
+            this.uBtn();
 
-                },
+        },
 
-                methods: {
-                    githtmlconfig:function(){
-                        $.ajax({
-                            type:"GET",
-                            url:"/pageConfig",
-                            data:{
-                                html_name:"index"
-                            },
-                            error:function (err) {
-                                tip(err.responseJson.msg);
-                            },
-                            success:function (data) {
-                                console.log(data);
-                            }
-                        });
+        methods: {
+            pageconfigB: function () {
+                let obj = {
+                    notice: $(".GGV").val(),
+                    recomm: $(".TJV").val(),
+                    vlog: $(".VLV").val(),
+                    hotblog: $(".RMV").val(),
+                }
+
+                let _this = this;
+                $.ajax({
+                    type: "POST",
+                    url: "changeConfig",
+                    data:obj,
+                    error: function () {
+
                     },
-                    handleScroll:function(e){   //判断滚轮方向
-                        var direction = e.deltaY>0?'down':'up';
-                        var pro;
-                        if(direction=="down"){
-                            pos=pos+2;
-                            this.winup(pos);
-                        }else {
-                            pos=pos+2;
-                            this.windown(pos);
+                    success: function () {
+                        _this.getHtmlConfig()
+                    }
+                });
+            },
+            getHtmlConfig: function () {
+                $.ajax({
+                    type: "post",
+                    url: "/getSidebar",
+                    error: function (err) {
+                        alert(err.responseJson.msg);
+                    },
+                    success: function (data) {
+                        $(".nowNotice").text(data.notice)
+                        $(".nowRec").html('')
+                        for (let i = 0; i < data.recomm.length; i++) {
+                            $(".nowRec").append(`
+                                    <li><a href="../blog/` + data.recomm[i].id + `">` + data.recomm[i].title + `</a></li>
+                                `)
                         }
-                    },
-                    clickusernav:function(){   //导航栏用户管理
-                        let _this=this;
-                        $.ajax({
-                            type:"GET",
-                            url:'/userList',
-                            data:{},
-                            error:function(err){
-                                console.log(err)
-                            },
-                            success:function(data){
-                                $(".user_jiazai1").hide();
-                                $(".list").show();
-                                _this.users=data;
-                            }
-                        })
-                    },
-                    windown:function(par){   //用户列表向下移动
-                        var areaH= $(".area").height();
-                        var viewH=$(".viewUli").height();
-                        var maxDis=viewH-areaH;
-                        var wCurDis=$(".area").position().top;
-                        var wMovedDis=wCurDis+par;
-                        var pro=-wMovedDis/-maxDis;
-                        if(wMovedDis>0){
-                            pos=0;
-                            return;
+                        $(".nowVlog").attr('src', data.vlog)
+                        $('.nowRm').html("").append(`<h4 style="text-align: center" class="hottitle">` + data.hotblog.title + `</h4>` + data.hotblog.content)
+
+                        let recArr = [];
+                        for (let i = 0; i < data.recomm.length; i++) {
+                            recArr.push(data.recomm[i].id)
                         }
-                        $(".area").css({
-                            top:wMovedDis
-                        });
-                        $(".block").css({
-                            top:380*pro
-                        });
+                        let recStr = recArr.join("|")
+                        console.log(recStr);
+                        $(".GGV").val(data.notice)
+                        $(".TJV").val(recStr)
+                        $(".VLV").val(data.vlog)
+                        $(".RMV").val(data.hotblog.id)
+                    }
+                });
+            },
+            handleScroll: function (e) {   //判断滚轮方向
+                var direction = e.deltaY > 0 ? 'down' : 'up';
+                var pro;
+                if (direction == "down") {
+                    pos = pos + 2;
+                    this.winup(pos);
+                } else {
+                    pos = pos + 2;
+                    this.windown(pos);
+                }
+            },
+            clickusernav: function () {   //导航栏用户管理
+                let _this = this;
+                $.ajax({
+                    type: "GET",
+                    url: '/userList',
+                    data: {},
+                    error: function (err) {
+                        console.log(err)
                     },
-                    winup:function(par){   //用户列表向上移动
-                        var areaH= $(".area").height();
-                        var viewH=$(".viewUli").height();
-                        var maxDis=viewH-areaH;
-                        var wCurDis=$(".area").position().top;
-                        var bCurDis=$(".block").position().top;
-                        var wMovedDis=wCurDis-par;
-                        var pro=-wMovedDis/-maxDis;
-                        if(pro>1){
-                            pro=1
+                    success: function (data) {
+                        $(".user_jiazai1").hide();
+                        $(".list").show();
+                        _this.users = data;
+                    }
+                })
+            },
+            windown: function (par) {   //用户列表向下移动
+                var areaH = $(".area").height();
+                var viewH = $(".viewUli").height();
+                var maxDis = viewH - areaH;
+                var wCurDis = $(".area").position().top;
+                var wMovedDis = wCurDis + par;
+                var pro = -wMovedDis / -maxDis;
+                if (wMovedDis > 0) {
+                    pos = 0;
+                    return;
+                }
+                $(".area").css({
+                    top: wMovedDis
+                });
+                $(".block").css({
+                    top: 380 * pro
+                });
+            },
+            winup: function (par) {   //用户列表向上移动
+                var areaH = $(".area").height();
+                var viewH = $(".viewUli").height();
+                var maxDis = viewH - areaH;
+                var wCurDis = $(".area").position().top;
+                var bCurDis = $(".block").position().top;
+                var wMovedDis = wCurDis - par;
+                var pro = -wMovedDis / -maxDis;
+                if (pro > 1) {
+                    pro = 1
+                }
+                if (wMovedDis < maxDis) {
+                    pos = 0;
+                    return;
+                }
+                $(".area").css({
+                    top: wMovedDis
+                });
+                $(".block").css({
+                    top: 380 * pro
+                });
+            },
+            ondelete: function () { /* 删除用户请求*/
+                let _this = this;
+                var name = $("#name").val();
+                var username = $("#username").val();
+                var istrue = confirm("确认删除" + name + "吗？");
+                if (istrue == true) {
+                    this.gross--;
+                    var datas = {
+                        time: nowtime,
+                        opedUname: username
+                    };
+                    $.ajax({
+                        type: "GET",
+                        url: "/delete_user",
+                        dataType: "json",
+                        data: datas,
+                        error: function (err) {
+                            showprompt(err.responseJSON.msg);
+                            window.setTimeout(function () {
+                                window.location.href = "/adlogin"
+                            }, 4000);
+                        },
+                        success: function (data) {
+                            showprompt(data.msg);
+                            $(".starpanle").show();
+                            $(".ubg").hide();
+                            _this.clickusernav();
                         }
-                        if(wMovedDis<maxDis){
-                            pos=0;
-                            return;
-                        }
-                        $(".area").css({
-                            top:wMovedDis
-                        });
-                        $(".block").css({
-                            top:380*pro
-                        });
+                    });
+                } else {
+                    return
+                }
+            }
+            ,
+            clickuser: function (username) {   //点击用户
+                $.ajax({
+                    type: "POST",
+                    url: '/oneuserinfo',
+                    data: {
+                        username: username
                     },
-                    ondelete: function () { /* 删除用户请求*/
-                        let _this=this;
-                        var name = $("#name").val();
-                        var username = $("#username").val();
-                        var istrue = confirm("确认删除" + name + "吗？");
-                        if (istrue == true) {
-                            this.gross--;
-                            var datas = {
-                                time: nowtime,
-                                opedUname: username
-                            };
-                            $.ajax({
-                                type: "GET",
-                                url: "/delete_user",
-                                dataType: "json",
-                                data: datas,
-                                error: function (err) {
-                                    showprompt(err.responseJSON.msg);
-                                    window.setTimeout(function () {
-                                        window.location.href = "/adlogin"
-                                    }, 4000);
-                                },
-                                success: function (data) {
-                                    showprompt(data.msg);
-                                    $(".starpanle").show();
-                                    $(".ubg").hide();
-                                    _this.clickusernav();
-                                }
-                            });
+                    error: function (err) {
+                        showprompt(err.responseJSON.msg);
+                    },
+                    success: function (data) {
+                        //根据请求到数据改变视图
+                        $(".starpanle").hide();
+                        $(".ubg").show();
+                        $("#userblog").html("");
+                        $("#oper").html("");
+                        $("#username").val(data.user.username);
+                        $("#name").val(data.user.name);
+                        $("#age").val(data.user.age);
+                        $("#sex").val(data.user.sex);
+                        $("#mail").val(data.user.mail);
+                        $("#phone").val(data.user.phone);
+                        if (data.user.img == null) {
+                            $(".userimg").attr("src", "../img/demoimg.png");
                         } else {
-                            return
+                            $(".userimg").attr("src", "http://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/" + data.user.img);
+                        }
+
+                        if (data.blog.length == 0) {
+                            var ele1 = document.getElementById("userblog");  //增加必须找到要增加标签的父级标签
+                            var add_son1 = document.createElement("li");   // 这是一个创建P标签的方法
+                            ele1.appendChild(add_son1);                  // 这是给父级标签添加一个孩子
+                            add_son1.innerHTML = "<h5 style='color: #df7106'>此用户未发布任何文章</h5>"
+                        } else {
+                            for (var i = 0; i < data.blog.length; i++) {
+                                var ele = document.getElementById("userblog");  //增加必须找到要增加标签的父级标签
+                                var add_son = document.createElement("li");   // 这是一个创建P标签的方法
+                                ele.appendChild(add_son);                  // 这是给父级标签添加一个孩子
+                                add_son.innerHTML = "<a href='/blog/" + data.blog[i].id + "' target='_blank'>" + data.blog[i].title + "</a>"
+                            }
+                        }
+
+                        if (!data.oper) {
+                            $("#oper").html("<h5 style='color: red'>获取操作记录出错！</h5>");
+                        } else if (data.oper.length == 0) {
+                            $("#oper").html("<h5 style='color:#df7106'>没有关于此用户的日志记录</h5>");
+                        } else {
+                            var role = {
+                                user: "用户",
+                                admin: "管理员"
+                            }
+                            var type = {
+                                delete_blog: "删除",
+                                change_info: "修改",
+                                delete_user: '删除',
+                                send_blog: "发送",
+                                reg: '注册',
+                                login: '登录'
+                            }
+                            var obj = {
+                                delete_blog: "文章",
+                                change_info: "信息"
+                            }
+                            for (var x = 0; x < data.oper.length; x++) {
+
+                                var ele2 = document.getElementById("oper");  //增加必须找到要增加标签的父级标签
+                                var add_son2 = document.createElement("li");   // 这是一个创建P标签的方法
+                                ele2.appendChild(add_son2);                  // 这是给父级标签添加一个孩子
+                                add_son2.innerHTML = data.oper[x].oper_time + "&nbsp;" + "用户名为:" + data.oper[x].operator + "的" + role[data.oper[x].role] + "&nbsp;" +
+                                    type[data.oper[x].type] + "id/用户名为" + data.oper[x].oper_object + "的" + obj[data.oper[x].type]
+                            }
+                        }
+
+                    }
+                });
+            },
+            scrollBar: function () {
+                $(".viewUli").bind("mousemove", function (e) {
+                    var ay = e.originalEvent.y || e.originalEvent.layerY || 0;
+                    var viewH = $(".area").height();
+                    var blockT = $(".block").position().top;
+                    var viewT = $(".viewUli").offset().top;
+                    var Amouse = Math.round(ay - viewT);
+                    var pro = Amouse / 400;
+                    $(".block").css({
+                        top: pro * 380
+                    });
+                    $(".area").css({
+                        top: -pro * (viewH - 400)
+                    });
+                });
+                $(document).mouseup(function () {
+                    $(".viewUli").unbind("mousemove");
+                });
+            },
+            uBtn: function () {
+                $(".uBtn").addClass("currV").removeClass("hideV").css({
+                    left: 0
+                });
+                $(".aBtn").addClass("hideV").removeClass("currV").css({
+                    right: 0
+                });
+            },
+            aBtn: function () {
+                $(".aBtn").addClass("currV").removeClass("hideV").css({
+                    right: 0
+                });
+                $(".uBtn").addClass("hideV").removeClass("currV").css({
+                    left: 0
+                });
+            },
+            change_sure: function () {       /* 修改信息请求*/
+                var _this = this;
+                var age = $('#age').val();
+                if (!$('#age').val()) {
+                    age = 0
+                }
+                var dataed = {
+                    username: $('#username').val(),
+                    name: $('#name').val(),
+                    sex: $('#sex').val(),
+                    phone: $('#phone').val(),
+                    mail: $('#mail').val(),
+                    age: age,
+                    time: nowtime
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "/changeinfo",
+                    data: dataed,
+                    dataType: "json",
+                    error: function (err) {
+                        showprompt(err.responseJSON.msg);
+                    },
+                    success: function (info) {
+                        showprompt(info.msg);
+                        console.log(info);
+
+                    }
+                });
+                setTimeout(function () {
+                    console.log("数据更新成功");
+                    _this.clickuser(dataed.username);
+                    _this.clickusernav()
+                }, 2000)
+            },
+            addUser: function () {        /* 添加用户请求*/
+                var key = $.md5($('#password').val());
+                var dataed = {
+                    username: $('#username').val(),
+                    name: $('#name').val(),
+                    phone: $('#phone').val(),
+                    password: $('#password').val(),
+                    key: key
+                };
+                $.ajax({
+                    type: "GET",
+                    url: "/registereds",
+                    data: dataed,
+
+                    error: function (err) {
+                        showprompt(err.responseJSON.msg);
+                    },
+                    success: function (data) {
+                        console.log(data.code);
+                        window.location.href = "/admin";
+                    }
+                });
+            },
+            setSeaPan: function () {
+                $("#SeaPanel").fadeIn(200);
+            },
+
+            webdatanav: function () {
+                let _this = this;
+                $.ajax({
+                    type: "GET",
+                    url: "/webdata",
+                    data: {},
+                    error: function (err) {
+                        alert(err);
+                    },
+                    success: function (userbili) {
+                        var dom = document.getElementById("container");
+                        var myChart = echarts.init(dom);
+                        var app = {};
+                        option = null;
+                        app.title = '环形图';
+
+                        option = {
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b}: {c} ({d}%)"
+                            },
+                            legend: {
+                                orient: 'vertical',
+                                x: 'left',
+                                data: ['男', '女', '未知']
+                            },
+                            series: [
+                                {
+                                    name: '男女比例',
+                                    type: 'pie',
+                                    radius: ['50%', '70%'],
+                                    avoidLabelOverlap: false,
+                                    label: {
+                                        normal: {
+                                            show: false,
+                                            position: 'center'
+                                        },
+                                        emphasis: {
+                                            show: true,
+                                            textStyle: {
+                                                fontSize: '15',
+                                                fontWeight: 'bold'
+                                            }
+                                        }
+                                    },
+                                    labelLine: {
+                                        normal: {
+                                            show: false
+                                        }
+                                    },
+                                    data: userbili
+                                }
+                            ]
+                        };
+                        ;
+                        if (option && typeof option === "object") {
+                            myChart.setOption(option, true);
                         }
                     }
-                    ,
-                    clickuser:function(username){   //点击用户
-                        $.ajax({
-                            type:"POST",
-                            url:'/oneuserinfo',
-                            data:{
-                                username:username
-                            },
-                            error:function(err){
-                                showprompt(err.responseJSON.msg);
-                            },
-                            success:function(data){
-                                //根据请求到数据改变视图
-                                $(".starpanle").hide();
-                                $(".ubg").show();
-                                $("#userblog").html("");
-                                $("#oper").html("");
-                                $("#username").val(data.user.username);
-                                $("#name").val(data.user.name);
-                                $("#age").val(data.user.age);
-                                $("#sex").val(data.user.sex);
-                                $("#mail").val(data.user.mail);
-                                $("#phone").val(data.user.phone);
-                                if(data.user.img==null){
-                                    $(".userimg").attr("src","../img/demoimg.png");
-                                }else {
-                                    $(".userimg").attr("src","http://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/"+data.user.img);
-                                }
+                });
+            }
+        }
+    });
 
-                                if(data.blog.length==0){
-                                    var ele1=document.getElementById("userblog");  //增加必须找到要增加标签的父级标签
-                                    var add_son1=document.createElement("li");   // 这是一个创建P标签的方法
-                                    ele1.appendChild(add_son1);                  // 这是给父级标签添加一个孩子
-                                    add_son1.innerHTML="<h5 style='color: #df7106'>此用户未发布任何文章</h5>"
-                                }else {
-                                    for(var i=0;i<data.blog.length;i++){
-                                        var ele=document.getElementById("userblog");  //增加必须找到要增加标签的父级标签
-                                        var add_son=document.createElement("li");   // 这是一个创建P标签的方法
-                                        ele.appendChild(add_son);                  // 这是给父级标签添加一个孩子
-                                        add_son.innerHTML="<a href='/blog/"+data.blog[i].id+"' target='_blank'>"+data.blog[i].title+"</a>"
-                                    }
-                                }
-
-                                if(!data.oper){
-                                    $("#oper").html("<h5 style='color: red'>获取操作记录出错！</h5>");
-                                }else if(data.oper.length==0){
-                                    $("#oper").html("<h5 style='color:#df7106'>没有关于此用户的日志记录</h5>");
-                                }else {
-                                    var role={
-                                        user:"用户",
-                                        admin:"管理员"
-                                    }
-                                    var type={
-                                        delete_blog:"删除",
-                                        change_info:"修改",
-                                        delete_user:'删除',
-                                        send_blog:"发送",
-                                        reg:'注册',
-                                        login:'登录'
-                                    }
-                                    var obj={
-                                        delete_blog:"文章",
-                                        change_info:"信息"
-                                    }
-                                    for(var x=0;x<data.oper.length;x++){
-
-                                        var ele2=document.getElementById("oper");  //增加必须找到要增加标签的父级标签
-                                        var add_son2=document.createElement("li");   // 这是一个创建P标签的方法
-                                        ele2.appendChild(add_son2);                  // 这是给父级标签添加一个孩子
-                                        add_son2.innerHTML=data.oper[x].oper_time+"&nbsp;"+"用户名为:"+data.oper[x].operator+"的"+role[data.oper[x].role]+"&nbsp;"+
-                                                            type[data.oper[x].type]+"id/用户名为"+data.oper[x].oper_object+"的"+obj[data.oper[x].type]
-                                    }
-                                }
-
-                            }
-                        });
-                    },
-                    scrollBar:function(){
-                        $(".viewUli").bind("mousemove",function(e){
-                            var ay = e.originalEvent.y || e.originalEvent.layerY || 0;
-                            var viewH= $(".area").height();
-                            var blockT=$(".block").position().top;
-                            var viewT=$(".viewUli").offset().top;
-                            var Amouse=Math.round(ay-viewT);
-                            var pro=Amouse/400;
-                            $(".block").css({
-                                top:pro*380
-                            });
-                            $(".area").css({
-                                top:-pro*(viewH-400)
-                            });
-                        });
-                        $(document).mouseup(function(){
-                            $(".viewUli").unbind("mousemove");
-                        });
-                    },
-                    uBtn:function(){
-                        $(".uBtn").addClass("currV").removeClass("hideV").css({
-                            left:0
-                        });
-                        $(".aBtn").addClass("hideV").removeClass("currV").css({
-                            right:0
-                        });
-                    },
-                    aBtn:function(){
-                        $(".aBtn").addClass("currV").removeClass("hideV").css({
-                            right:0
-                        });
-                        $(".uBtn").addClass("hideV").removeClass("currV").css({
-                            left:0
-                        });
-                    },
-                    change_sure: function () {       /* 修改信息请求*/
-                        var _this=this;
-                        var age = $('#age').val();
-                        if (!$('#age').val()) {
-                            age = 0
-                        }
-                        var dataed = {
-                            username: $('#username').val(),
-                            name: $('#name').val(),
-                            sex: $('#sex').val(),
-                            phone: $('#phone').val(),
-                            mail: $('#mail').val(),
-                            age: age,
-                            time: nowtime
-                        }
-                        $.ajax({
-                            type: "GET",
-                            url: "/changeinfo",
-                            data: dataed,
-                            dataType: "json",
-                            error: function (err) {
-                                showprompt(err.responseJSON.msg);
-                            },
-                            success: function (info) {
-                                showprompt(info.msg);
-                                console.log(info);
-
-                            }
-                        });
-                      setTimeout(function(){
-                          console.log("数据更新成功");
-                      _this.clickuser(dataed.username);
-						_this.clickusernav()
-                       },2000)
-                    },
-                    addUser: function () {        /* 添加用户请求*/
-                        var key = $.md5($('#password').val());
-                        var dataed = {
-                            username: $('#username').val(),
-                            name: $('#name').val(),
-                            phone: $('#phone').val(),
-                            password: $('#password').val(),
-                            key: key
-                        };
-                        $.ajax({
-                            type: "GET",
-                            url: "/registereds",
-                            data: dataed,
-
-                            error: function (err) {
-                                showprompt(err.responseJSON.msg);
-                            },
-                            success: function (data) {
-                                console.log(data.code);
-                                window.location.href = "/admin";
-                            }
-                        });
-                    },
-                    setSeaPan: function () {
-                        $("#SeaPanel").fadeIn(200);
-                    },
-
-					webdatanav:function(){
-						let _this=this;
-						$.ajax({
-							type:"GET",
-							url:"/webdata",
-							data:{},
-							error:function(err){
-								alert(err);
-							},
-							success:function(userbili){
-								var dom = document.getElementById("container");
-								var myChart = echarts.init(dom);
-								var app = {};
-								option = null;
-								app.title = '环形图';
-								
-								option = {
-								    tooltip: {
-								        trigger: 'item',
-								        formatter: "{a} <br/>{b}: {c} ({d}%)"
-								    },
-								    legend: {
-								        orient: 'vertical',
-								        x: 'left',
-								        data: ['男', '女', '未知']
-								    },
-								    series: [
-								        {
-								            name: '男女比例',
-								            type: 'pie',
-								            radius: ['50%', '70%'],
-								            avoidLabelOverlap: false,
-								            label: {
-								                normal: {
-								                    show: false,
-								                    position: 'center'
-								                },
-								                emphasis: {
-								                    show: true,
-								                    textStyle: {
-								                        fontSize: '15',
-								                        fontWeight: 'bold'
-								                    }
-								                }
-								            },
-								            labelLine: {
-								                normal: {
-								                    show: false
-								                }
-								            },
-								            data: userbili
-								        }
-								    ]
-								};
-								;
-								if (option && typeof option === "object") {
-								    myChart.setOption(option, true);
-								}
-							}
-						});
-					}
-                }
-            });
-
-            
 
     /* function blogli() {
         $.get('/bl', {}, function (data) {
@@ -528,7 +564,7 @@ $(function () {
 
          }
          });*/
-       
+
     }
 
     chart();

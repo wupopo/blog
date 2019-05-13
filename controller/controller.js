@@ -14,6 +14,12 @@ var unreadMsg = require('../model/unreadMsg.js');
 // 创建 application/x-www-form-urlencoded 编码解析
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
+exports.changeConfig=function(obj,callback){
+    querysql.addconfig(obj,function (data) {
+        callback(data);
+    })
+}
+
 exports.getSidebar=(callback)=>{
     querysql.querypageconfig(function (data) {
         callback(data);

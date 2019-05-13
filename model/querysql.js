@@ -23,6 +23,15 @@ function time() {
     var mo = omonth = Number(omonth) + 1;
     return oyear + "-" + mo + "-" + odate + "&nbsp;&nbsp;" + ohour + ":" + ominutes;
 }
+exports.addconfig=function(obj,callback){
+        query(pageconfig.addConfig,[obj.notice,obj.vlog,obj.hotblog,obj.recomm,time()],function (err,data) {
+            if(err){
+                callback({code:400,data:[],msg:"配置数据插入出错"});
+            }else {
+                callback({code:200,data:[],msg:"success"});
+            }
+        })
+}
 
 exports.querysea = function (str, callback) {
     query(blogSql.searchBlog, ['%' + str + '%', '%' + str + '%', '%' + str + '%', '%' + str + '%'], function (err, data) {
@@ -39,28 +48,66 @@ exports.querypageconfig = function (callback) {   //页面配置数据库查询
     query(pageconfig.queryPageConfig, [], function (err, config) {
         if (err) {
             callback(false)
+            console.log(err);
         } else {
             let blogid = config[0].hotblog_id;
             blogid = Number(blogid);
-            query(blogSql.selectBlogById, [blogid], function (err, blog) {
+
+            let recblogarr = config[0].recomm;
+            let oldarr = config[0].recomm.split("|");
+            let rec1=45;
+            if(oldarr[0]){
+                rec1=oldarr[0];
+                rec1=rec1.toString();
+            }
+             let rec2=45;
+            if(oldarr[1]){
+                rec2=oldarr[1]
+                rec2=rec2.toString();
+            }
+             let rec3=45;
+            if(oldarr[2]){
+                rec3=oldarr[2]
+                rec3=rec3.toString();
+            }
+             let rec4=45;
+            if(oldarr[3]){
+                rec4=oldarr[3]
+                rec4=rec4.toString();
+            }
+
+            query(pageconfig.queryBlogInfo, [rec1,rec2,rec3,rec4], function (err, recomm) {
                 if (err) {
-                    console.log(err);
                     callback({
                         notice: config[0].notice,
                         vlog: config[0].vlog,
-                        recomm: config[0].recomm,
-                        hotblog: {}
+                        recomm: [],
+                        hotblog: {},
+                        time:config[0].time
                     });
-                    return;
+                } else {
+                    query(blogSql.selectBlogById, [blogid], function (err, blog) {
+                        if (err) {
+                            console.log(err);
+                            callback({
+                                notice: config[0].notice,
+                                vlog: config[0].vlog,
+                                recomm: recomm,
+                                hotblog: {},
+                                 time:config[0].time
+                            });
+                            return;
+                        }
+                        callback({
+                            notice: config[0].notice,
+                            vlog: config[0].vlog,
+                            recomm: recomm,
+                            hotblog: blog[0],
+                             time:config[0].time
+                        });
+                    })
                 }
-                callback({
-                    notice: config[0].notice,
-                    vlog: config[0].vlog,
-                    recomm: config[0].recomm,
-                    hotblog: blog[0]
-                });
             })
-
         }
     });
 }

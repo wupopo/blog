@@ -69,36 +69,6 @@ $(function () {
     //滚动滑轮触发scrollFunc方法  //ie 谷歌
     window.onmousewheel = document.onmousewheel = scrollFunc;
 
-    $.ajax({
-        type: "GET",
-        url: '/pageConfig',
-        data: {
-            html_name: "index"
-        },
-        error: function (err) {
-            console.log(err);
-        },
-        success: function (data) {
-            let blog = data.hotblog;
-            var imgReg = /<img src="https:\/\/wupopo-1256296697.cos.ap-chengdu.myqcloud.com.*?(?:>|\/>)/gi;
-            var imgarr = blog.content.match(imgReg); //查出所有图片地址
-            var str = blog.content.replace(imgReg, '[图片]');
-            var imgsrc;
-            if (imgarr == null) {
-                imgsrc = 'https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/' + 'blog/img/demoimg.jpg'
-            } else {
-                imgsrc = 'https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/' + imgarr[0].match(/myqcloud.com\/(\S*)"/)[1];
-            }
-            $("#hotHeader").css("backgroundImage","url(" + imgsrc + ")");
-            $(".index_title").attr('href', 'blog/' + blog.id);
-            $(".index_title b").text(blog.title)
-            $(".index_stime b").text(blog.time)
-            $(".index_sendername").attr('href', 'home/' + blog.sendername).text(blog.name);
-            $(".readmore").attr('href', 'blog/' + blog.id);
-            $('.commbtn').attr('href', 'blog/' + blog.id + "#sendinp");
-            $('.blogcontent').html(str);
-        }
-    })
 
     $('#exit').click(function () {
         $.get('/exit', {
@@ -204,13 +174,34 @@ $(function () {
             alert(err.responeJSON.msg);
         },
         success: function (data) {
-            $(".noticeBody").text(data.data[0].tips);
-            $(".vlogBody").attr("src", data.data[0].vlog);
-            let obj = data.data[0].recommended;
-            for (let key in obj) {
-                $(".recBody").append(`
-					<li><a href="` + obj[key] + `">` + key + `</a></li>
-			`);
+        console.log(data);
+            let blog = data.hotblog;
+            var imgReg = /<img src="https:\/\/wupopo-1256296697.cos.ap-chengdu.myqcloud.com.*?(?:>|\/>)/gi;
+            var imgarr = blog.content.match(imgReg); //查出所有图片地址
+            var str = blog.content.replace(imgReg, '[图片]');
+            var imgsrc;
+            if (imgarr == null) {
+                imgsrc = 'https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/' + 'blog/img/demoimg.jpg'
+            } else {
+                imgsrc = 'https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/' + imgarr[0].match(/myqcloud.com\/(\S*)"/)[1];
+            }
+            $("#hotHeader").css("backgroundImage", "url(" + imgsrc + ")");
+            $(".index_title").attr('href', 'blog/' + blog.id);
+            $(".index_title b").text(blog.title)
+            $(".index_stime b").text(blog.time)
+            $(".index_sendername").attr('href', 'home/' + blog.sendername).text(blog.name);
+            $(".readmore").attr('href', 'blog/' + blog.id);
+            $('.commbtn').attr('href', 'blog/' + blog.id + "#sendinp");
+            $('.blogcontent').html(str);
+
+
+            $(".noticeBody").text(data.notice);
+            $(".vlogBody").attr("src", data.vlog);
+            let obj = data.recomm;
+            for(let i=0;i<obj.length;i++){
+                 $(".recBody").append(`
+					<li><a href="blog/` + obj[i].id + `">` + obj[i].title + `</a></li>
+			    `);
             }
         }
     });

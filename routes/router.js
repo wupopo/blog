@@ -271,17 +271,6 @@ module.exports = function (app) {
 
 
     /***************** 数据请求*****************/
-    app.get("/pageConfig", function (req, res) {
-        let html_name = req.query['html_name'];
-        controller.pageconfigC(html_name, function (data) {
-            if (!data) {
-                res.status(403).send({code: 403, data: [], msg: '页面配置获取失败'});
-            } else {
-                res.status(200).send(data);
-            }
-        })
-    });
-
     app.get("/webdata", function (req, res) { //网站数据
         if (!req.session.admininfo) {
             res.status(403).send({code: 403, data: [], msg: "你没有权限查看此数据"});
@@ -651,6 +640,18 @@ module.exports = function (app) {
            }else {
                 res.status(400).send({code:400,data:[],msg:"页面数据获取出错"});
            }
+        })
+    })
+
+    app.post("/changeConfig",urlencodedParser,function (req,res) {
+        let obj={
+            notice:req.body['notice'],
+            recomm:req.body['recomm'],
+            vlog:req.body['vlog'],
+            hotblog:req.body['hotblog']
+        }
+        controller.changeConfig(obj,function (data) {
+            res.status(data.code).send(data);
         })
     })
 
