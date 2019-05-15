@@ -17,12 +17,12 @@
             src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
     <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
     <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
-  <!--  <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>-->
+    <!--  <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>-->
     <script type="text/javascript"
             src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
     <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
 
-   <script src="../js/md5.js"></script>
+    <script src="../js/md5.js"></script>
 
 
 </head>
@@ -39,7 +39,6 @@
 <div id="prompt"></div>
 
 
-
 <!--主界面-->
 <div id="mainpage">
     <div id="nav">
@@ -48,7 +47,8 @@
         </div>
         <ul id="nav_list">
             <li>
-                <button class="nav_btn user_btn" @click="clickusernav"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;用户管理</button>
+                <button class="nav_btn user_btn" @click="clickusernav"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;用户管理
+                </button>
             </li>
             <li>
                 <button class="nav_btn"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;系统设置</button>
@@ -57,13 +57,15 @@
                 <button class="nav_btn"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;操作记录</button>
             </li>
             <li>
-                <button class="nav_btn" @click='webdatanav'><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;网站数据</button>
+                <button class="nav_btn" @click='webdatanav'><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;网站数据
+                </button>
             </li>
             <li>
                 <button class="nav_btn"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;博文管理</button>
             </li>
             <li>
-                <button class="nav_btn"><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;&nbsp;发布公告</button>
+                <button class="nav_btn"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;&nbsp;发布视频
+                </button>
             </li>
         </ul>
     </div>
@@ -89,7 +91,8 @@
                             <li class="liinp"><input type="text" class="seainp" placeholder="昵称/账号"></li>
                             <div class="viewUli">
                                 <ul class="area">
-                                    <li v-for="user in users" class="auli" @click="clickuser(user.username)">{{user.name}}:<i>{{user.username}}</i></li>
+                                    <li v-for="user in users" class="auli" @click="clickuser(user.username)">
+                                        {{user.name}}:<i>{{user.username}}</i></li>
                                 </ul>
                                 <div class="block" @mousedown="scrollBar"></div>
                             </div>
@@ -100,7 +103,7 @@
                         </div>
                     </div>
                     <div id="userIfo">
-                       <!-- 用户管理开始面板-->
+                        <!-- 用户管理开始面板-->
                         <div class="starpanle">
                             <h1>使用指南:</h1>
                             <p>1.点击左边用户列表里的用户可查看此用户的信息及修改</p>
@@ -154,7 +157,7 @@
                             <img src="../img/ccc.jpg" alt="" class="userimg">
                         </div>
                     </div>
-					
+
                     <div id="Notice">
                         <div class="Ntitle">最近登录</div>
                         <div class="Ncontent"></div>
@@ -181,7 +184,7 @@
                                     <b>推荐：</b><textarea class="TJV"></textarea><b>*请输入推荐文章id，以"|"分隔</b>
                                 </li>
                                 <li>
-                                     <b>vlog：</b><textarea class="VLV"></textarea><b>*输入vlog地址</b>
+                                    <b>vlog：</b><textarea class="VLV"></textarea><b>*输入vlog地址</b>
                                 </li>
                                 <li>
                                     <b>热门：</b><textarea class="RMV"></textarea><b>*输入热门文章id</b>
@@ -198,24 +201,24 @@
                                     <div class="nowcontent nowNotice"></div>
                                 </div>
                                 <div class="CFbar">
-                                     <div class="nowtltle">推荐</div>
-                                      <div class="nowcontent ">
-                                          <ul class="nowRec"></ul>
-                                      </div>
+                                    <div class="nowtltle">推荐</div>
+                                    <div class="nowcontent ">
+                                        <ul class="nowRec"></ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="CFbottm">
-                                 <div class="CFbar">
-                                      <div class="nowtltle">vlog</div>
-                                       <div class="nowcontent">
-                                           <video class="nowVlog" src="" controls></video>
-                                       </div>
-                                 </div>
                                 <div class="CFbar">
-                                     <div class="nowtltle">热门文章</div>
-                                      <div class="nowcontent nowRm">
+                                    <div class="nowtltle">vlog</div>
+                                    <div class="nowcontent">
+                                        <video class="nowVlog" src="" controls></video>
+                                    </div>
+                                </div>
+                                <div class="CFbar">
+                                    <div class="nowtltle">热门文章</div>
+                                    <div class="nowcontent nowRm">
 
-                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -226,7 +229,7 @@
 
                 </div>
 
-               <!-- 网站数据面板-->
+                <!-- 网站数据面板-->
                 <div id="Website">
                     <div class="webs1">
                         <span class="sitename">用户男女比例</span>
@@ -239,7 +242,7 @@
                 </div>
 
 
-               <!-- 博客管理面板-->
+                <!-- 博客管理面板-->
                 <div id="blogM">
                     <div class="blogM_left">
                         <ul class="li_header">
@@ -252,10 +255,10 @@
                             </li>
                         </ul>
                         <ul id="content_blog">
-                            <li >
+                            <li>
                                 <a href="javascript:void (0)" class="blog_title"></a>
                                 <div class="right_blog">
-                                    <p >文章ID：<i class="artid"></i></p>
+                                    <p>文章ID：<i class="artid"></i></p>
                                     <p class="author" style="color: #00AA88"></p>
                                     <p class="send_time"></p>
                                 </div>
@@ -265,7 +268,12 @@
                     <div class="blogM_right"></div>
                 </div>
                 <div id="ann">
-
+                    <div class="vlog_left">
+                        <input id="fileSelector" type="file">
+                        <p class="baifenbi" style="display: none"></p>
+                        <input id="submitBtn" type="submit">
+                    </div>
+                    <div class="vlog_right"></div>
                 </div>
             </div>
 
@@ -307,5 +315,7 @@
         </div>
     </div>
 </div>
+<script src="https://unpkg.com/cos-js-sdk-v5/demo/common/cos-auth.min.js"></script>
+<script src="../js/uploadvlog.js"></script>
 </body>
 </html>

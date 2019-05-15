@@ -92,7 +92,11 @@
        var filetype= filename.substring(filename.indexOf(".")+1);
         var types={
             jpg:"image/jpeg",
-            png:"image/png"
+            png:"image/png",
+            avi:"video/*",
+            mpg:"video/*",
+            mpeg:"video/*",
+            mp4:"video/*"
         };
         var newfile = new File([file], new Date().getTime()+"userimg"+"."+filetype,{type:types[filetype]});
         if (!file) {

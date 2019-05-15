@@ -926,3 +926,10 @@ ul{
 	bottom: 0;
 	width: 100%;
 }
+
+.vlog_left,.vlog_right{
+	width: 50%;
+	height: 100%;
+	border-right: 1px solid black;
+	float: left;
+}

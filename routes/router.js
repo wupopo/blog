@@ -13,6 +13,7 @@ var uploadBlogimg = require("../model/uploadBlogimg.js");
 var session = require('express-session');
 const Requests = require('../model/Requests.js');
 const mail = require('../model/163mail.js');
+const permissions = require('../model/permissions.js');
 let getClientIp = function (req) {
     return req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress ||
@@ -37,6 +38,15 @@ module.exports = function (app) {
         }
         //cookie: { secure: true }   /*secure https这样的情况才可以访问cookie*/
     }));
+
+    app.use(function (err, req, res, next) {
+        if(err){
+            console.error(err.stack)
+            res.status(500).send('Something broke!');
+            return;
+        }
+        next();
+    });
 
     /*页面请求部分*/
     app.get("/", function (req, res) {
@@ -156,15 +166,17 @@ module.exports = function (app) {
         res.render('registered', {});
     });
     app.get('/Vlog', function (req, res) {   //VLOG页面请求
-        if (req.session.userinfo == null) {
-            res.send('请登录！<a href="/login">点击跳转到登录页面</a>');
-        } else {
-            res.render('Vlog', {
-                info: req.session.userinfo.name,
-                url: "/home/" + req.session.userinfo.username,
-                style: "display: block;"
-            })
-        }
+        permissions.userPer.needLoginTrue(req, function (bool) {
+            if (bool) {
+                res.render('Vlog', {
+                    info: req.session.userinfo.name,
+                    url: "/home/" + req.session.userinfo.username,
+                    style: "display: block;"
+                })
+            } else {
+                res.send('请登录！<a href="/login">点击跳转到登录页面</a>');
+            }
+        })
     });
     app.get('/home/:username', function (req, res) {  //个人中心页面请求
         var username = req.params.username;
@@ -248,46 +260,61 @@ module.exports = function (app) {
         });
     });
     app.get('/adlogin', function (req, res) {   //管理员登录页面请求
-        res.render('adlogin');
+        console.log(req.headers)
+        permissions.adminPer.needOriginTrue(req, function (bool) {
+            console.log(bool)
+            if (bool) {
+                res.render('adlogin');
+            } else {
+                res.send("你没权限查看此页面！");
+            }
+        })
     });
     app.get('/admin', function (req, res) {   //后台页面请求
-        if (!req.session.admininfo) {
-            res.send("Not login");
-            return;
-        }
-        var username = req.session.admininfo.username;
-        var level = req.session.admininfo.level;
-        var role;
-        if (level == 1) {
-            role = "超级管理员"
-        } else if (level == 2) {
-            role = "管理员"
-        }
-        res.render('admin', {
-            role: role,
-            username: username
-        });
+
+        permissions.adminPer.needLoginTrue(req, function (bool) {
+            if (bool) {
+                var username = req.session.admininfo.username;
+                var level = req.session.admininfo.level;
+                var role;
+                if (level == 1) {
+                    role = "超级管理员"
+                } else if (level == 2) {
+                    role = "管理员"
+                }
+                res.render('admin', {
+                    role: role,
+                    username: username
+                });
+            } else {
+                res.send("你没权限查看此页面！");
+            }
+        })
+
     });
 
 
     /***************** 数据请求*****************/
     app.get("/webdata", function (req, res) { //网站数据
-        if (!req.session.admininfo) {
-            res.status(403).send({code: 403, data: [], msg: "你没有权限查看此数据"});
-            return;
-        }
-
-        controller.webdataC(function (data) {
-            if (data) {
-                res.status(200).send(data);
+        permissions.adminPer.needLoginTrue(req, function (bool) {
+            if (bool) {
+                controller.webdataC(function (data) {
+                    if (data) {
+                        res.status(200).send(data);
+                    } else {
+                        res.status(400).send({
+                            code: 400,
+                            data: [],
+                            msg: "查询出错！"
+                        });
+                    }
+                })
             } else {
-                res.status(400).send({
-                    code: 400,
-                    data: [],
-                    msg: "查询出错！"
-                });
+                res.status(400).send({code: 400, data: [], msg: "你没有权限查看此数据"})
             }
         })
+
+
     });
 
 
@@ -635,22 +662,22 @@ module.exports = function (app) {
             return
         }
         controller.getSidebar((data) => {
-           if(data){
+            if (data) {
                 res.status(200).send(data);
-           }else {
-                res.status(400).send({code:400,data:[],msg:"页面数据获取出错"});
-           }
+            } else {
+                res.status(400).send({code: 400, data: [], msg: "页面数据获取出错"});
+            }
         })
     })
 
-    app.post("/changeConfig",urlencodedParser,function (req,res) {
-        let obj={
-            notice:req.body['notice'],
-            recomm:req.body['recomm'],
-            vlog:req.body['vlog'],
-            hotblog:req.body['hotblog']
+    app.post("/changeConfig", urlencodedParser, function (req, res) {
+        let obj = {
+            notice: req.body['notice'],
+            recomm: req.body['recomm'],
+            vlog: req.body['vlog'],
+            hotblog: req.body['hotblog']
         }
-        controller.changeConfig(obj,function (data) {
+        controller.changeConfig(obj, function (data) {
             res.status(data.code).send(data);
         })
     })

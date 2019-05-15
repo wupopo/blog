@@ -265,6 +265,13 @@ body {
     position: relative;
 }
 
+.noticeBody{
+    padding-top: 10px;
+    white-space:pre-wrap;
+    color: #4b4b4b;
+    font-weight: bolder;
+}
+
 
 
 

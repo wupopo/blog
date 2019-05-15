@@ -16,7 +16,6 @@ $(function () {
             //// firefox
             document.getElementById("uList").addEventListener("DOMMouseScroll", this.handleScroll, false);
             this.uBtn();
-
         },
 
         methods: {

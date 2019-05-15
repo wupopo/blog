@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="css/blog.css">
     <script src="js/blog.js"></script>
     <script type="text/javascript">
-        window.onload=function(){
+        window.onload = function () {
 
             $('body').removeClass('is-loading');
         }
@@ -37,7 +37,8 @@
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -54,11 +55,12 @@
                 <li class="navbtn"><a href="/Vlog">Vlog</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="navbtn"><a class=" msg" href="<%=url%>"><%=info%></a></li>
-                <li class="navbtn" style="<%=style1%>"><a href="/registered">注册</a></li>
-                <li class="navbtn" style="<%=style%>"><a  id="exit">退出</a></li>
+                <li class="navbtn"><a class=" msg" href="<%= url %>"><%= info %></a></li>
+                <li class="navbtn" style="<%= style1 %>"><a href="/registered">注册</a></li>
+                <li class="navbtn" style="<%= style %>"><a id="exit">退出</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">联系我 <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">联系我 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="https://weibo.com/92wubo/home">微博</a></li>
                         <li><a href="https://www.zhihu.com/people/wu-bo-4-60/activities">知乎</a></li>
@@ -103,8 +105,8 @@
                     <div id="morebtn"><input type="button" value="加载更多" id="more"></div>
                 </div>
                 <div class="col-md-3" style="padding: 0; margin-top: 70px;" id="rightBarBlock">
-                   <div id="notice">
-                        <div class="noticeHeader glyphicon glyphicon-list-alt"">
+                    <div id="notice">
+                        <div class="noticeHeader glyphicon glyphicon-list-alt">
                             公示栏
                         </div>
                         <div class="noticeBody">
@@ -116,7 +118,7 @@
                         <div class="vlogHeader">
                             最新一期的vLog
                         </div>
-                        <video  controls="controls" style="width: 100%" class="vlogBody"></video>
+                        <video controls="controls" style="width: 100%" class="vlogBody"></video>
                     </div>
 
                     <div id="recommend">
@@ -137,9 +139,12 @@
 
 <div id="ide">
     <div class="panel panel-default">
-        <div class="panel-heading"><img style="width: 30px" src="img/pen.png" alt="">发表文章 <span class="glyphicon glyphicon-remove" id="closeIde"></span></div>
+        <div class="panel-heading"><img style="width: 30px" src="img/pen.png" alt="">发表文章 <span
+                    class="glyphicon glyphicon-remove" id="closeIde"></span></div>
         <div class="panel-body">
-            <div><table>标题：<input type="text" id="Btitle"></table></div>
+            <div>
+                <table>标题：<input type="text" id="Btitle"></table>
+            </div>
             <div id="editor">
             </div>
             <div class="blogbtn">
@@ -148,8 +153,8 @@
         </div>
     </div>
 </div>
-<a style="<%=style%>"  class="glyphicon glyphicon-pencil Bbtn"></a>
-<a  class="glyphicon glyphicon-arrow-up Up"></a>
+<a style="<%= style %>" class="glyphicon glyphicon-pencil Bbtn"></a>
+<a class="glyphicon glyphicon-arrow-up Up"></a>
 <div class="tips"></div>
 </body>
 </html>
