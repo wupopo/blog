@@ -269,9 +269,23 @@
                 </div>
                 <div id="ann">
                     <div class="vlog_left">
-                        <input id="fileSelector" type="file">
-                        <p class="baifenbi" style="display: none"></p>
-                        <input id="submitBtn" type="submit">
+                        <ul>
+                            <li>
+                                标题：<textarea id="Vtitle"></textarea>
+                            </li>
+                             <li>
+                                内容：<textarea id="Vcontent"></textarea>
+                            </li>
+                            <li>
+                                <input id="fileSelector" type="file">
+                               <div id="baifenbi">
+                                   <div class="filebg"></div>
+                               </div>
+                            </li>
+                            <li>
+                                 <input id="submitBtn" type="submit" @click="uploadvlog">
+                            </li>
+                        </ul>
                     </div>
                     <div class="vlog_right"></div>
                 </div>
@@ -316,6 +330,5 @@
     </div>
 </div>
 <script src="https://unpkg.com/cos-js-sdk-v5/demo/common/cos-auth.min.js"></script>
-<script src="../js/uploadvlog.js"></script>
 </body>
 </html>

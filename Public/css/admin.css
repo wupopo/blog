@@ -933,3 +933,38 @@ ul{
 	border-right: 1px solid black;
 	float: left;
 }
+
+.vlog_left li{
+	margin-top: 5px;
+}
+.vlog_left textarea{
+	height: 80px;
+	width: 300px;
+	resize: none;
+	vertical-align:top;
+	border: 1px solid #e1e1e1;
+	outline: none;
+	border-radius: 8px;
+}
+#submitBtn{
+	width: 80px;
+	height: 35px;
+	color: white;
+	font-weight: bolder;
+	background-color: #0e90d2;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+#baifenbi{
+	width: 100%;
+	height: 25px;
+	background-color: #0fbfbf;
+	border-radius: 4px;
+	display: none;
+}
+.filebg{
+	height: 100%;
+	background-color: #0b8989;
+	border-radius: 4px;
+}

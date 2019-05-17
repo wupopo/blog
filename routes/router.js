@@ -40,7 +40,7 @@ module.exports = function (app) {
     }));
 
     app.use(function (err, req, res, next) {
-        if(err){
+        if (err) {
             console.error(err.stack)
             res.status(500).send('Something broke!');
             return;
@@ -51,27 +51,25 @@ module.exports = function (app) {
     /*页面请求部分*/
     app.get("/", function (req, res) {
         //主页请求
-        controller.tips(function (data) {
-            var ud;
-            if (req.session.userinfo == null) {
-                ud = {
-                    info: "登录",
-                    style1: "display:block;",
-                    url: "/login",
-                    style: "display: none;",
-                    hblog: data.hotblog,
-                };
-            } else {
-                ud = {
-                    info: req.session.userinfo.name,
-                    style1: "display:none;",
-                    url: "/home/" + req.session.userinfo.username,
-                    style: "display: block;",
-                    hblog: data.hotblog,
-                }
+
+        var ud;
+        if (req.session.userinfo == null) {
+            ud = {
+                info: "登录",
+                style1: "display:block;",
+                url: "/login",
+                style: "display: none;",
+            };
+        } else {
+            ud = {
+                info: req.session.userinfo.name,
+                style1: "display:none;",
+                url: "/home/" + req.session.userinfo.username,
+                style: "display: block;",
             }
-            res.render('index', ud);
-        });
+        }
+        res.render('index', ud);
+
 
     });
 
@@ -681,5 +679,35 @@ module.exports = function (app) {
             res.status(data.code).send(data);
         })
     })
+
+    app.get('/addVlog', function (req, res) {
+        permissions.adminPer.needLoginTrue(req, function (data) {
+            if (!data) {
+                res.status(403).send({code: 403, data: [], msg: '你没有权限进行此操作！'});
+            } else {
+                let obj = {
+                    title: req.query['title'],
+                    url: req.query['url'],
+                    content: req.query['content']
+                }
+                controller.addVlogC(obj, function (data) {
+                    res.status(data.code).send(data);
+                })
+            }
+        })
+    })
+
+    app.post("/getVlog", urlencodedParser, function (req, res) {
+        permissions.userPer.needLoginTrue(req, function (isTrue) {
+            if (isTrue) {
+                let start = req.body['start'];
+                controller.getvlogC(start, function (data) {
+                    res.status(data.code).send(data);
+                })
+            } else {
+                res.status(403).send('请求不符合安全规则！')
+            }
+        })
+    });
 
 };

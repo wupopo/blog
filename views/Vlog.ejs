@@ -10,9 +10,12 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/cos-js-sdk-v5/demo/common/cos-auth.min.js"></script>
-
+    <script src="https://g.alicdn.com/de/prismplayer/2.8.2/aliplayer-min.js"></script>
+    <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.2/skins/default/aliplayer-min.css">
     <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/vlog.css">
     <script src="js/common.js"></script>
+      <script src="js/vlog.js"></script>
     <script type="text/javascript">
         window.onload=function(){
 
@@ -72,8 +75,18 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <div class="row">
-                <div class="col-md-9">
-
+                <div class="col-md-9" id="vlogPanel">
+                   <!-- <div class="row">
+                        <div class="col-md-2">
+                            45
+                        </div>
+                        <div class="col-md-6" >
+                            <div class="videop" id="videoMain"></div>
+                        </div>
+                        <div class="col-md-4">
+                            78
+                        </div>
+                    </div>-->
                 </div>
                 <div class="col-md-3">
                      <div id="notice">
@@ -85,12 +98,12 @@
                         </div>
                     </div>
 
-                    <div id="vlog">
+                    <!--<div id="vlog">
                         <div class="vlogHeader">
                             最新一期的vLog
                         </div>
                         <video controls="controls" style="width: 100%" class="vlogBody"></video>
-                    </div>
+                    </div>-->
 
                     <div id="recommend">
                         <div class="recHeader glyphicon glyphicon-link">

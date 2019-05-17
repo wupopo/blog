@@ -14,7 +14,18 @@ var unreadMsg = require('../model/unreadMsg.js');
 // 创建 application/x-www-form-urlencoded 编码解析
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
-exports.changeConfig=function(obj,callback){
+exports.getvlogC=function(start,callback){
+    querysql.getVlogQ(start,function (data) {
+        callback(data);
+    })
+}
+exports.addVlogC=function(obj,callback){
+    querysql.addVlogQ(obj,function (data) {
+        callback(data);
+    })
+};
+
+exports.changeConfig=function(obj,callback){ //改变页面展示内容
     querysql.addconfig(obj,function (data) {
         callback(data);
     })
@@ -228,7 +239,7 @@ exports.retrieve = function (obj, callback) {   //找回密码控制器
 
 };
 
-exports.tips = function (callback) {  //主页的提示
+/*exports.tips = function (callback) {  //主页的提示
         querysql.hotblog(function(data){
            if(data){
                var datas={
@@ -239,7 +250,7 @@ exports.tips = function (callback) {  //主页的提示
                callback({code:400,data:[],msg:'服务器错误'})
            }
         })
-};
+};*/
 
 exports.sendcomms = function (datas, callback) {   //评论控制器
     querysql.sendcom(datas,function(data){

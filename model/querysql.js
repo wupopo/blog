@@ -1,6 +1,7 @@
 var userSql = require('../db/Usersql');
 var adminSql = require('../db/AdminSql');
 var blogSql = require("../db/Blog.js");
+var vlogSql = require("../db/vlog.js");
 var mysql = require('mysql');
 var file = require("./file.js");
 var qcloudsms = require('../model/qcloudsms_js.js');
@@ -23,9 +24,33 @@ function time() {
     var mo = omonth = Number(omonth) + 1;
     return oyear + "-" + mo + "-" + odate + "&nbsp;&nbsp;" + ohour + ":" + ominutes;
 }
+
+exports.getVlogQ=function(num,callback){
+    let start=Number(num);
+    query(vlogSql.getvlog,[start],function (err,data) {
+        if(err){
+            console.log(err);
+            callback({code:500,data:[],msg:"服务器错误"});
+        }else {
+            callback({code:200,data:data});
+        }
+    })
+};
+exports.addVlogQ=function(obj,callback){
+    query(vlogSql.addVlog,[obj.url,obj.title,obj.content,time()],function (err,data) {
+        if(err){
+            console.log(err);
+            callback({code:403,data:[],msg:"插入数据出错！"});
+        }else {
+            callback({code:200,data:[],msg:"success"});
+        }
+    })
+};
+
 exports.addconfig=function(obj,callback){
         query(pageconfig.addConfig,[obj.notice,obj.vlog,obj.hotblog,obj.recomm,time()],function (err,data) {
             if(err){
+                console.log(err);
                 callback({code:400,data:[],msg:"配置数据插入出错"});
             }else {
                 callback({code:200,data:[],msg:"success"});
@@ -165,41 +190,7 @@ exports.queryuserimg = function (username, callback) {
     })
 };
 
-exports.hotblog = function (callback) {
-    query(blogSql.queryAll, [], function (err, data) {
-        if (err) {
-            callback(false);
-            console.log(err)
-        } else {
-            if (data.length == 1) {
-                callback(data[0]);
-            } else {
-                var index;
-                for (var i = 0; i < data.length - 1; i++) {
-                    var big;
-                    if (data[i].likes == null) {
-                        big = 0
-                    } else {
-                        big = data[i].likes.split("|").length;
-                    }
-                    var small;
-                    if (data[i + 1].likes == null) {
-                        small = 0
-                    } else {
-                        small = data[i + 1].likes.split("|").length;
-                    }
 
-                    if (big >= small) {
-                        index = i
-                    } else if (big < small) {
-                        index = i + 1
-                    }
-                }
-                callback(data[index]);
-            }
-        }
-    })
-};
 
 
 exports.deleblogbyid = function (data, callback) {    //删除博客

@@ -19,6 +19,128 @@ $(function () {
         },
 
         methods: {
+            camSafeUrlEncode: function (str) {
+                return encodeURIComponent(str)
+                    .replace(/!/g, '%21')
+                    .replace(/'/g, '%27')
+                    .replace(/\(/g, '%28')
+                    .replace(/\)/g, '%29')
+                    .replace(/\*/g, '%2A');
+            },
+            getAuthorization: function (options, callback) {   //获取签名
+                // var url = 'http://127.0.0.1:3000/sts-auth' +
+                var url = '/sts';
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.onload = function (e) {
+                    var credentials;
+                    try {
+                        credentials = (new Function('return ' + xhr.responseText))().credentials;
+                    } catch (e) {
+                    }
+                    if (credentials) {
+                        callback(null, {
+                            XCosSecurityToken: credentials.sessionToken,
+                            Authorization: CosAuth({
+                                SecretId: credentials.tmpSecretId,
+                                SecretKey: credentials.tmpSecretKey,
+                                Method: options.Method,
+                                Pathname: options.Pathname,
+                            })
+                        });
+                    } else {
+                        console.error(xhr.responseText);
+                        callback('获取签名出错');
+                    }
+                };
+                xhr.onerror = function (e) {
+                    callback('获取签名出错');
+                };
+                xhr.send();
+            },
+            uploadFile: function (file, callback) {
+                // 请求用到的参数
+                var Bucket = 'wupopo-1256296697';
+                var Region = 'ap-chengdu';
+                var protocol = location.protocol === 'https:' ? 'https:' : 'http:';
+                var prefix = protocol + '//' + Bucket + '.cos.' + Region + '.myqcloud.com/';
+                var Key = 'blog/video/' + file.name; // 这里指定上传目录和文件名
+                let _this=this;
+                this.getAuthorization({Method: 'PUT', Pathname: '/' + Key}, function (err, info) {
+
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+
+                    var auth = info.Authorization;
+                    var XCosSecurityToken = info.XCosSecurityToken;
+                    var url = prefix + _this.camSafeUrlEncode(Key).replace(/%2F/, '/');
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('PUT', url, true);
+                    xhr.setRequestHeader('Authorization', auth);
+                    XCosSecurityToken && xhr.setRequestHeader('x-cos-security-token', XCosSecurityToken);
+                    xhr.upload.onprogress = function (e) {
+                        $('.filebg').css({
+                            width:(Math.round(e.loaded / e.total * 10000) / 100) + "%"
+                        })
+                    };
+                    xhr.onload = function () {
+                        if (xhr.status === 200 || xhr.status === 206) {
+                            var ETag = xhr.getResponseHeader('etag');
+                            callback(null, {url: url, ETag: ETag});
+                        } else {
+                            callback('文件 ' + Key + ' 上传失败，状态码：' + xhr.status);
+                        }
+                    };
+                    xhr.onerror = function () {
+                        callback('文件 ' + Key + ' 上传失败，请检查是否没配置 CORS 跨域规则');
+                    };
+                    xhr.send(file);
+                });
+            },
+            uploadvlog: function () {
+                $('#baifenbi').show();
+                var file = document.getElementById('fileSelector').files[0];
+                var filename = file.name;
+                var filetype = filename.substring(filename.indexOf(".") + 1);
+                var types = {
+                    jpg: "image/jpeg",
+                    png: "image/png",
+                    avi: "video/*",
+                    mpg: "video/*",
+                    mpeg: "video/*",
+                    mp4: "video/*"
+                };
+                var newfile = new File([file], "vlog" + new Date().getTime() + "." + filetype, {type: types[filetype]});
+                if (!file) {
+                    tip('未选择上传文件');
+                    return;
+                }
+                newfile && this.uploadFile(newfile, function (err, data) {
+                    if(err){
+                        alert("上传失败！")
+                    }else {
+                        let title=$('#Vtitle').val();
+                        let content=$('#Vcontent').val();
+                        $.ajax({
+                            type:"GET",
+                            url:"addVlog",
+                            data:{
+                                title:title,
+                                url:data.url,
+                                content:content
+                            },
+                            error:function (err) {
+                                console.log(err);
+                            },
+                            success:function (data) {
+                                alert("上传成功");
+                            }
+                        });
+                    }
+                });
+            },
             pageconfigB: function () {
                 let obj = {
                     notice: $(".GGV").val(),
@@ -31,7 +153,7 @@ $(function () {
                 $.ajax({
                     type: "POST",
                     url: "changeConfig",
-                    data:obj,
+                    data: obj,
                     error: function () {
 
                     },
