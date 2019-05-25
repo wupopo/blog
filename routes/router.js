@@ -100,7 +100,6 @@ module.exports = function (app) {
             username = req.session.userinfo.username;
         }
         controller.blogdata(blogID, function (data) {
-
             if (data == false) {
                 res.status(404).send("<h1 style='text-align: center;font-size: 48px'>此页面不存在404</h1><p style='text-align: center'>三秒后跳回主页</p>" +
                     "<script>" +
@@ -166,13 +165,14 @@ module.exports = function (app) {
     app.get('/Vlog', function (req, res) {   //VLOG页面请求
         permissions.userPer.needLoginTrue(req, function (bool) {
             if (bool) {
-                res.render('Vlog', {
+                res.send('此页面暂未开放！<a href="/">点击回到主页</a>');
+              /*  res.render('Vlog', {
                     info: req.session.userinfo.name,
                     url: "/home/" + req.session.userinfo.username,
                     style: "display: block;"
-                })
+                })*/
             } else {
-                res.send('请登录！<a href="/login">点击跳转到登录页面</a>');
+                 res.send('此页面暂未开放！<a href="/">点击回到主页</a>');
             }
         })
     });
@@ -260,7 +260,6 @@ module.exports = function (app) {
     app.get('/adlogin', function (req, res) {   //管理员登录页面请求
         console.log(req.headers)
         permissions.adminPer.needOriginTrue(req, function (bool) {
-            console.log(bool)
             if (bool) {
                 res.render('adlogin');
             } else {

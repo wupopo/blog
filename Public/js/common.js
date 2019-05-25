@@ -154,7 +154,7 @@ $(function () {
                     $(".lists").append(`
 								<i class="msgli">
                                     <span class="indexs">` + index + `</span>
-                                    <img src="http://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" class="whoimg" alt="">
+                                    <img src="https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" class="whoimg" alt="">
                                     <a href="../home/` + data[i].target_username + `" class="who">` + data[i].name + `</a>
                                     <p class="do">` + dos + `</p>
                                     <p class="ctitle">` + content + `</p>

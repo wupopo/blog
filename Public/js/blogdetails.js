@@ -43,7 +43,7 @@ $(function(){
                     $("#appcom").append(`
                         <li class="maincomm">
                            <div class="comheader">
-                               <img src="http://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" alt="" class="userimg">
+                               <img src="https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" alt="" class="userimg">
                                <a href="../home/`+data[i].owner_username+`" class="userinfo">`+data[i].name+`:</a>
                                <i class="time">`+data[i].time+`</i>
                                <i class="comid" style="display: none">`+data[i].id+`</i>
@@ -193,7 +193,7 @@ $(function(){
                     $(".replylist").append(`
                         <li class="mainreply">
                             <div class="comheader">
-                                <img src="http://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/`+data[i].img+`" alt="" class="userimg">
+                                <img src="https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/`+data[i].img+`" alt="" class="userimg">
                                 <a href="../home/`+data[i].owner_username+`" class="userinfo">`+data[i].name+`:</a>
                                 <i class="time">`+data[i].time+`</i>
                                  <i class="comid" style="display: none">`+data[i].id+`</i>

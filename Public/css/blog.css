@@ -173,10 +173,10 @@ body{
 }
 .blogBar{
     padding: 0;
-    margin-top: 15px;
+    margin-bottom: 50px;
     width: 100%;
-    border: 1px solid #d7d7d7;
     border-radius: 4px;
+    box-shadow: 0 8px 8px #c6c6c6;
 }
 .Bar{
     width: 100%;
@@ -224,13 +224,16 @@ body{
 }
 .senderInfo p{
     padding-left: 100px;
-    color: #7fa1bf;
+    color: #5a7187;
 }
 .sendername{
-    color: #7fa1bf;
+    color: #5a7187;
+}
+.sendernames{
+    color: #2a3540;
 }
 .senderInfo .title>a{
-  color: #a7a7a7;
+  color: #404040;
 }
 .ti{
     display: block;
@@ -325,7 +328,7 @@ body{
 
 .tipsinfo{
     font-size: 28px;
-    color: white;
+    color: #090909;
 }
 .tipsback{
     display: block;

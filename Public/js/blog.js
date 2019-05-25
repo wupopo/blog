@@ -103,13 +103,13 @@ $(function () {
                         <div class="blogBar">
                             <div class="Bar" style="background-image: url('https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/` + imgsrc + `')">
                                 <div class="senderInfo">
-                                    <img src="http://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" alt="">
+                                    <img src="https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" alt="">
                                     <p>
                                         <b class="title"><a class="ti" href="../blog/` + data[i].id + `" title="` + data[i].title + `" name="` + data[i].id + `">` +
                                         data[i].title + `</a></b>
                                     </p>
                                      <p>
-                                        <b class="sendername">作者：</b><a class="sendername" href="../home/` + data[i].sendername + `">` + data[i].name + `</a>
+                                        <b class="sendername">作者：</b><a class="sendernames" href="../home/` + data[i].sendername + `">` + data[i].name + `</a>
                                      </p>
                                       <p>
                                         <b class="sendtime">发表时间：</b>` + data[i].time + `
@@ -254,25 +254,29 @@ $(function () {
                         }
 
                         $('#blogBarBlock').append(`
-                        <div class="blogBar">
-                            <div class="Bar">
+                          <div class="blogBar">
+                            <div class="Bar" style="background-image: url('https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/` + imgsrc + `')">
                                 <div class="senderInfo">
-                                <img src="http://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" alt="">
-                                <a class="sendername" href="../home/` + data[i].sendername + `">` + data[i].name + `</a>
-                                <p class="title">《 <a href="../blog/` + data[i].id + `">` + data[i].title + `</a> 》</p>
-                             <i class="sendTime">` + data[i].time + `</i>
+                                    <img src="https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" alt="">
+                                    <p>
+                                        <b class="title"><a class="ti" href="../blog/` + data[i].id + `" title="` + data[i].title + `" name="` + data[i].id + `">` +
+                                        data[i].title + `</a></b>
+                                    </p>
+                                     <p>
+                                        <b class="sendername">作者：</b><a class="sendernames" href="../home/` + data[i].sendername + `">` + data[i].name + `</a>
+                                     </p>
+                                      <p>
+                                        <b class="sendtime">发表时间：</b>` + data[i].time + `
+                                     </p>
+                                </div>
                             </div>
-                            <div class="blogCon">
-                            <div class="blogImg">
-                                <img src="https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/` + imgsrc + `" alt="">
-                            </div>
-                            <div class="blogArt">
+                            <div class="blogCon">                 
+                                <div class="blogArt">
                                  ` + str + `
-                            </div>
-
+                                </div>
                             </div>
                             <div class="blogBarFooter">
-                                <a class="readAll" href="../blog/` + data[i].id + `">查看全文</a>
+                                    <a class="readAll" href="../blog/` + data[i].id + `">查看全文</a>
                             </div>
                             </div>
                         </div>

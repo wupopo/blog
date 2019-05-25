@@ -278,7 +278,7 @@ exports.likes = function (obj, callback) {   //点赞模块
                 var last = newarr.join("|");
                 query(blogSql.likeChange, [last, obj.blogid], function (err, da) {
                     if (err) {
-                        allback(false);
+                        callback(false);
                         console.log(err)
                     } else {
                         callback(true);

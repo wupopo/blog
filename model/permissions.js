@@ -16,7 +16,7 @@ exports.userPer = {
         }
     },
     needOriginTrue: function (req,callback) {
-        if (req.headers.origin !== 'http://127.0.0.1:3000' || req.headers.origin !== 'http://www.wupopo.club') {
+        if (req.headers.host !== '127.0.0.1:3000' && req.headers.host !== 'www.wupopo.club') {
             callback(false)
         } else {
             callback(true);
@@ -33,7 +33,6 @@ exports.adminPer = {
         }
     },
     needOriginTrue: function (req,callback) {
-        console.log(req.headers.host)
         if (req.headers.host !== '127.0.0.1:3000' && req.headers.host !== 'www.wupopo.club') {
             callback(false)
         } else {
