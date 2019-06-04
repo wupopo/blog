@@ -13,8 +13,9 @@ const io = require('socket.io')(http);
 const cookieParser=require('cookie-parser');
 //路由文件
 const routes=require("./routes/router.js");
-routes(app);
 
+
+routes(app);
 
 
 /*var multer  = require('multer');*/
@@ -24,7 +25,6 @@ app.use(express.static("Public"));
 /*app.use(multer({ dest: './data/userimg'}).array('image'));*/
 app.set("view engine","ejs");
 app.use(cookieParser());
-
 
 
 

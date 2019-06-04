@@ -14,6 +14,18 @@ var unreadMsg = require('../model/unreadMsg.js');
 // 创建 application/x-www-form-urlencoded 编码解析
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
+exports.getSublistC=function(callback){
+    querysql.getSublistQ(function(data){
+        callback(data);
+    });
+}
+
+exports.getvlogOneC=function(id,callback){
+    querysql.getvlogOneQ(id,function(data){
+        callback(data);
+    })
+}
+
 exports.getvlogC=function(start,callback){
     querysql.getVlogQ(start,function (data) {
         callback(data);

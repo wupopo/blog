@@ -14,14 +14,8 @@
     <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.2/skins/default/aliplayer-min.css">
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/vlog.css">
-    <script src="js/common.js"></script>
-      <script src="js/vlog.js"></script>
-    <script type="text/javascript">
-        window.onload=function(){
-
-            $('body').removeClass('is-loading');
-        }
-    </script>
+    <script src="../js/common.js"></script>
+   
 </head>
 <body class="is-loading">
 <div class="curtain">
@@ -75,8 +69,23 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <div class="row">
-                <div class="col-md-9" id="vlogs">
-                   
+                <div class="col-md-9" id="vlogPanel">
+                        <div class="url" style="display: none"><%=vlog.address%></div>
+                        <h1 style="text-align: center"><%=vlog.title%></h1>
+                        <p style="text-align: right"><%-vlog.time%></p>
+                        <div class="content" style="padding-left: 10px"><%=vlog.content%></div>
+                        <div id="vlogpaly" style="overflow: hidden;margin-bottom: 80px"></div>
+                   <!-- <div class="row">
+                        <div class="col-md-2">
+                            45
+                        </div>
+                        <div class="col-md-6" >
+                            <div class="videop" id="videoMain"></div>
+                        </div>
+                        <div class="col-md-4">
+                            78
+                        </div>
+                    </div>-->
                 </div>
                 <div class="col-md-3">
                      <div id="notice">
@@ -110,5 +119,13 @@
     </div>
 
 </div>
+<script src="../js/vlogPlay.js"></script>
+<script  type="text/javascript">
+    window.onload=function(){
+        $('body').removeClass('is-loading');
+
+        
+    }
+</script>
 </body>
 </html>

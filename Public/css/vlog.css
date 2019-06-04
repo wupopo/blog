@@ -1,11 +1,50 @@
 .vlogPanel{
     width: 100%;
+    height: 200px;
+    border-radius: 4px;
+    border: 1px solid #d3d3d3;
+    box-shadow: 0 8px 8px #898989;
+    margin-bottom: 80px;
 }
-.vlogPheader{
+.vlogPanel a{
+    text-decoration: none;
+    display: block;
     width: 100%;
-    height: 150px;
+}
+.vlogTime{
+    width: 100%;
+    height: 35px;
+    font-weight: bolder;
+    font-size: 22px;
+    color: black;
+    padding-left: 10px;
+    line-height: 35px;
+}
+.vlogtitle{
+    padding-left: 30px;
+    width: 100%;
+    height: 30px;
+    font-size: 15px;
+    color: #8a8a8a;
+    line-height: 30px;
+}
+.vlogContent{
+    width: 100%;
+    position: relative;
+    height: 120px;
+    padding-left: 165px;
+    color: #6e6e6e;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+}
+.vlogImg{
+    display: block;
+    width: 150px;
+    height: 120px;
+    position: absolute;
+    left: 10px;
+    top: 0;
     background-color: #0e90d2;
-}
-.videop{
-    width: 100%;
+   
 }

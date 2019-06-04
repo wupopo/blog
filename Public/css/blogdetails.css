@@ -54,6 +54,26 @@ li,ul{
     outline: none;
     border-bottom: 1px solid #dbdbdb;
 }
+.blog pre{
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #f5f5f5;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #65615e;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.panel-body>.blog>pre>code{
+        /* white-space: pre-wrap; */
+    white-space: unset;
+
+}
 .likeP{
     margin: 0;
     padding-right: 50px;

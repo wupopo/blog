@@ -259,7 +259,9 @@ body {
     text-decoration: none;
 }
 .recHeader{
-
+    color: #8e8e8e;
+    font-weight: bolder;
+    font-size: 18px;
 }
 @keyframes proRotate {
     0% {

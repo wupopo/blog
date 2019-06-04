@@ -1,3 +1,4 @@
+
 /**
  * Created by asus on 2019/3/22.
  */
@@ -7,7 +8,7 @@ $(function () {
 
     function windowSize() {
         let windowWid = $(window).width();
-        if (windowWid < 990) {
+       if (windowWid < 990) {
             $("#rightBarBlock").hide();
         }
         if (windowWid > 990) {
@@ -44,8 +45,26 @@ $(function () {
             }
         }, 10);
     });
+    /**********获取专题***********/
 
-
+    function getsub(){
+        $.ajax({
+            url:"../getSublist",
+            type:"GET",
+            data:[],
+            error:function(err){
+                tip(err.responseJSON.msg);
+            },
+            success:function(data){
+                for(let i=0;i<data.data.length;i++){
+                    $("#subSe").append(`
+                        <option value ="`+data.data[i].id+`">`+data.data[i].sub_name+`</option>
+                    `);
+                }
+            }
+        });
+    }
+    getsub()
     /**********获取文章***********/
     getBloglist(0, true);
     function getBloglist(Num, news) {
@@ -79,7 +98,7 @@ $(function () {
                     var str = data[i].content.replace(imgReg, '[图片]');
                     var imgsrc;
                     if (imgarr == null) {
-                        imgsrc = 'blog/img/demoimg.jpg'
+                        imgsrc = 'blog/img/1557562190000blogimg0.jpg'
                     } else {
                         imgsrc = imgarr[0].match(/myqcloud.com\/(\S*)"/)[1];
                     }
@@ -105,7 +124,7 @@ $(function () {
                                 <div class="senderInfo">
                                     <img src="https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" alt="">
                                     <p>
-                                        <b class="title"><a class="ti" href="../blog/` + data[i].id + `" title="` + data[i].title + `" name="` + data[i].id + `">` +
+                                        <b class="title"><a class="ti" href="../blog/` + data[i].id + `" title="` + data[i].title + `" name="` + data[i].id + `"> <span class="label label-success">` + data[i].sub_name + `</span>` +
                                         data[i].title + `</a></b>
                                     </p>
                                      <p>
@@ -135,12 +154,10 @@ $(function () {
 
     var scd = 10;
 
-    function moreBtn() {
+    $("#more").click(function () {
         getBloglist(scd, false);
         scd = scd + 10;
-    }
-
-    $("#more").click(morebtn);
+    });
 
 
     $('body').on("click", ".like", function () {
@@ -259,7 +276,8 @@ $(function () {
                                 <div class="senderInfo">
                                     <img src="https://wupopo-1256296697.cos.ap-chengdu.myqcloud.com/blog/img/` + data[i].img + `" alt="">
                                     <p>
-                                        <b class="title"><a class="ti" href="../blog/` + data[i].id + `" title="` + data[i].title + `" name="` + data[i].id + `">` +
+                                        <b class="title"><a class="ti" href="../blog/` + data[i].id + `" title="` + data[i].title + `" name="` + data[i].id + `">
+                                        <span class="label label-success">` + data[i].sub_name + `</span>` +
                                         data[i].title + `</a></b>
                                     </p>
                                      <p>
@@ -325,12 +343,13 @@ $(function () {
         var blog = editor.txt.html();
         var blogtitle = $("#Btitle").val();
         $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: '/sendblog',
             data: {
                 title: blogtitle,
                 blog: blog,
-                time: nowtime
+                time: nowtime,
+                sub_id:$('#subSe').val()
             },
             error: function (err) {
                 tip(err.responseJSON.msg);

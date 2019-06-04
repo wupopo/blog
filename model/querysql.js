@@ -25,6 +25,37 @@ function time() {
     return oyear + "-" + mo + "-" + odate + "&nbsp;&nbsp;" + ohour + ":" + ominutes;
 }
 
+exports.getSublistQ=function(callback){
+    query(blogSql.querySubject,[],function(err,data){
+        if(err){
+            callback({
+                code:500,
+                data:[],
+                msg:"error"
+            });
+            console.log(err);
+            return;
+        }
+
+        callback({
+            code:200,
+            data:data,
+            msg:"success"
+        });
+    })
+}
+
+exports.getvlogOneQ=function(id,callback){
+    query(vlogSql.getvlogone,[id],function(err,data){
+        if(err){
+            callback(false);
+            console.log(err);
+            return;
+        }
+        callback(data[0]);
+    })
+}
+
 exports.getVlogQ=function(num,callback){
     let start=Number(num);
     query(vlogSql.getvlog,[start],function (err,data) {
@@ -356,7 +387,7 @@ exports.blogone = function (data, callback) {   //获取一篇文章
 };
 
 exports.querydblog = function (data, callback) {   //发送文章
-    query(blogSql.insertBlog, [data.title, data.sendername, data.time, data.content, null, data.sname], function (err) {
+    query(blogSql.insertBlog, [data.title, data.sendername, data.time, data.content, null, data.sub_id], function (err) {
         if (err) {
             console.log(err);
             callback(false);

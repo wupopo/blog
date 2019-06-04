@@ -174,7 +174,6 @@ $(function () {
             alert(err.responeJSON.msg);
         },
         success: function (data) {
-        console.log(data);
             let blog = data.hotblog;
             var imgReg = /<img src="https:\/\/wupopo-1256296697.cos.ap-chengdu.myqcloud.com.*?(?:>|\/>)/gi;
             var imgarr = blog.content.match(imgReg); //查出所有图片地址

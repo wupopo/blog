@@ -25,7 +25,9 @@ let getClientIp = function (req) {
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
+
 module.exports = function (app) {
+
 
 
     app.use(session({
@@ -165,16 +167,37 @@ module.exports = function (app) {
     app.get('/Vlog', function (req, res) {   //VLOG页面请求
         permissions.userPer.needLoginTrue(req, function (bool) {
             if (bool) {
-                res.send('此页面暂未开放！<a href="/">点击回到主页</a>');
-              /*  res.render('Vlog', {
+               /* res.send('此页面暂未开放！<a href="/">点击回到主页</a>');*/
+                res.render('Vlog', {
                     info: req.session.userinfo.name,
                     url: "/home/" + req.session.userinfo.username,
                     style: "display: block;"
-                })*/
+                })
             } else {
-                 res.send('此页面暂未开放！<a href="/">点击回到主页</a>');
+                 res.send('此页面暂未对游客开放！<a href="/login">登录后访问</a>');
             }
         })
+    });
+    app.get('/Vlog/:id', function (req, res) {   //VLOG播放页面请求
+      let id=req.params.id;
+     permissions.userPer.needLoginTrue(req,function(bool){
+         if(bool){
+            controller.getvlogOneC(id,function(data){
+                if(!data){
+                    res.status(404).send("<h1>此页面不存在</h1>")
+                }else{
+                    res.render('vlogPlay',{
+                        info: req.session.userinfo.name,
+                        url: "/home/" + req.session.userinfo.username,
+                        style: "display: block;",
+                        vlog:data
+                    });
+                }
+            })
+         }else{
+            res.send('此页面暂未对游客开放！<a href="../login">登录后访问</a>');
+         }
+     })
     });
     app.get('/home/:username', function (req, res) {  //个人中心页面请求
         var username = req.params.username;
@@ -258,7 +281,6 @@ module.exports = function (app) {
         });
     });
     app.get('/adlogin', function (req, res) {   //管理员登录页面请求
-        console.log(req.headers)
         permissions.adminPer.needOriginTrue(req, function (bool) {
             if (bool) {
                 res.render('adlogin');
@@ -372,17 +394,17 @@ module.exports = function (app) {
         })
     });
 
-    app.get("/sendblog", function (req, res) {   //发送文章
+    app.post("/sendblog", urlencodedParser,function (req, res) {   //发送文章
         if (!req.session.userinfo) {
             res.status(400).send({code: 400, data: [], msg: 'no login'});
             return;
         }
         var data = {
-            title: req.query['title'],
-            content: req.query['blog'],
-            time: req.query['time'],
-            sendername: req.session.userinfo.username,
-            sname: req.session.userinfo.name
+            title: req.body['title'],
+            content: req.body['blog'],
+            time: req.body['time'],
+            sub_id:req.body['sub_id'],
+            sendername: req.session.userinfo.username
         };
         controller.sendblog(data, function (result) {
             res.status(result.code).send(result);
@@ -533,7 +555,7 @@ module.exports = function (app) {
     });
 
     app.post("/getBlogList", urlencodedParser, function (req, res) {
-        if (req.headers.origin != 'http://127.0.0.1:3000' && req.headers.origin != 'http://www.wupopo.club') {
+        if (req.headers.origin != 'http://127.0.0.1:3000' && req.headers.origin != 'https://www.wupopo.club') {
             res.status(403).send({code: 403, data: [], msg: "Your origin does not conform to the rules"});
             return
         }
@@ -558,7 +580,7 @@ module.exports = function (app) {
 
     app.post("/search", urlencodedParser, function (req, res) {
 
-        if (req.headers.origin != 'http://127.0.0.1:3000' && req.headers.origin != 'http://www.wupopo.club') {
+        if (req.headers.origin != 'http://127.0.0.1:3000' && req.headers.origin != 'https://www.wupopo.club') {
             res.status(403).send({code: 403, data: [], msg: "Your origin does not conform to the rules"});
             return
         }
@@ -654,7 +676,7 @@ module.exports = function (app) {
     })
 
     app.post("/getSidebar", urlencodedParser, (req, res) => {
-        if (req.headers.origin != 'http://127.0.0.1:3000' && req.headers.origin != 'http://www.wupopo.club') {
+        if (req.headers.origin != 'http://127.0.0.1:3000' && req.headers.origin != 'https://www.wupopo.club') {
             res.status(403).send({code: 403, data: [], msg: "Your origin does not conform to the rules"});
             return
         }
@@ -708,5 +730,11 @@ module.exports = function (app) {
             }
         })
     });
+
+    app.get('/getSublist',function(req,res){
+        controller.getSublistC(function(data){
+            res.status(data.code).send(data);
+        });
+    })
 
 };

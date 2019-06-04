@@ -2,6 +2,22 @@
     background-color: #575757;
     color: white;
 }
+.navbar{
+    position: relative;
+    z-index: auto;
+}
+.navbar:after{
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    content: "";
+    width: 100%;
+    height: 50px;
+     background-image: url("../img/yezishu.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+}
 .login>.panel-body{
     padding: 0;
 }
@@ -23,11 +39,22 @@
     display: block;
     margin-top: 20px;
 }
+#username,#password{
+    width: 200px;
+    height: 35px;
+    border: none;
+    background: white;
+    margin-bottom: 15px;
+}
 #btn,#btn1{
     width: 60px;
     height: 30px;
-
     background-color: #00a0df;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bolder;
 }
 .backL{
     border-radius: 8px;

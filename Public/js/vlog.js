@@ -3,6 +3,7 @@ $(function () {
      var player = new Aliplayer({
             id: id,
             autoplay: false,
+            width: '50%',
             //支持播放地址播放,此播放优先级最高
             source : url,
             },function(player){
@@ -22,21 +23,20 @@ $(function () {
             },
             success:function (data) {
                let vlogArr=data.data;
-               for(let i=0;i<vlogArr.length;i++){
-                    $("#vlogPanel").append( `
-                         <div class="row">
-                        <div class="col-md-2">
-                            45
-                        </div>
-                        <div class="col-md-6" >
-                            <div class="videop" id="vlogmain`+vlogArr[i].title+`"></div>
-                        </div>
-                        <div class="col-md-4">
-                            78
-                        </div>
-                    </div>
+               console.log(vlogArr);
+             for(let i=0;i<vlogArr.length;i++){
+                    $("#vlogs").append( `
+                      <div class="vlogPanel">
+                       <a href="../Vlog/`+vlogArr[i].id+`">
+                           <div class="vlogTime">`+vlogArr[i].time+`</div>
+                            <div class="vlogtitle">`+vlogArr[i].title+`</div>
+                           <div class="vlogContent">
+                               <img class="vlogImg" src='`+vlogArr[i].img+`'>
+                               `+vlogArr[i].content+`
+                           </div>
+                       </a>
+                   </div>
                     `)
-                   video(vlogArr[i].address,"vlogmain"+vlogArr[i].title);
                }
             }
         });

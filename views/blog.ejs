@@ -12,9 +12,6 @@
     <script src="https://unpkg.com/cos-js-sdk-v5/demo/common/cos-auth.min.js"></script>
     <script src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
 
-    <script src="js/qiniu.js"></script>
-    <script src="js/moxie.js"></script>
-    <script src="js/plupload.min.js"></script>
 
     <link rel="stylesheet" href="css/common.css">
     <script src="js/common.js"></script>
@@ -88,19 +85,7 @@
                         </div>
                     </div>
                     <div id="blogBarBlock">
-                        <!--<div class="col-md-6 blogBar">
-                        <div class="senderInfo">
-                            <img src="../img/demoimg.png" alt="">
-                            <a class="sendername" href="../home/test0000">测试账号</a>
-                            <p class="title">《 <a href="../blog/00027">西喜爱</a> 》</p>
-                            <i class="sendTime">2019-4-17 14:35</i>
-                        </div>
-                        <div class="blogCon"></div>
-                        <div class="blogBarFooter">
-                            <a class="readAll" href="../blog/00027">查看全文</a>
-                            <p class="likeBtn glyphicon glyphicon-heart like" ><i class="Lnum">12</i></p>
-                        </div>
-                    </div>-->
+
                     </div>
                     <div id="morebtn"><input type="button" value="加载更多" id="more"></div>
                 </div>
@@ -143,7 +128,10 @@
                     class="glyphicon glyphicon-remove" id="closeIde"></span></div>
         <div class="panel-body">
             <div>
-                <table>标题：<input type="text" id="Btitle"></table>
+                <table>标题：
+                    <select id="subSe">
+                  </select>
+                  <input type="text" id="Btitle" placeholder="请输入标题"></table>
             </div>
             <div id="editor">
             </div>

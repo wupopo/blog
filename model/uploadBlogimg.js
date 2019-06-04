@@ -43,7 +43,9 @@ exports.uploadfile=function(req,res){
                 });
                if(x==keys1.length-1){
                     setTimeout(function(){
-                        uploadBlogimg(newimgpath,res);
+                        uploadBlogimg(newimgpath,function (data) {
+                            res.status(200).send(data);
+                        });
                     },2000)
                }
            }
@@ -51,7 +53,7 @@ exports.uploadfile=function(req,res){
     });
 };
 
-function uploadBlogimg(arr,res){
+function uploadBlogimg(arr,callback){
     let newimgpath=arr;
     let successImgUrl=[];
     for(let i=0;i<newimgpath.length;i++){
@@ -90,7 +92,7 @@ function uploadBlogimg(arr,res){
         if(i==newimgpath.length-1){
             console.log(successImgUrl);
            setTimeout(function(){
-               res.status(200).send({
+               callback({
                    "errno": 0,
                    "data":successImgUrl
                });
@@ -98,6 +100,7 @@ function uploadBlogimg(arr,res){
         }
     }
 }
+exports.uploadQCimfile=uploadBlogimg;
 /*function upQcloudblogimg(key){
     var SecretId = 'AKIDhAPO8ZAS2NTKwIqRDm9H9m9JH0Ui7TzG'; // 替换为用户的 SecretId
     var SecretKey = 'EH5dvymKdjnbAUYMuCKI1YqysXxBD0Xp';    // 替换为用户的 SecretKey
