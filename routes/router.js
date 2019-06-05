@@ -5,6 +5,7 @@
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var controller = require("../controller/controller.js");
+
 var file = require("../model/file.js");
 var path = require('path');
 var query = require("../model/querysql.js");
@@ -30,287 +31,10 @@ module.exports = function (app) {
 
 
 
-    app.use(session({
-        secret: 'keyboard cat',
-        resave: false,
-        name: 'EtCHHAiKL',
-        saveUninitialized: true,
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 3, httpOnly: true
-        }
-        //cookie: { secure: true }   /*secure https这样的情况才可以访问cookie*/
-    }));
 
-    app.use(function (err, req, res, next) {
-        if (err) {
-            console.error(err.stack)
-            res.status(500).send('Something broke!');
-            return;
-        }
-        next();
-    });
 
     /*页面请求部分*/
-    app.get("/", function (req, res) {
-        //主页请求
 
-        var ud;
-        if (req.session.userinfo == null) {
-            ud = {
-                info: "登录",
-                style1: "display:block;",
-                url: "/login",
-                style: "display: none;",
-            };
-        } else {
-            ud = {
-                info: req.session.userinfo.name,
-                style1: "display:none;",
-                url: "/home/" + req.session.userinfo.username,
-                style: "display: block;",
-            }
-        }
-        res.render('index', ud);
-
-
-    });
-
-    app.get('/blog', function (req, res) {   //博客页面请求
-
-        if (req.session.userinfo == null) {
-            ud = {
-                info: "登录",
-                url: "/login",
-                style: "display: none;",
-                style1: "display:block;",
-            };
-        } else {
-            ud = {
-                info: req.session.userinfo.name,
-                url: "/home/" + req.session.userinfo.username,
-                style: "display: block;",
-                style1: "display:none;",
-            }
-        }
-        res.render('blog', ud);
-
-    });
-    app.get('/blog/:bid', function (req, res) {     //博客详情页面请求
-        var blogID = req.params.bid;
-        var username = null;
-        if (req.session.userinfo) {
-            username = req.session.userinfo.username;
-        }
-        controller.blogdata(blogID, function (data) {
-            if (data == false) {
-                res.status(404).send("<h1 style='text-align: center;font-size: 48px'>此页面不存在404</h1><p style='text-align: center'>三秒后跳回主页</p>" +
-                    "<script>" +
-                    "setTimeout(function(){window.location.href='/'},3000)" +
-                    "</script>");
-            } else {
-                var likearr = []
-                if (data[0].likes) {
-                    likearr = data[0].likes.split('|');
-                }
-
-                var like = "unlike";
-
-                for (var i = 0; i < likearr.length; i++) {
-                    if (username == likearr[i]) {
-                        like = 'liked'
-                    }
-                }
-                var str = data[0];
-                if (req.session.userinfo) {
-                    var del = "display:none;";
-                    if (str.sendername == req.session.userinfo.username) {
-                        del = "display:block;"
-                    }
-                    res.render('blogdetails', {
-                        del: del,
-                        htmlT: str.title,
-                        atitle: str.title,
-                        blog: str,
-                        hot: likearr.length,
-                        htn: like,
-                        info: req.session.userinfo.name,
-                        url: "/home/" + req.session.userinfo.username,
-                        style: "display: block;",
-                        style1: "display:none;",
-                    })
-                } else {
-                    res.render('blogdetails', {
-                        del: 'display:none;',
-                        htmlT: str.title,
-                        atitle: data[0].title,
-                        blog: str,
-                        hot: likearr.length,
-                        htn: like,
-                        info: "登录",
-                        url: "/login",
-                        style: "display: none;",
-                        style1: "display:block;",
-                    })
-                }
-            }
-
-        });
-    });
-
-
-    app.get('/login', function (req, res) {        //登录页面请求
-        res.render('login', {});
-    });
-    app.get('/registered', function (req, res) {    //注册页面请求
-        res.render('registered', {});
-    });
-    app.get('/Vlog', function (req, res) {   //VLOG页面请求
-        permissions.userPer.needLoginTrue(req, function (bool) {
-            if (bool) {
-               /* res.send('此页面暂未开放！<a href="/">点击回到主页</a>');*/
-                res.render('Vlog', {
-                    info: req.session.userinfo.name,
-                    url: "/home/" + req.session.userinfo.username,
-                    style: "display: block;"
-                })
-            } else {
-                 res.send('此页面暂未对游客开放！<a href="/login">登录后访问</a>');
-            }
-        })
-    });
-    app.get('/Vlog/:id', function (req, res) {   //VLOG播放页面请求
-      let id=req.params.id;
-     permissions.userPer.needLoginTrue(req,function(bool){
-         if(bool){
-            controller.getvlogOneC(id,function(data){
-                if(!data){
-                    res.status(404).send("<h1>此页面不存在</h1>")
-                }else{
-                    res.render('vlogPlay',{
-                        info: req.session.userinfo.name,
-                        url: "/home/" + req.session.userinfo.username,
-                        style: "display: block;",
-                        vlog:data
-                    });
-                }
-            })
-         }else{
-            res.send('此页面暂未对游客开放！<a href="../login">登录后访问</a>');
-         }
-     })
-    });
-    app.get('/home/:username', function (req, res) {  //个人中心页面请求
-        var username = req.params.username;
-        controller.homepage(username, function (data) {
-            if (!data) {
-                res.status(404).send("<h1>没有这个页面<a href='/'>点击回主页</a></h1>");
-            } else {
-                var img;
-                var mansex;
-                var womansex;
-                if (data.user.sex == "男") {
-                    mansex = "checked";
-                    womansex = '';
-                }
-                if (data.user.sex == "女") {
-                    mansex = '';
-                    womansex = "checked";
-                }
-                if (!data.user.sex) {
-                    mansex = '';
-                    womansex = '';
-                }
-                if (!data.user.img) {
-                    img = "img/demoimg.png"
-                } else {
-                    img = data.user.img;
-                }
-                var ud = {};
-                if (req.session.userinfo == null) {
-                    res.render('personCenter', {
-                        womansex: womansex,
-                        mansex: mansex,
-                        age: "隐藏",
-                        mail: "隐藏",
-                        phone: "隐藏",
-                        sex: "隐藏",
-                        img: img,
-                        info: data,
-                        url: "",
-                        user: "",
-                        style: "display: none;",
-                        style1: "display: block;",
-                        style2: "display: none;"
-                    });
-                } else {
-                    if (req.session.userinfo.username == username) {
-                        res.render('personCenter', {
-                            womansex: womansex,
-                            mansex: mansex,
-                            img: img,
-                            info: data,
-                            age: data.user.age,
-                            mail: data.user.mail,
-                            phone: data.user.phone,
-                            sex: data.user.sex,
-                            user: req.session.userinfo.name,
-                            url: "/home/" + req.session.userinfo.username,
-                            style: "display: block;",
-                            style1: "display: none;",
-                            style2: "display: block;"
-                        });
-                    } else {
-                        res.render('personCenter', {
-                            womansex: womansex,
-                            mansex: mansex,
-                            age: "隐藏",
-                            mail: "隐藏",
-                            phone: "隐藏",
-                            sex: "隐藏",
-                            img: img,
-                            info: data,
-                            user: req.session.userinfo.name,
-                            url: "/home/" + req.session.userinfo.username,
-                            style: "display: block;",
-                            style1: "display: none;",
-                            style2: "display: none;"
-                        });
-                    }
-                }
-            }
-        });
-    });
-    app.get('/adlogin', function (req, res) {   //管理员登录页面请求
-        permissions.adminPer.needOriginTrue(req, function (bool) {
-            if (bool) {
-                res.render('adlogin');
-            } else {
-                res.send("你没权限查看此页面！");
-            }
-        })
-    });
-    app.get('/admin', function (req, res) {   //后台页面请求
-
-        permissions.adminPer.needLoginTrue(req, function (bool) {
-            if (bool) {
-                var username = req.session.admininfo.username;
-                var level = req.session.admininfo.level;
-                var role;
-                if (level == 1) {
-                    role = "超级管理员"
-                } else if (level == 2) {
-                    role = "管理员"
-                }
-                res.render('admin', {
-                    role: role,
-                    username: username
-                });
-            } else {
-                res.send("你没权限查看此页面！");
-            }
-        })
-
-    });
 
 
     /***************** 数据请求*****************/
@@ -335,12 +59,6 @@ module.exports = function (app) {
 
 
     });
-
-
-    app.get('/changeinfo', function (req, res) {    //资料修改请求处理
-        query.querychge(req, res);
-    });
-
     app.post('/loginad', urlencodedParser, function (req, res) {  //管理员登录请求处理
         var datas = {
             user: req.body,
@@ -736,5 +454,21 @@ module.exports = function (app) {
             res.status(data.code).send(data);
         });
     })
-
+    app.post('/addSubject',urlencodedParser,function(req,res){
+        permissions.adminPer.needLoginTrue(req,function(isTrue){
+            if(isTrue){
+                controller.addSubliC(req.body['subname'],function(data){
+                    res.status(data.code).send(data);
+                })
+            }else{
+                res.status(403).send({
+                    code:403,
+                    data:[],
+                    msg:"请求不符合安全规则！"
+                });
+            }
+        })
+    })
+    
+    app.get('/deleteCom',controller.deleteComC);
 };
