@@ -3,6 +3,7 @@
  */
 var BlogSql={
     insertBlog:"INSERT into blog(title,sendername,time,content,likes,sub_id) VALUES(?,?,?,?,?,?)",
+    insertSub:"INSERT into subject(sub_name,sub_time) VALUES(?,?)",
     deleteBlogById:"DELETE  FROM blog WHERE id=?",
     deleteComments:'DELETE FROM comment WHERE ancestors_id=?',
     updateBlogById:"UPDATE blog SET title=?, content? WHERE id?",

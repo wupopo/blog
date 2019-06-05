@@ -146,13 +146,15 @@ li,ul{
 .commlis{
     display: block;
     width: 100%;
+    background-color: white;
+    border-radius: 5px;
 }
 
 
 .maincomm{
     border-radius: 5px;
     margin-top: 5px;
-    background-color: white;
+    box-shadow: 0 2px 2px rgb(204, 203, 203);
 
 }
 .comheader{
@@ -233,8 +235,8 @@ li,ul{
     list-style: none;
 }
 .mainreply{
-    border: 2px solid #b2dba1;
-    margin-top: 5px;
+    background-color: #ededed70;
+    margin-top: 10px;
     border-radius: 4px;
 }
 

@@ -51,7 +51,7 @@
                 </button>
             </li>
             <li>
-                <button class="nav_btn"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;系统设置</button>
+                <button class="nav_btn" @click="getHtmlConfig"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;系统设置</button>
             </li>
             <li>
                 <button class="nav_btn"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;操作记录</button>
@@ -170,56 +170,88 @@
                     <div class="sysNav">
                         <ul>
                             <li class="htmlCongfig" @click="getHtmlConfig">页面配置</li>
-                            <li>页面配置</li>
+                            <li @click='subSeting'>专题设置</li>
                             <li>页面配置</li>
                         </ul>
                     </div>
-                    <div class="sysPanel">
-                        <div class="HCpanel">
-                            <ul>
-                                <li class="gonggao">
-                                    <b>公告：</b><textarea class="GGV"></textarea><b>*直接输入公告内容</b>
-                                </li>
-                                <li>
-                                    <b>推荐：</b><textarea class="TJV"></textarea><b>*请输入推荐文章id，以"|"分隔</b>
-                                </li>
-                                <li>
-                                    <b>vlog：</b><textarea class="VLV"></textarea><b>*输入vlog地址</b>
-                                </li>
-                                <li>
-                                    <b>热门：</b><textarea class="RMV"></textarea><b>*输入热门文章id</b>
-                                </li>
-                                <li>
-                                    <input type="button" value="确认修改" @click="pageconfigB">
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="nowCF" style="padding: 0">
-                            <div class="CFtop">
-                                <div class="CFbar">
-                                    <div class="nowtltle">当前公告</div>
-                                    <div class="nowcontent nowNotice"></div>
+                    <div style="width: 80%;height:100%;">
+                        <div class="sysPanel">
+                            <div class="HCpanel">
+                                <ul>
+                                    <li class="gonggao">
+                                        <b>公告：</b><textarea class="GGV"></textarea><b>*直接输入公告内容</b>
+                                    </li>
+                                    <li>
+                                        <b>推荐：</b><textarea class="TJV"></textarea><b>*请输入推荐文章id，以"|"分隔</b>
+                                    </li>
+                                    <li>
+                                        <b>vlog：</b><textarea class="VLV"></textarea><b>*输入vlog地址</b>
+                                    </li>
+                                    <li>
+                                        <b>热门：</b><textarea class="RMV"></textarea><b>*输入热门文章id</b>
+                                    </li>
+                                    <li>
+                                        <input type="button" value="确认修改" @click="pageconfigB">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="nowCF" style="padding: 0">
+                                <div class="CFtop">
+                                    <div class="CFbar">
+                                        <div class="nowtltle">当前公告</div>
+                                        <div class="nowcontent nowNotice"></div>
+                                    </div>
+                                    <div class="CFbar">
+                                        <div class="nowtltle">推荐</div>
+                                        <div class="nowcontent ">
+                                            <ul class="nowRec"></ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="CFbar">
-                                    <div class="nowtltle">推荐</div>
-                                    <div class="nowcontent ">
-                                        <ul class="nowRec"></ul>
+                                <div class="CFbottm">
+                                    <div class="CFbar">
+                                        <div class="nowtltle">vlog</div>
+                                        <div class="nowcontent">
+                                            <video class="nowVlog" src="" controls></video>
+                                        </div>
+                                    </div>
+                                    <div class="CFbar">
+                                        <div class="nowtltle">热门文章</div>
+                                        <div class="nowcontent nowRm">
+    
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="CFbottm">
-                                <div class="CFbar">
-                                    <div class="nowtltle">vlog</div>
-                                    <div class="nowcontent">
-                                        <video class="nowVlog" src="" controls></video>
-                                    </div>
-                                </div>
-                                <div class="CFbar">
-                                    <div class="nowtltle">热门文章</div>
-                                    <div class="nowcontent nowRm">
+                        </div>
+    
+                        <div class="subPabel" style="display: none">
+                            <div class="addSub">
+                                <h3>添加专题</h3>
+                               <label for="subname">专题名称： <input type="text" v-model='subNames' id="subname" placeholder="请输入专题名称"></label>
+                               <label for=""><input @click='addSubLi' class="addSubBtn" type="button" value="确认"></label>
+                            </div>
+                            <div class="chkSub">
+                                    <div class="panel panel-default">
+                                            <!-- Default panel contents -->
+                                            <div class="panel-heading">专题列表</div>
+                                      
+                                            <!-- Table -->
+                                            <table class="table">
+                                              <thead>
+                                                <tr>
+                                                  <th>id</th>
+                                                  <th>名称</th>
+                                                  <th>时间</th>
+                                                  <th>操作</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody class="Sublists">
+                                                
+                                              </tbody>
+                                            </table>
+                                          </div>
 
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

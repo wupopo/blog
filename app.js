@@ -11,10 +11,12 @@ const crypto = require("crypto");
 const io = require('socket.io')(http);
 
 const cookieParser=require('cookie-parser');
+
+
 //路由文件
+require("./routes/page")(app);
+require("./routes/api/commonApi")(app);
 const routes=require("./routes/router.js");
-
-
 routes(app);
 
 

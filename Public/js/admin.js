@@ -9,7 +9,9 @@ $(function () {
             uname: "",
             users: [],
             blog: [],
-            webdata: {}
+            webdata: {},
+            subList:[],
+            subNames:""
         },
         mounted: function () {
             document.getElementById("uList").addEventListener('mousewheel', this.handleScroll, false);
@@ -163,6 +165,7 @@ $(function () {
                 });
             },
             getHtmlConfig: function () {
+                $('.sysPanel').show(200).siblings('div').hide(200);
                 $.ajax({
                     type: "post",
                     url: "/getSidebar",
@@ -192,6 +195,51 @@ $(function () {
                         $(".RMV").val(data.hotblog.id)
                     }
                 });
+            },
+            subSeting:function(){
+                $('.subPabel').show(200).siblings('div').hide(200);
+                this.getSubject();
+            },
+            getSubject:function(){
+                let _this=this;
+                $(".Sublists").html("");
+                $.ajax({
+                    url:"../getSublist",
+                    type:"GET",
+                    data:{},
+                    error:function(error){
+                        showprompt(error.responseJSON.msg)
+                    },
+                    success:function(data){
+                        _this.subList=data.data;
+                        for(let i=0;i<_this.subList.length;i++){
+                            $(".Sublists").append(`
+                            <tr>
+                                <th scope="row">`+_this.subList[i].id+`</th>
+                                <td>`+_this.subList[i].sub_name+`</td>
+                                <td>`+_this.subList[i].sub_time+`</td>
+                                <td> <button type="button" class="btn btn-info">编辑</button></td>
+                            </tr>
+                            `);
+                        }
+                    }
+                });
+            },
+            addSubLi:function(){
+               let subname=this.subNames;
+               let _this=this;
+               $.ajax({
+                   url:"../addSubject",
+                   type:"POST",
+                   data:{subname:subname},
+                   error:function(err){
+                       showprompt(err.responseJSON.msg);
+                   },
+                   success:function(data){
+                        console.log(data);
+                        _this.getSubject();
+                   }
+               })
             },
             handleScroll: function (e) {   //判断滚轮方向
                 var direction = e.deltaY > 0 ? 'down' : 'up';
