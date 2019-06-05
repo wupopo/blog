@@ -1,18 +1,29 @@
 /**
  * Created by asus on 2018/12/2.
  */
-var bodyParser = require('body-parser');
-var file = require('../model/file.js');
-var querysql = require('../model/querysql.js');
-var qcloudsms = require('../model/qcloudsms_js.js');
-var crypto = require('crypto');
-var operRecord=require('../model/operRecord.js');
-var deleteQcloudfile=require('../model/deleteQcloudfile.js');
-var fs = require("fs");
-var unreadMsg = require('../model/unreadMsg.js');
-
+const bodyParser = require('body-parser');
+const file = require('../model/file.js');
+const querysql = require('../model/querysql.js');
+const qcloudsms = require('../model/qcloudsms_js.js');
+const crypto = require('crypto');
+const operRecord=require('../model/operRecord.js');
+const deleteQcloudfile=require('../model/deleteQcloudfile.js');
+const fs = require("fs");
+const unreadMsg = require('../model/unreadMsg.js');
+const permissions = require('../model/permissions.js');
 // 创建 application/x-www-form-urlencoded 编码解析
-var urlencodedParser = bodyParser.urlencoded({extended: false});
+const urlencodedParser = bodyParser.urlencoded({extended: false});
+
+
+exports.deleteComC=function(req,res){
+
+}
+
+exports.addSubliC=function(name,callback){
+    querysql.addSubLiQ(name,function(data){
+        callback(data);
+    })
+}
 
 exports.getSublistC=function(callback){
     querysql.getSublistQ(function(data){
