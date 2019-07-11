@@ -1,7 +1,7 @@
 var pageCtrl = require("../../controller/pageCtrl.js");
 var session = require('express-session');
 module.exports=app=>{
-     app.use(session({
+    /* app.use(session({
         secret: 'keyboard cat',
         resave: false,
         name: 'EtCHHAiKL',
@@ -9,8 +9,8 @@ module.exports=app=>{
         cookie: {
             maxAge: 1000 * 60 * 60 * 3, httpOnly: true
         }
-        //cookie: { secure: true }   /*secure https这样的情况才可以访问cookie*/
-    }));
+        //cookie: { secure: true }   /!*secure https这样的情况才可以访问cookie*!/
+    }));*/
 
 
     app.get("/", pageCtrl.indexPage);

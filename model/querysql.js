@@ -2,6 +2,8 @@ var userSql = require('../db/Usersql');
 var adminSql = require('../db/AdminSql');
 var blogSql = require("../db/Blog.js");
 var vlogSql = require("../db/vlog.js");
+let jsonwebtoken = require('jsonwebtoken');
+let bceypt = require('bcrypt');
 var mysql = require('mysql');
 var file = require("./file.js");
 var qcloudsms = require('../model/qcloudsms_js.js');
@@ -109,7 +111,7 @@ exports.addconfig = function (obj, callback) {
 }
 
 exports.querysea = function (str, callback) {
-    query(blogSql.searchBlog, ['%' + str + '%', '%' + str + '%', '%' + str + '%', '%' + str + '%'], function (err, data) {
+    query(blogSql.searchBlog, ['%' + str + '%', '%' + str + '%', '%' + str + '%'], function (err, data) {
         if (err) {
             console.log(err);
             callback(false);
@@ -468,7 +470,6 @@ exports.objUserName = function (callback) {   //查询所有用户
 };
 
 exports.queryLogin = function (data, callback) {  //用户登录
-    var timestamp = (new Date()).getTime();
     var table;
     if (data.role == "user") {            //判断登录身份，选择后面要查询数据库的表；
         table = userSql;
@@ -477,45 +478,19 @@ exports.queryLogin = function (data, callback) {  //用户登录
     }
     var username = data.user['username'];
     var password = data.user['password'];
-
-    var oudata = {};//用户信息存放地
-    query(table.queryAll, [], function (err, datas) {
-        if (err) {
+    query(table.getUserByUname,[username],function (err,data) {
+        if(err){
+            callback({code:500,data:[],msg:"error"});
             console.log(err);
-            callback("Serror");
-            return;
-        }
-
-        var isTrue = false;
-        for (var i = 0; i < datas.length; i++) {   //获取用户列表，循环遍历判断当前用户是否存在
-            if (datas[i].username == username && datas[i].pwd == password) {
-                isTrue = true;
-                if (datas[i].name) {
-                    oudata.name = datas[i].name;
-                    oudata.username = datas[i].username;
-                    oudata.key = timestamp;
-                } else {
-                    oudata.username = datas[i].username;
-                    oudata.id = datas[i].id;
-                    oudata.level = datas[i].level;
-                }
+        }else if(!data[0]){
+            callback({code:403,data:[],msg:'用户名不存在！'})
+        }else {
+            let isPasswordValid=bceypt.compareSync(password,data[0].password);
+            if(isPasswordValid){
+                callback({code:200,data:[{username:data[0].username}],msg:"success"})
+            }else {
+                callback({code:422,data:[],msg:"密码错误"});
             }
-        }
-
-        if (isTrue) {
-            /* res.cookie(cookiename, oudata, {maxAge: 4420000, httpOnly: true});*/
-            callback(oudata);
-            console.log(data.role);
-            operRecord({
-                type: "login",
-                role: data.role,
-                operator: username,
-                content: null,
-                object: username,
-                time: time()
-            });
-        } else {
-            callback("error");
         }
     })
 };
@@ -525,18 +500,23 @@ exports.home = function (username, callback) {  //获取指定用户信息
             console.log(err);
             callback(false)
         } else {
-            query(blogSql.getBlogInfoBySender, [username], function (err, blog) {
-                if (err) {
-                    console.log(err);
-                    callback(false)
-                } else {
-                    var data = {
-                        user: user[0],
-                        blog: blog
+            if(user[0]){
+                query(blogSql.getBlogInfoBySender, [username], function (err, blog) {
+                    if (err) {
+                        console.log(err);
+                        callback(false)
+                    } else {
+                        var data = {
+                            user: user[0],
+                            blog: blog
+                        }
+                        console.log(data);
+                        callback(data);
                     }
-                    callback(data);
-                }
-            })
+                })
+            }else{
+                callback(false);
+            }
         }
     })
 };
@@ -566,54 +546,43 @@ exports.changekey = function (newpwd, pwd, username, callback) {
     });
 };
 
-exports.queryReg = function (req, res) {
-    var name = req.query['name'];
-    var username = req.query['username'];
-    var password = req.query['password'];
-    var phone = req.query['phone'];
-    var pwd = req.query['key'];
-    var Svc;
-    qcloudsms.VC(function (data) {
-        Svc = data;
-    });
-    var Cvc = req.query['vc'];
-    Cvc = Number(Cvc);
-
-    if (Cvc) {            //判断是否存在验证码，如果存在进行验证码验证，不存在直接进行数据库操作
-        if (Svc != Cvc) {
-            res.status(400).send({code: 400, data: [], msg: "验证码错误"});
-            return;
-        }
-    }
-    query(userSql.queryAll, [], function (err, data) {
+exports.queryReg = function (obj, callback) {
+    let name = obj.name;
+    let username = obj.username;
+    let password = obj.password;
+    let phone = obj.phone;
+    query(userSql.getUserByUname, [username], function (err, data) {
         if (err) {
-            console.log(err);
+            callback({
+                code: 500,
+                data: [],
+                msg: "error"
+            });
             return;
         }
 
-        if (data) {
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].username == username) {
-                    res.status(400).send({code: 400, data: [], msg: "该用户名已被注册"});
-                    return;
-                }
+        if (data[0]) {
+            if (data[0].username == username) {
+                  callback({code: 400, data: [], msg: "该用户名已被注册"});
+                return;
             }
         }
-
-        query(userSql.insert, [name, username, password, phone, null, null, null, pwd], function (err, data) {
+        let hashedPwd = bceypt.hashSync(password, 10);  //加密处理
+        console.log(hashedPwd);
+        query(userSql.insert, [name, username, hashedPwd, phone, null, null, null, time()], function (err, data) {
             if (err) {
-                res.status(400).send({code: 400, data: [], msg: "数据库出错"});
+                console.log(err);
+                callback({code: 400, data: [], msg: "数据库出错"});
             } else {
-                res.status(200).send({code: 200, data: [], msg: "注册成功！"});
+                callback({code: 200, data: [], msg: "注册成功！"});
                 operRecord({
                     type: "reg",
-                    role: data.role,
+                    role: 'user',
                     operator: username,
                     content: null,
                     object: username,
                     time: time()
                 });
-
             }
         });
     });
@@ -640,9 +609,9 @@ exports.changInfoM = function (obj, callback) {
             time: time()
         });
         callback({
-            code:200,
-            data:[],
-            msg:"修改成功"
+            code: 200,
+            data: [],
+            msg: "修改成功"
         });
     })
 };
@@ -688,3 +657,14 @@ exports.queryDelete = function (req, res) {
         });
     })
 };
+
+exports.getUserOne=function(username,callback){
+    query(userSql.getUserByUname,[username],function(err,data){
+        if(err){
+            callback(false);
+            console.log(err);
+            return;
+        }
+        callback(data[0]);
+    })
+}

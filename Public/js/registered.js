@@ -31,6 +31,10 @@ $(document).ready(function () {
                 $(".vcbtn").attr({
                     disabled: 'disabled'
                 });
+                console.log(data);
+                window.localStorage.removeItem('token');
+                window.localStorage.setItem("token",data.data);
+                console.log(window.localStorage.getItem("token"))
                 var timer = setInterval(function time() {
                     count--;
                     if (count == 0) {
@@ -116,10 +120,15 @@ $(document).ready(function () {
             key:key,
             phone: phone
         };
+        let token=window.localStorage.getItem('token');
+        console.log(token);
         $.ajax({
             type:"GET",
             url:"/registereds",
             data:data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' +token );
+            },
             error:function(err){
                   alert(err.responseJSON.msg);
             },

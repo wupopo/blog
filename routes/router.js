@@ -95,7 +95,7 @@ module.exports = function (app) {
         })
     });
 
-    app.post("/logins", urlencodedParser, function (req, res) {   //用户登录请求处理
+    /*app.post("/logins", urlencodedParser, function (req, res) {   //用户登录请求处理
         var data = {
             user: req.body,
             role: "user"
@@ -110,7 +110,7 @@ module.exports = function (app) {
                 res.status(200).send();
             }
         })
-    });
+    });*/
 
     app.post("/sendblog", urlencodedParser,function (req, res) {   //发送文章
         if (!req.session.userinfo) {
@@ -128,48 +128,9 @@ module.exports = function (app) {
             res.status(result.code).send(result);
         })
     });
-    app.get("/like", function (req, res) {  //文章点赞
-        if (!req.session.userinfo) {
-            res.status(400).send({code: 400, data: [], msg: "你怎么不登录就点赞啊？"});
-        } else {
-            var data = {
-                type: req.query["type"],
-                blogid: req.query['blogid'],
-                username: req.session.userinfo.username
-            };
-            controller.like(data, function (datas) {
-                res.status(datas.code).send(datas);
-            })
-        }
-    });
+  
 
-    app.get('/vc', function (req, res) {  //验证码请求
-        var phone = req.query['phone'];
-        controller.vc(phone, function (data) {
-            if (data) {
-                res.status(200).send([{code: 200, data: [], msg: "success"}]);
-                console.log("手机号为：" + phone + "的用户短信发送成功！");
-            } else {
-                res.status(400).send([{code: 400, data: [], msg: "短信发送失败！"}]);
-            }
-        })
-    });
 
-    //用户注册请求处理
-    app.get('/registereds', function (req, res) {
-        query.queryReg(req, res);
-    });
-//管理员/用户退出登录请求处理
-    app.get("/exit", function (req, res) {
-        var role;
-        if (req.query["role"] == "user") {
-            req.session.userinfo = null
-        } else if (req.query["role"] == "admin") {
-            req.session.admin = null
-        }
-        res.cookie(role, '', {expires: new Date(0)});
-        res.send('ok');
-    });
 
     //删除用户请求处理
     app.get("/delete_user", function (req, res) {
@@ -193,20 +154,7 @@ module.exports = function (app) {
     });
 
 
-    app.get('/deleteblog', function (req, res) {  //删除博客请求处理
-        if (!req.session.userinfo) {
-            res.status(400).send({code: 400, data: [], msg: '你没得权限'});
-            return;
-        }
-        var data = {
-            username: req.session.userinfo.username,
-            blogid: req.query['blogid'],
-            time: req.query['time']
-        };
-        controller.deleteblog(data, function (reslut) {
-            res.status(reslut.code).send(reslut);
-        });
-    })
+
 
 
     app.get('/setuserimg', function (req, res, next) { //接收上传图片请求的接口
@@ -268,7 +216,6 @@ module.exports = function (app) {
                 data.oper = oper;
                 res.status(200).send(data);
             })
-
         })
     });
 
@@ -312,33 +259,7 @@ module.exports = function (app) {
             }
         })
     });
-    app.get("/sendcomm", function (req, res) {   //发送评论
-        if (!req.session.userinfo) {
-            res.status(403).send({code: 403, data: [], msg: "请登录后发送评论"});
-            return;
-        }
-
-        var content = req.query['content'];
-        var sendername = req.session.userinfo.username;
-        var time = req.query["time"];
-        var parent_id = req.query["parent_id"];
-        var ancestors_id = req.query["ancestors_id"];
-        var data = {
-            ancestors_id: ancestors_id,
-            parent_id: parent_id,
-            content: content,
-            owner_username: sendername,
-            time: time,
-            parent_type: req.query["parent_type"]
-        };
-
-        controller.sendcomms(data, function (data) {
-            if (data) {
-                res.status(data.code).send(data)
-            }
-        });
-    });
-
+    
     app.post("/getComments", urlencodedParser, function (req, res) {
         controller.blogcomm(req.body, function (data) {
             if (data) {
@@ -349,34 +270,7 @@ module.exports = function (app) {
         })
 
     });
-
-    app.get('/isLogin', function (req, res) {
-        if (req.session.userinfo) {
-            res.send({islogin: true, username: req.session.userinfo.username})
-        } else {
-            res.send({islogin: false, username: []})
-        }
-    })
-
-    app.post("/getmsg", urlencodedParser, function (req, res) {
-        if (req.session.userinfo) {
-            if (req.session.userinfo.username != req.body['msg_tofrom_username']) {
-                res.status(403).send({code: 403, data: [], msg: "你没有权限获取此数"});
-                return;
-            }
-        } else {
-            res.status(403).send({code: 403, data: [], msg: "你没有权限获取此数据"});
-            return;
-        }
-        controller.getmsg(req.body.msg_tofrom_username, (data) => {
-            if (data) {
-                res.status(200).send(data);
-            } else {
-                res.status(400).send({code: 400, data: [], msg: '获取数据出错'});
-            }
-        })
-    });
-
+  
     app.get('/readIt', (req, res) => {
         if (req.session.userinfo) {
             if (req.session.userinfo.username != req.query['username']) {

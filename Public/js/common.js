@@ -3,45 +3,22 @@
  */
 $(function () {
 
-
-    //监听页面滚动
-
-    function htmlUp() {
-        $('.navbar').css({
-            backgroundColor: "#ffffff",
-            position: "fixed",
-            width: '100%',
-            top: "0"
-        });
-        var content = document.documentElement.scrollTop;
-        if (content < 50) {
-            $('.navbar').css({
-                backgroundColor: "#ffffff",
-                borderColor: " #080808",
-                position: "relative",
-                minHeight: "50px",
-                marginBottom: " 20px",
-                border: "1px solid transparent"
+    (function ajaxSet() {
+        let token = window.localStorage.getItem('token');
+            console.log(token);
+        if (window.localStorage.getItem('token')) {
+            
+            $.ajaxSetup({
+                async: false,
+                global: true,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                }
             });
         }
-    }
+    })();
+    //监听页面滚动
 
-    function htmlDown() {
-        $('.navbar').css({
-            backgroundColor: "#ffffff",
-            borderColor: " #080808",
-            position: "relative",
-            minHeight: "50px",
-            marginBottom: " 20px",
-            border: "1px solid transparent"
-        });
-        //$('#content').css({
-        //	position: "absolute",
-        //	top: '70px',
-        //	width: '100%',
-        //	zIndex: 1
-        //});
-    }
 
     var scrollFunc = function (e) {
         e = e || window.event;
@@ -71,49 +48,40 @@ $(function () {
 
 
     $('#exit').click(function () {
-        $.get('/exit', {
-            role: "user"
-        }, function (data) {
-            if (data == "ok") {
-                window.location.href = window.location.href;
-            }
-        });
+        localStorage.removeItem('token');
+        window.location.href = window.location.href;
     });
 
 
-    /*Vue.component('like',{
-        props:["commid","style"],
-        template:`<div class='like_panel'>
-            <span class='glyphicon glyphicon-heart v_likebtn' @click='onclick()'></span>
-        </div>`,
-        methods:{
-            onclick:function(){
-                alert(this.commid);
-            }
-        }
-    });*/
+   
 
     /*****判断用户状态*****/
     islogin();
 
     function islogin() {
+
         $.ajax({
             type: 'GET',
             url: "../isLogin",
             success: (data) => {
                 if (data.islogin) {
-                    getmsg(data.username)
+                    getmsg(data.user.username);
+                    $('.unlogin').hide();
+                    $('.logined').show();
+                    $('.msg').attr('href','../home/'+data.user.username);
+                    $('.nav-username').text(data.user.name);
                 } else {
-
+                    $('.unlogin').show();
+                    $('.logined').hide();
+                    localStorage.removeItem('token');
                 }
             }
 
         })
     }
 
-    const timer = setInterval(islogin, 30000);
-    const getmsg = (username) => {
-
+    const timer = setInterval(islogin, 5000);
+   function getmsg (username)  {
         $.ajax({
             type: "POST",
             url: "../getmsg",
@@ -124,14 +92,14 @@ $(function () {
                 console.log(err);
             },
             success: (data) => {
-                $(".badge").remove();
+                $(".badge").hide();
                 $(".lists").html("");
                 let msgcount = data.length;
                 if (data.length == 0) {
-                    $(".badge").remove();
+                    $(".badge").hide();
                     $(".AllreadD").hide();
                 } else {
-                    $(".msg").append(`<span class="badge">` + msgcount + `</span>`);
+                    $(".badge").show().text(msgcount);
                     $(".AllreadD").show();
                 }
                 $(".unread").text("未读消息（" + msgcount + "）");
@@ -197,8 +165,8 @@ $(function () {
             $(".noticeBody").text(data.notice);
             $(".vlogBody").attr("src", data.vlog);
             let obj = data.recomm;
-            for(let i=0;i<obj.length;i++){
-                 $(".recBody").append(`
+            for (let i = 0; i < obj.length; i++) {
+                $(".recBody").append(`
 					<li><a href="blog/` + obj[i].id + `">` + obj[i].title + `</a></li>
 			    `);
             }

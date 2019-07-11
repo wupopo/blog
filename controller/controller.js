@@ -206,15 +206,7 @@ exports.sendblog=function(data,callback){   //发送博客控制器
     })
 };*/
 
-exports.like=function(obj,callback){   //点赞
-    querysql.likes(obj,function(data){
-        if(data){
-            callback({code:200,data:[],msg:"success"})
-        }else {
-            callback({code:400,data:[],msg:"error"})
-        }
-    })
-};
+
 
 exports.homepage = function (username, callback) {   //主页
     querysql.home(username, function (data) {
@@ -296,15 +288,6 @@ exports.blogdata = function (blogid, callback) {   //博客数据控制函数
     })
 };
 
-exports.vc = function (phone, callback) {   //验证码控制函数
-    qcloudsms.sendVC(phone, function (err, ress, resData) {
-        if (err) {
-            console.log(err + ",(短信服务出错)");
-            callback(false);
-            return;
-        }
-        callback(true);
-    });
-};
+
 
 

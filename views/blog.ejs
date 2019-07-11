@@ -17,19 +17,8 @@
     <script src="js/common.js"></script>
     <link rel="stylesheet" href="css/blog.css">
     <script src="js/blog.js"></script>
-    <script type="text/javascript">
-        window.onload = function () {
-
-            $('body').removeClass('is-loading');
-        }
-    </script>
 </head>
-<body class="is-loading">
-<div class="curtain">
-    <div class="loader">
-        loading...
-    </div>
-</div>
+<body >
 <nav class="navbar navbar-inverse" style="position: fixed;top: 0;width: 100%">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -52,9 +41,10 @@
                 <li class="navbtn"><a href="/Vlog">Vlog</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="navbtn"><a class=" msg" href="<%= url %>"><%= info %></a></li>
-                <li class="navbtn" style="<%= style1 %>"><a href="/registered">注册</a></li>
-                <li class="navbtn" style="<%= style %>"><a id="exit">退出</a></li>
+                <li class="navbtn logined"><a class="msg" href="..."><span class="nav-username"></span><span class="badge"></span></a></li>
+                <li class="navbtn unlogin"><a href="/login">登录</a></li>
+                <li class="navbtn unlogin"><a href="/registered">注册</a></li>
+                <li class="navbtn logined"><a id="exit">退出</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">联系我 <span class="caret"></span></a>
@@ -141,7 +131,7 @@
         </div>
     </div>
 </div>
-<a style="<%= style %>" class="glyphicon glyphicon-pencil Bbtn"></a>
+<a class="glyphicon glyphicon-pencil Bbtn logined"></a>
 <a class="glyphicon glyphicon-arrow-up Up"></a>
 <div class="tips"></div>
 </body>

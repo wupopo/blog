@@ -9,13 +9,27 @@ const uploadfile=require("./model/uploadfile.js");
 uploadfile(app);
 const crypto = require("crypto");
 const io = require('socket.io')(http);
-
+app.use(express.json());
 const cookieParser=require('cookie-parser');
+
+const session = require('express-session');
+ app.use(session({
+        secret: 'this is code',
+        resave: true,
+        name: 'THIS_IS_CODE',
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 1000 * 60 * 3, httpOnly: true
+        }
+        //cookie: { secure: true }   /*secure https这样的情况才可以访问cookie*/
+    }));
+
 
 
 //路由文件
 require("./routes/page")(app);
 require("./routes/api/commonApi")(app);
+require("./routes/api/frontApi")(app);
 const routes=require("./routes/router.js");
 routes(app);
 

@@ -1,47 +1,50 @@
 /**
  * Created by asus on 2018/11/7.
  */
-$(function(){
+$(function () {
 
-    $("#backpwd").click(function(){
+    $("#backpwd").click(function () {
         $('.back').show();
         $('.login').hide();
     });
-    $(".backL").click(function(){
+    $(".backL").click(function () {
         $('.login').show();
         $('.back').hide();
     });
-    $("#btn").click(function(){
-        let winHeight=$(window).height();
+    $("#btn").click(function () {
+        let winHeight = $(window).height();
         $("#excessive").show().css({
-            height:winHeight+"px",
-            lineHeight:winHeight+"px"
+            height: winHeight + "px",
+            lineHeight: winHeight + "px"
         });
-        var ousername=document.getElementById("username");
+        var ousername = document.getElementById("username");
 
-        var username=$("input[name=username]").val();
-        var password=$("input[name=password]").val();
-        var key= $.md5(password);
-        var data={
-            username:username,
-            password:key
+        var username = $("input[name=username]").val();
+        var password = $("input[name=password]").val();
+        var data = {
+            username: username,
+            password: password
         };
         $.ajax({
-            url:"/logins",
-            type:"POST",
-            data:data,
-            beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},
-            error:function(err){
+            url: "/logins",
+            type: "POST",
+            data: data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-Test-Header', 'test-value');
+            },
+            error: function (err) {
                 $("#excessive").hide();
                 tip(err.responseJSON.msg)
             },
-            success:function(data){
-                    window.location.href="/";
+            success: function (data) {
+                let token = data.token;
+                window.localStorage.setItem('token', token);
+                window.location.href = "/";
             }
         });
     });
-    $(".vcbtn").click(function(){
-        var phone=$("input[name=phone]").val();
+    $(".vcbtn").click(function () {
+        var phone = $("input[name=phone]").val();
         if (phone == '') {
             tip("手机号不能为空！");
             return;
@@ -73,46 +76,46 @@ $(function(){
 
     });
 
-    $("#btn1").click(function(){
-        var username=$("input[name=username1]").val();
-        var phone=$("input[name=phone]").val();
-        var password=$("input[name=newped]").val();
-        var pwd=$.md5(password);
-        var vc=$("input[name=vc]").val();
-        if(username==null||phone==null||password==null||vc==null){
+    $("#btn1").click(function () {
+        var username = $("input[name=username1]").val();
+        var phone = $("input[name=phone]").val();
+        var password = $("input[name=newped]").val();
+        var pwd = $.md5(password);
+        var vc = $("input[name=vc]").val();
+        if (username == null || phone == null || password == null || vc == null) {
             tip('以上信息为必填！');
             return;
         }
 
-        var data={
-            username:username,
-            phone:phone,
-            newpwd:password,
-            vc:vc,
-            pwd:pwd
+        var data = {
+            username: username,
+            phone: phone,
+            newpwd: password,
+            vc: vc,
+            pwd: pwd
         };
         $.ajax({
-            type:'GET',
-            url:"/retrieve",
-            data:data,
+            type: 'GET',
+            url: "/retrieve",
+            data: data,
             error: function (err) {
                 tip(err.responseJSON[0].msg);
             },
-            success:function(data){
+            success: function (data) {
                 tip(data[0].msg);
-                setTimeout(function(){
-                    window.location.href='/login';
-                },2000);
+                setTimeout(function () {
+                    window.location.href = '/login';
+                }, 2000);
             }
         });
     });
 });
 
-function tip(str){
+function tip(str) {
     $(".tips").show().text(str);
-    setTimeout(function(){
+    setTimeout(function () {
         $(".tips").hide();
-    },2000);
+    }, 2000);
 
 };
 /*

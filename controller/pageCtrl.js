@@ -4,42 +4,11 @@ const permissions = require('../model/permissions.js');
 
 /**********前端页面**********/
 exports.indexPage = (req, res) => {   //主页请求
-    var ud;
-    if (req.session.userinfo == null) {
-        ud = {
-            info: "登录",
-            style1: "display:block;",
-            url: "/login",
-            style: "display: none;",
-        };
-    } else {
-        ud = {
-            info: req.session.userinfo.name,
-            style1: "display:none;",
-            url: "/home/" + req.session.userinfo.username,
-            style: "display: block;",
-        }
-    }
-    res.render('index', ud);
+    res.render('index', {});
 };
 
 exports.blogPage = (req, res) => {  //博客页面请求
-    if (req.session.userinfo == null) {
-        ud = {
-            info: "登录",
-            url: "/login",
-            style: "display: none;",
-            style1: "display:block;",
-        };
-    } else {
-        ud = {
-            info: req.session.userinfo.name,
-            url: "/home/" + req.session.userinfo.username,
-            style: "display: block;",
-            style1: "display:none;",
-        }
-    }
-    res.render('blog', ud);
+    res.render('blog', {});
 };
 
 exports.blogDetailsPage = (req, res) => {  //博客文章详情页

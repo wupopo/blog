@@ -7,12 +7,7 @@ var appkey = "4b9ef1bae2113da5afc349370578d787";
 var templateId =248338;
 var smsSign = "吴博技术记录";
 var qcloudsms = QcloudSms(appid, appkey);
-
-var VCode;
-exports.VC=function(callback){
-	callback(VCode)
-}
-exports.sendVC=function(phone,Callback){
+exports.sendVC=function(phone,callback){
 	//随机数生成
 	function randomNum(minNum,maxNum){ 
 	    switch(arguments.length){ 
@@ -31,7 +26,14 @@ exports.sendVC=function(phone,Callback){
 	VCode=VC;
 	var ssender = qcloudsms.SmsSingleSender();
 	var params = [VC,"2"];
+	callback({code:200,data:[1234],msg:"success"});
+	return;
 	ssender.sendWithParam(86, phone,templateId,params,smsSign,"","", function(err, ress, resData){
-		Callback(err, ress,resData)
+		if(err){
+			callback(false)
+			console.log({code:500,data:[],msg:"error"});
+			return;
+		}
+		callback({code:200,data:[VC],msg:"success"});
 	});
-}
+};

@@ -1,34 +1,229 @@
 const querysql = require('../model/querysql.js');
 const permissions = require('../model/permissions.js');
-
+const deleteQcloudfile = require('../model/deleteQcloudfile.js');
+const qcloudsms = require('../model/qcloudsms_js.js');
+const jwt = require('../model/jwt.js');
 /************公共接口控制**************/
 exports.changInfoApi = (req, res) => {
     let operator;
     let role;
     let username;
-    if (req.session.userinfo) {
-        operator = req.session.userinfo.username;
+    if (req.userinfo) {
+        operator = req.userinfo.username;
         role = 'user';
-        username=operator;
-    } else if (req.session.admininfo) {
-        operator = req.session.admininfo.username;
+        username = operator;
+    } else if (req.admininfo) {
+        operator = req.admininfo.username;
         role = 'admin';
-        username=req.query['username'];
+        username = req.query['username'];
     } else {
-        res.status(403).send({code: 403, data: [], msg: "请登录后进行此操作！"})
+        res.status(403).send({ code: 403, data: [], msg: "请登录后进行此操作！" })
         return;
     }
     let dataObj = {
         operator: operator,
         role: role,
         name: req.query['name'],
-        username:username,
+        username: username,
         phone: req.query['phone'],
         mail: req.query['mail'],
         sex: req.query['sex'],
         age: req.query['age']
     };
-    querysql.changInfoM(dataObj,function (data) {
+    querysql.changInfoM(dataObj, function (data) {
         res.status(data.code).send(data);
     })
 };
+
+exports.exitApi = (req, res) => {
+    var role;
+    if (req.query["role"] == "user") {
+        req.userinfo = null
+    } else if (req.query["role"] == "admin") {
+        req.admin = null
+    }
+    res.cookie(role, '', { expires: new Date(0) });
+    res.send('ok');
+};
+
+exports.deleteBlogApi = (req, res) => {
+    if (!req.session.userinfo) {
+        res.status(400).send({ code: 400, data: [], msg: '你没得权限' });
+        return;
+    }
+    var datas = {
+        username: req.session.userinfo.username,
+        blogid: req.query['blogid'],
+        time: req.query['time']
+    };
+    querysql.blogone(datas.blogid, function (data) {
+        if (data) {
+            var str = data[0].content;
+            var imgReg = /<img src="https:\/\/wupopo-1256296697.cos.ap-chengdu.myqcloud.com.*?(?:>|\/>)/gi;
+            var arr = str.match(imgReg);
+            if (arr == null) {
+                querysql.deleblogbyid(datas, function (data) {
+                    res.status(data.code).send(data);
+                })
+            } else {
+                var dataarr = [];
+                for (var i = 0; i < arr.length; i++) {
+                    var obj = {};
+                    var key = arr[i].match(/myqcloud.com\/(\S*)"/)[1];
+                    obj.Key = key;
+                    dataarr.push(obj);
+                }
+                console.log(dataarr);
+                deleteQcloudfile.deleteimgs(dataarr, function (data) {
+                    if (data == "error") {
+                        console.log("云端照片删除失败");
+                    } else {
+                        console.log("云端照片删除成功");
+                    }
+                    querysql.deleblogbyid(datas, function (data) {
+                        res.status(data.code).send(data);
+                    })
+                })
+            }
+        }
+    })
+};
+
+exports.vcodeApi = (req, res) => {
+    var phone = req.query['phone'];
+    /* req.session.code=1234;
+     res.status(200).send({code:200,data:[],msg:'success'});*/
+    qcloudsms.sendVC(phone, function (data) {
+        if (data.code == 200) {
+            let oldobj=req.userinfo;
+            let newjwt=new jwt({oldobj:oldobj,needobj:{vcode:data.data[0]},timelong:"4800s"});
+            let token=newjwt.createJWT();
+            res.status(data.code).send({ code: data.code, data: token, msg: data.msg })
+            return;
+        }
+        res.status(data.code).send({ code: data.code, data: [], msg: data.msg })
+    });
+};
+
+exports.registeredApi = (req, res) => {
+    if (Number(req.userinfo.vcode) !== Number(req.query['vc'])) {   //验证验证码
+        res.status(400).send({ code: 400, data: [], msg: "验证码错误" });
+        return;
+    }
+    let obj = {
+        name: req.query['name'],
+        username: req.query['username'],
+        password: req.query['password'],
+        phone: req.query['phone'],
+        pwd: req.query['key']
+    }
+    querysql.queryReg(obj, function (data) {
+        res.status(data.code).send(data);
+    })
+};
+exports.userLogin = (req, res) => {
+    let data = {
+        user: req.body,
+        role: "user"
+    }
+   
+    querysql.queryLogin(data, function (data) {
+        if (data.code == 200) {
+            let newjwt = new jwt({ needobj: { username: data.data[0].username }, timelong: "4800s" });
+            let token = newjwt.createJWT();
+            res.status(data.code).send({
+                code: 200,
+                token: token,
+                msg: "success"
+            });
+        } else {
+            res.status(data.code).send(data);
+        }
+    })
+}
+
+exports.isLogin = (req, res) => {
+    if (req.userinfo.username) {
+        querysql.getUserOne(req.userinfo.username, function (data) {
+            if (data) {
+                res.send({
+                    islogin: true, user: {
+                        username: data.username,
+                        name: data.name,
+                        sex: data.sex,
+                        mail: data.mail,
+                        time: data.time,
+                        img: data.img,
+                        phone: data.phone
+                    }
+                })
+            } else {
+                res.send({ islogin: true, user: '用户信息获取失败' });
+            }
+        })
+
+    } else {
+        res.send({ islogin: false, username: [] })
+    }
+}
+
+let unreadMsg = require('../model/unreadMsg');
+exports.getmsg = (req, res) => {
+    if (req.userinfo.username) {
+        if (req.userinfo.username !== req.body['msg_tofrom_username']) {
+            res.status(422).send({ code: 422, data: [], msg: '你没有权限获取此数据' })
+        } else {
+            unreadMsg.OutUnReadeMsg(req.username, function (data) {
+                if (data) {
+                    res.status(200).send(data);
+                } else {
+                    res.status(400).send({ code: 400, data: [], msg: '获取数据出错' });
+                }
+            })
+        }
+    } else {
+        res.status(422).send({ code: 422, data: [], msg: '登录身份过期' })
+    }
+}
+
+exports.sendComm = (req, res) => {
+    if (req.userinfo.username) {
+        let content = req.query['content'];
+        let sendername =req.userinfo.username;
+        let time = req.query["time"];
+        let parent_id = req.query["parent_id"];
+        let ancestors_id = req.query["ancestors_id"];
+        let data = {
+            ancestors_id: ancestors_id,
+            parent_id: parent_id,
+            content: content,
+            owner_username: sendername,
+            time: time,
+            parent_type: req.query["parent_type"]
+        };
+        querysql.sendcom(data, function (data) {
+            res.status(data.code).send(data);
+        })
+    } else {
+        res.status(403).send({ code: 403, data: [], msg: "请登录后发送评论" });
+    }
+}
+
+exports.like=(req,res)=>{
+    if(!req.userinfo.username){
+        res.status(400).send({code: 400, data: [], msg: "你怎么不登录就点赞啊？"});
+    }else{
+        let data = {
+            type: req.query["type"],
+            blogid: req.query['blogid'],
+            username: req.userinfo.username
+        };
+        querysql.likes(data,(data)=>{
+            if(data){
+                res.status(200).send({code:200,data:[],msg:"success"})
+            }else {
+                res.status(400).send({code:400,data:[],msg:"error"})
+            }
+        })
+    }
+}
