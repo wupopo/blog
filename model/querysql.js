@@ -82,9 +82,9 @@ exports.getVlogQ = function (num, callback) {
     query(vlogSql.getvlog, [start], function (err, data) {
         if (err) {
             console.log(err);
-            callback({code: 500, data: [], msg: "服务器错误"});
+            callback({ code: 500, data: [], msg: "服务器错误" });
         } else {
-            callback({code: 200, data: data});
+            callback({ code: 200, data: data });
         }
     })
 };
@@ -92,9 +92,9 @@ exports.addVlogQ = function (obj, callback) {
     query(vlogSql.addVlog, [obj.url, obj.title, obj.content, time()], function (err, data) {
         if (err) {
             console.log(err);
-            callback({code: 403, data: [], msg: "插入数据出错！"});
+            callback({ code: 403, data: [], msg: "插入数据出错！" });
         } else {
-            callback({code: 200, data: [], msg: "success"});
+            callback({ code: 200, data: [], msg: "success" });
         }
     })
 };
@@ -103,9 +103,9 @@ exports.addconfig = function (obj, callback) {
     query(pageconfig.addConfig, [obj.notice, obj.vlog, obj.hotblog, obj.recomm, time()], function (err, data) {
         if (err) {
             console.log(err);
-            callback({code: 400, data: [], msg: "配置数据插入出错"});
+            callback({ code: 400, data: [], msg: "配置数据插入出错" });
         } else {
-            callback({code: 200, data: [], msg: "success"});
+            callback({ code: 200, data: [], msg: "success" });
         }
     })
 }
@@ -114,9 +114,17 @@ exports.querysea = function (str, callback) {
     query(blogSql.searchBlog, ['%' + str + '%', '%' + str + '%', '%' + str + '%'], function (err, data) {
         if (err) {
             console.log(err);
-            callback(false);
+            callback({
+                code:500,
+                data:[],
+                msg:"服务器出错！"
+            });
         } else {
-            callback(data);
+            callback({
+                code:200,
+                data:data,
+                msg:"success"
+            });
         }
     })
 }
@@ -193,27 +201,45 @@ exports.querypageconfig = function (callback) {   //页面配置数据库查询
 exports.webdata = function (callback) {   //网站数据数据库查询
     query(userSql.selectSexUser, ['男'], function (err, man) {
         if (err) {
-            callback(false);
+            callback({
+                code: 500,
+                data: [],
+                msg: "服务器出错！"
+            });
             return;
         }
         let man_length = man.length;
         query(userSql.selectSexUser, ['女'], function (err, woman) {
             if (err) {
-                callback(false);
+                callback({
+                    code: 500,
+                    data: [],
+                    msg: "服务器出错！"
+                });
                 return;
             }
             let woman_length = woman.length;
             query(userSql.queryAll, [], function (err, user) {
                 if (err) {
-                    callback(false);
+                    callback({
+                        code: 500,
+                        data: [],
+                        msg: "服务器出错！"
+                    });
                     return;
                 }
                 let user_length = user.length;
-                callback([
-                    {value: man_length, name: "男"},
-                    {value: woman_length, name: "女"},
-                    {value: user_length - man_length - woman_length, name: "未知"}
-                ]);
+                callback(
+                    {
+                        code: 200,
+                        data: [
+                            { value: man_length, name: "男" },
+                            { value: woman_length, name: "女" },
+                            { value: user_length - man_length - woman_length, name: "未知" }
+                        ],
+                        msg: "success"
+                    }
+                );
             })
         })
     })
@@ -246,20 +272,20 @@ exports.queryuserimg = function (username, callback) {
 exports.deleblogbyid = function (data, callback) {    //删除博客
     query(blogSql.selectBlogById, [data.blogid], function (err, blog) {
         if (err) {
-            callback({code: 400, data: [], msg: '操作失败'});
+            callback({ code: 400, data: [], msg: '操作失败' });
         } else {
             if (blog[0].sendername != data.username) {
-                callback({coed: 400, data: [], msg: "你莫得权限操作这个东西"});
+                callback({ coed: 400, data: [], msg: "你莫得权限操作这个东西" });
             } else {
                 query(blogSql.deleteBlogById, [data.blogid], function (err, reslut) {
                     if (err) {
                         console.log(err);
-                        callback({code: 400, data: [], msg: '操作失败'});
+                        callback({ code: 400, data: [], msg: '操作失败' });
                     } else {
                         query(blogSql.deleteComments, [data.blogid], function (err, comm) {
                             if (err) {
                                 console.log(err);
-                                callback({code: 400, data: [], msg: '操作失败'});
+                                callback({ code: 400, data: [], msg: '操作失败' });
                             } else {
                                 operRecord({
                                     type: "delete_blog",
@@ -269,7 +295,7 @@ exports.deleblogbyid = function (data, callback) {    //删除博客
                                     object: data.blogid,
                                     time: time()
                                 });
-                                callback({code: 200, data: [], msg: "操作成功"});
+                                callback({ code: 200, data: [], msg: "操作成功" });
                             }
                         })
                     }
@@ -289,6 +315,14 @@ exports.likes = function (obj, callback) {   //点赞模块
                 var blogid = Number(obj.blogid);
                 if (data[0].likes) {
                     var oldarr = data[0].likes.split("|");
+                    if (oldarr.includes(obj.username)) {
+                        callback({
+                            code: 403,
+                            data: [],
+                            msg: "请勿重复点赞！"
+                        })
+                        return;
+                    }
                     oldarr.push(obj.username);
                     newresult = oldarr.join("|");
                 } else {
@@ -296,10 +330,18 @@ exports.likes = function (obj, callback) {   //点赞模块
                 }
                 query(blogSql.likeChange, [newresult, blogid], function (err, das) {
                     if (err) {
-                        callback(false);
+                        callback({
+                            code: 500,
+                            data: [],
+                            msg: '服务器错误！'
+                        });
                         console.log(err);
                     } else {
-                        callback(true);
+                        callback({
+                            code: 200,
+                            data: [],
+                            msg: "suceess"
+                        });
                     }
                 });
                 /* unreadMsg.InUnReadeMsg({
@@ -315,7 +357,11 @@ exports.likes = function (obj, callback) {   //点赞模块
     } else {
         query(blogSql.selectBlogById, [obj.blogid], function (err, data) {
             if (err) {
-                callback(false);
+                callback({
+                    code: 500,
+                    data: [],
+                    msg: '服务器错误！'
+                });
                 console.log(err)
             } else {
                 var oldarr = data[0].likes.split("|");
@@ -328,10 +374,17 @@ exports.likes = function (obj, callback) {   //点赞模块
                 var last = newarr.join("|");
                 query(blogSql.likeChange, [last, obj.blogid], function (err, da) {
                     if (err) {
-                        callback(false);
+                        callback({
+                            code: 500,
+                            data: [],
+                            msg: '服务器错误！'
+                        });
                         console.log(err)
                     } else {
-                        callback(true);
+                        callback({
+                            code: 200,
+                            data: []
+                        });
                     }
                 })
             }
@@ -347,17 +400,17 @@ exports.sendcom = function (data, callback) {   //发送评论
         query(blogSql.selectBlogById, [data.parent_id], function (err, blog) {
             if (err) {
                 console.log('querysql.jsquery.js>>>>>>sendcom,1 \n' + err);
-                callback({code: 400, data: [], msg: '数据插入失败！'});
+                callback({ code: 400, data: [], msg: '数据插入失败！' });
                 return;
             }
             let target_username = blog[0].sendername;
             query(blogSql.insertComm, [data.owner_username, target_username, data.content, data.time, data.parent_id, data.parent_type, data.ancestors_id, "false"], function (err, reslut) {
                 if (err) {
                     console.log('querysql.js query.js>>>>>>sendcom,2 \n' + err);
-                    callback({code: 400, data: [], msg: '数据插入失败！'});
+                    callback({ code: 400, data: [], msg: '数据插入失败！' });
                     return;
                 }
-                callback({code: 200, data: [], msg: '发送成功'});
+                callback({ code: 200, data: [], msg: '发送成功' });
             });
 
         })
@@ -365,7 +418,7 @@ exports.sendcom = function (data, callback) {   //发送评论
         query(blogSql.selectCommById, [data.parent_id], function (err, comm) {
             if (err) {
                 console.log('querysql.jsquery.js>>>>>>sendcom,3 \n' + err);
-                callback({code: 400, data: [], msg: '数据插入失败！'});
+                callback({ code: 400, data: [], msg: '数据插入失败！' });
                 return;
             }
             let target_username = comm[0].owner_username;
@@ -373,10 +426,10 @@ exports.sendcom = function (data, callback) {   //发送评论
             query(blogSql.insertComm, [data.owner_username, target_username, data.content, data.time, data.parent_id, data.parent_type, data.ancestors_id, "false"], function (err, reslut) {
                 if (err) {
                     console.log('querysql.js query.js>>>>>>sendcom,4 \n' + err);
-                    callback({code: 400, data: [], msg: '数据插入失败！'});
+                    callback({ code: 400, data: [], msg: '数据插入失败！' });
                     return;
                 }
-                callback({code: 200, data: [], msg: '发送成功'});
+                callback({ code: 200, data: [], msg: '发送成功' });
             })
         })
     } else {
@@ -405,14 +458,22 @@ exports.blogone = function (data, callback) {   //获取一篇文章
     })
 };
 
-exports.querydblog = function (data, callback) {   //发送文章
+exports.sendblog = function (data, callback) {   //发送文章
     query(blogSql.insertBlog, [data.title, data.sendername, data.time, data.content, null, data.sub_id], function (err) {
         if (err) {
             console.log(err);
-            callback(false);
+            callback({
+                code:500,
+                data:[],
+                msg:'服务器错误！'
+            });
             return;
         }
-        callback(true);
+        callback({
+            code:200,
+            data:[],
+            msg:'success'
+        });
         operRecord({
             type: 'send_blog',
             role: 'user',
@@ -430,10 +491,17 @@ exports.queryblogli = function (obj, callback) { //查询所有文章
     query(blogSql.queryBlogLi, [start, end], function (err, data) {
         if (err) {
             console.log(err);
-            callback(false);
+            callback({
+                code: 500,
+                data: [],
+                msg: "服务器错误！"
+            });
             return;
         }
-        callback(data);
+        callback({
+            code: 200,
+            data: data
+        });
     })
 }
 
@@ -478,18 +546,18 @@ exports.queryLogin = function (data, callback) {  //用户登录
     }
     var username = data.user['username'];
     var password = data.user['password'];
-    query(table.getUserByUname,[username],function (err,data) {
-        if(err){
-            callback({code:500,data:[],msg:"error"});
+    query(table.getUserByUname, [username], function (err, data) {
+        if (err) {
+            callback({ code: 500, data: [], msg: "error" });
             console.log(err);
-        }else if(!data[0]){
-            callback({code:403,data:[],msg:'用户名不存在！'})
-        }else {
-            let isPasswordValid=bceypt.compareSync(password,data[0].password);
-            if(isPasswordValid){
-                callback({code:200,data:[{username:data[0].username}],msg:"success"})
-            }else {
-                callback({code:422,data:[],msg:"密码错误"});
+        } else if (!data[0]) {
+            callback({ code: 403, data: [], msg: '用户名不存在！' })
+        } else {
+            let isPasswordValid = bceypt.compareSync(password, data[0].password);
+            if (isPasswordValid) {
+                callback({ code: 200, data: [{ username: data[0].username }], msg: "success" })
+            } else {
+                callback({ code: 422, data: [], msg: "密码错误" });
             }
         }
     })
@@ -500,7 +568,7 @@ exports.home = function (username, callback) {  //获取指定用户信息
             console.log(err);
             callback(false)
         } else {
-            if(user[0]){
+            if (user[0]) {
                 query(blogSql.getBlogInfoBySender, [username], function (err, blog) {
                     if (err) {
                         console.log(err);
@@ -510,11 +578,10 @@ exports.home = function (username, callback) {  //获取指定用户信息
                             user: user[0],
                             blog: blog
                         }
-                        console.log(data);
                         callback(data);
                     }
                 })
-            }else{
+            } else {
                 callback(false);
             }
         }
@@ -536,12 +603,21 @@ exports.querykey = function (username, phone, callback) {
     })
 };
 
-exports.changekey = function (newpwd, pwd, username, callback) {
-    query("UPDATE user SET password=?,pwd=? WHERE username=?", [newpwd, pwd, username], function (err, data) {
+exports.changekey = function (newpwd, username, callback) {
+    let hashedPwd=bceypt.hash(newpwd,10);
+    query("UPDATE user SET password=?, WHERE username=?", [hashedPwd, username], function (err, data) {
         if (err) {
-            callback(false);
+           callback({
+               code:500,
+               data:[],
+               msg:"服务器错误！"
+           })
         } else {
-            callback(true);
+            callback({
+                code:200,
+                data:[],
+                msg:"修改成功！"
+            });
         }
     });
 };
@@ -563,7 +639,7 @@ exports.queryReg = function (obj, callback) {
 
         if (data[0]) {
             if (data[0].username == username) {
-                  callback({code: 400, data: [], msg: "该用户名已被注册"});
+                callback({ code: 400, data: [], msg: "该用户名已被注册" });
                 return;
             }
         }
@@ -572,9 +648,9 @@ exports.queryReg = function (obj, callback) {
         query(userSql.insert, [name, username, hashedPwd, phone, null, null, null, time()], function (err, data) {
             if (err) {
                 console.log(err);
-                callback({code: 400, data: [], msg: "数据库出错"});
+                callback({ code: 400, data: [], msg: "数据库出错" });
             } else {
-                callback({code: 200, data: [], msg: "注册成功！"});
+                callback({ code: 200, data: [], msg: "注册成功！" });
                 operRecord({
                     type: "reg",
                     role: 'user',
@@ -620,7 +696,11 @@ exports.queryUList = function (callback) {   //管理员需要的用户列表  �
     query(userSql.queryAll, [], function (err, data) {
         if (err) {
             console.log('管理员获取用户列表失败');
-            callback(false);
+            callback({
+                code:500,
+                data:[],
+                msg:"服务器出错！"
+            });
             return;
         }
         var dataArr = [];
@@ -630,23 +710,28 @@ exports.queryUList = function (callback) {   //管理员需要的用户列表  �
             obj.name = data[i].name;
             dataArr.push(obj);
         }
-        callback(dataArr);
+        callback({
+            code:200,
+            data:dataArr,
+            msg:"success"
+        });
     })
 };
 
-exports.queryDelete = function (req, res) {
-    if (!req.session.admininfo == null) {
-        res.status(400).send({code: 400, data: [], msg: "身份过期，无权限操作"});
-        return;
-    }
+exports.deleteuser = function (username,callback) {
+
     var username = req.query['opedUname'];
     query(userSql.deleteUserByUname, [username], function (err, data) {
         if (err) {
             console.log(err);
-            res.send("no");
+            callback({
+                code:500,
+                data:[],
+                msg:"服务器出错！"
+            });
             return;
         }
-        res.status(200).send({code: 200, data: [], msg: "删除成功！"});
+       callback({ code: 200, data: [], msg: "删除成功！" });
         operRecord({
             type: "delete_user",
             role: "admin",
@@ -658,9 +743,9 @@ exports.queryDelete = function (req, res) {
     })
 };
 
-exports.getUserOne=function(username,callback){
-    query(userSql.getUserByUname,[username],function(err,data){
-        if(err){
+exports.getUserOne = function (username, callback) {
+    query(userSql.getUserByUname, [username], function (err, data) {
+        if (err) {
             callback(false);
             console.log(err);
             return;

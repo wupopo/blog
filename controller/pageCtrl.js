@@ -200,7 +200,7 @@ exports.homePage = (req, res) => {   //个人中心
 
 
 /**********后台页面**********/
-exports.adminLoginPage = () => {    //后台登录页面
+exports.adminLoginPage = (req,res) => {    //后台登录页面
     permissions.adminPer.needOriginTrue(req, function (bool) {
         if (bool) {
             res.render('adlogin');

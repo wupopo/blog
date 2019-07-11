@@ -21,6 +21,8 @@ module.exports = (app) => {
         }
         next();
     });
+    const bodyParser = require('body-parser');
+    let urlencodedParser = bodyParser.urlencoded({extended: false});
 
     app.use((req, res, next) => {
         if(req.headers.authorization){
@@ -36,4 +38,6 @@ module.exports = (app) => {
     app.get('/exit',apiCtrl.exitApi);//退出登录api
     app.get('/deleteblog',apiCtrl.deleteBlogApi); //删除博客api
     app.get('/vc',apiCtrl.vcodeApi);  //验证码api
+    app.post('/getBlogList',urlencodedParser,apiCtrl.getbloglist);  //获取文章列表
+    app.post('/getSidebar',urlencodedParser,apiCtrl.getsidebar);
 };

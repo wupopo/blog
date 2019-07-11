@@ -1,15 +1,15 @@
 exports.userPer = {
     needUsernameTrue: function (req, username,callback) {
-        if (!req.session.userinfo) {
+        if (!req.userinfo.username) {
             callback(false)
-        } else if (req.session.userinfo.username !== username) {
+        } else if (req.userinfo.username !== username) {
             callback(false);
-        } else if (req.session.userinfo.username == username) {
+        } else if (req.userinfo.username == username) {
             callback(true);
         }
     },
     needLoginTrue: function (req,callback) {
-        if (!req.session.userinfo) {
+        if (!req.userinfo.username) {
             callback(false)
         } else {
             callback(true)
@@ -26,7 +26,7 @@ exports.userPer = {
 
 exports.adminPer = {
     needLoginTrue: function (req,callback) {
-        if (!req.session.admininfo) {
+        if (!req.admininfo.username) {
             callback(false)
         } else {
             callback(true)

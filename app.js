@@ -30,8 +30,8 @@ const session = require('express-session');
 require("./routes/page")(app);
 require("./routes/api/commonApi")(app);
 require("./routes/api/frontApi")(app);
-const routes=require("./routes/router.js");
-routes(app);
+require("./routes/api/adminApi")(app);
+
 
 
 /*var multer  = require('multer');*/

@@ -1,5 +1,6 @@
 const session = require('express-session');
 const apiCtrl = require('../../controller/apiCtrl');
+var uploadBlogimg = require("../../model/uploadBlogimg.js");
 module.exports = (app) => {
     app.use(function (err, req, res, next) {
         if (err) {
@@ -29,4 +30,13 @@ module.exports = (app) => {
     app.post('/getmsg',urlencodedParser,apiCtrl.getmsg);
     app.get('/sendcomm',apiCtrl.sendComm);
     app.get('/like',apiCtrl.like);
+    app.post('/sendblog',urlencodedParser,apiCtrl.sendblog);
+    app.get('/retrieve',apiCtrl.findBackPwd);
+    app.get('/setuserimg',apiCtrl.setUserimg);
+    app.post('/upblogimg', uploadBlogimg.uploadfile);   //博客图片上传到服务器
+    app.post('/search',urlencodedParser,apiCtrl.search);
+    app.post('/getComments',urlencodedParser,apiCtrl.getComment);
+    app.get('/readIt',apiCtrl.readMsgAll);
+    app.post("/getVlog", urlencodedParser,apiCtrl.getvlog);
+    app.get('/getSublist',apiCtrl.getSublist)
 };
